@@ -22,15 +22,15 @@ Whole, skim, oat, almond. No upcharge for non-dairy.
 ## Beans and merch
 
 - **Whole-bean retail** — house blend and rotating single-origins, $18 per 12 oz bag.
-- **Wholesale** — for cafes and offices, email wholesale@lanternlane.example.
+- **Wholesale** — for cafes and offices, email wholesale@easycoffee.example.
 - **Branded mugs and totes** — at the counter.
 
 ## Ordering
 
 - **Mobile order** — through our website, ready in 10–15 minutes during normal hours.
 - **In-store** — order at the counter; we'll call your name when it's ready.
-- **Catering** — coffee carafes, pastry boxes, sandwich platters. 24-hour lead time. Email orders@lanternlane.example.
+- **Catering** — coffee carafes, pastry boxes, sandwich platters. 24-hour lead time. Email orders@easycoffee.example.
 
 ## Back-room rental
 
-We rent our back room for small events — book clubs, baby showers, study groups, small workshops. Capacity 8–20 people. Includes tables, chairs, a small AV setup (TV with HDMI), and the option to pre-order coffee and pastries. Email events@lanternlane.example with the date, time window, and headcount.
+We rent our back room for small events — book clubs, baby showers, study groups, small workshops. Capacity 8–20 people. Includes tables, chairs, a small AV setup (TV with HDMI), and the option to pre-order coffee and pastries. Email events@easycoffee.example with the date, time window, and headcount.

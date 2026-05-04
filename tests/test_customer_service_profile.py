@@ -17,7 +17,7 @@ def test_customer_service_profile_loads():
     assert p.label == "Customer Service"
     assert p.tools == ("list_kb", "read_file", "search_kb")
     assert p.mcp_servers == ()
-    assert "Lantern Lane" in p.welcome
+    assert "Easy Coffee" in p.welcome
     assert len(p.suggestions) == 3
 
 
@@ -31,7 +31,7 @@ def test_customer_service_kb_root_resolves_to_profile_dir():
 def test_customer_service_system_prompt_loaded():
     p = load_profile("customer-service")
     assert p.system_prompt
-    assert "Lantern Lane" in p.system_prompt
+    assert "Easy Coffee" in p.system_prompt
     assert "I don't have that info" in p.system_prompt
 
 

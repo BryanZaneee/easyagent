@@ -26,7 +26,7 @@ Yes — physical cards at the counter (any amount from $10) and digital cards on
 
 ## Do you take large orders or cater?
 
-Yes. We need 24 hours' notice for catering. Email orders@lanternlane.example with the date, headcount, and what you'd like (coffee box, pastry box, sandwich platter). We'll send a confirmation and an invoice.
+Yes. We need 24 hours' notice for catering. Email orders@easycoffee.example with the date, headcount, and what you'd like (coffee box, pastry box, sandwich platter). We'll send a confirmation and an invoice.
 
 ## Can I work / study here for a few hours?
 

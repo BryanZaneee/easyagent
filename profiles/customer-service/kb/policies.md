@@ -4,17 +4,17 @@
 
 If a drink isn't right, bring it back to the counter and we'll remake it — no questions, no receipt needed. For refunds on retail items (whole-bean coffee, mugs, totes), we accept returns within 14 days with the original receipt; opened bags of coffee can be exchanged but not refunded.
 
-If you're unhappy with a catering or back-room rental order, email manager@lanternlane.example within 24 hours and we'll work something out.
+If you're unhappy with a catering or back-room rental order, email manager@easycoffee.example within 24 hours and we'll work something out.
 
 ## Lost and found
 
-We hold lost items at the counter for 14 days. Email hello@lanternlane.example with a description of what you lost and the date/time you were in.
+We hold lost items at the counter for 14 days. Email hello@easycoffee.example with a description of what you lost and the date/time you were in.
 
 ## Accessibility
 
 The Cedar Street entrance has a single 4-inch step. The Cedar-side entrance on 4th Avenue is step-free and is the accessible entrance. The restroom is on the main floor and is wheelchair accessible. Service animals welcome anywhere in the shop.
 
-If we can do something specific to make your visit easier, please tell a barista at the counter or email hello@lanternlane.example ahead of time.
+If we can do something specific to make your visit easier, please tell a barista at the counter or email hello@easycoffee.example ahead of time.
 
 ## Code of conduct
 
@@ -26,7 +26,7 @@ We don't share customer contact information with third parties. If you sign up f
 
 ## Photos and filming
 
-Personal photos are fine. For commercial photography or filming, please email manager@lanternlane.example in advance.
+Personal photos are fine. For commercial photography or filming, please email manager@easycoffee.example in advance.
 
 ## Allergens
 

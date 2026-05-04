@@ -1,6 +1,6 @@
 # Customer-service profile — adaptation guide
 
-This profile ships as a working demo for a fictional neighborhood coffee shop ("Lantern Lane Coffee") so that a fresh clone of EasyAgent runs end-to-end against realistic content. To adapt it for a real business, copy this folder and swap the parts called out below.
+This profile ships as a working demo for a fictional neighborhood coffee shop ("Easy Coffee") so that a fresh clone of EasyAgent runs end-to-end against realistic content. To adapt it for a real business, copy this folder and swap the parts called out below.
 
 ## Quickstart
 
@@ -26,7 +26,7 @@ Add more files if your business needs them (`catering.md`, `events.md`, `loyalty
 
 ## Tone & sign-off
 
-The sign-off line lives in `system.md` under `<response_style>` (currently "— Lantern Lane"). Update it to match your business voice. The `<role>` section also names the business — swap it there too.
+The sign-off line lives in `system.md` under `<response_style>` (currently "— Easy Coffee"). Update it to match your business voice. The `<role>` section also names the business — swap it there too.
 
 ## Welcome message + suggestions
 

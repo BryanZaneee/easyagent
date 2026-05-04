@@ -44,4 +44,4 @@ $75 per hour, 2-hour minimum. Pre-ordered coffee and pastries billed separately 
 
 ## Catering
 
-Coffee box (serves ~12): $36. Pastry boxes from $30. Sandwich platters from $90. Email orders@lanternlane.example for a quote.
+Coffee box (serves ~12): $36. Pastry boxes from $30. Sandwich platters from $90. Email orders@easycoffee.example for a quote.
