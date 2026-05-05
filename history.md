@@ -8,6 +8,15 @@ the source code alone. New decisions go at the top, dated. Each entry should ans
 
 ---
 
+## 2026-05-05 — Sales brand contract is purple/gold
+
+### Decision: Sales Concierge brand metadata owns the public accent
+**Choice:** `profiles/sales-concierge/profile.json` now declares Sales Concierge as purple (`#7C3AED`) with a dark purple control color, soft purple grid wash, and gold secondary mark. Agent guidance also calls out that profile `brand` metadata is the production UI contract consumed by `/api/profile` and `/api/profiles`.
+
+**Why:** The deployed bryanzane.com EasyAgent page reads backend profile metadata once the API advertises the Sales profile. Leaving Sales green in the EasyAgent repo would override the site-copy fallback and make production drift from the requested purple/gold identity as soon as the VPS backend is current.
+
+**Rejected:** Keeping the frontend as the only Sales color override. That would make the page look correct in one host, but the portable EasyAgent profile contract would still tell future clients to render Sales as emerald.
+
 ## 2026-05-05 — Web banner sweep matches production
 
 ### Decision: Agent switches reuse the production EasyAgent color wipe

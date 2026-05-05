@@ -57,7 +57,7 @@ def test_sales_concierge_profile_loads_with_data_root():
         "checkout_link_preview",
         "calculator",
     )
-    assert p.brand["accent"] == "#0f7a4a"
+    assert p.brand["accent"] == "#7C3AED"
     assert p.brand["intro_ascii_name"]
     assert "Sales Concierge" in p.brand["input_placeholder"]
     assert p.data_root is not None

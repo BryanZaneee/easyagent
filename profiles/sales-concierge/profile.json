@@ -8,10 +8,10 @@
   "tools": ["catalog_lookup", "qualify_lead", "lead_capture_preview", "checkout_link_preview", "calculator"],
   "mcp_servers": [],
   "brand": {
-    "accent": "#0f7a4a",
-    "accent_dark": "#07502f",
-    "accent_soft": "#e8f7ef",
-    "accent_gold": "#c99a2e",
+    "accent": "#7C3AED",
+    "accent_dark": "#4C1D95",
+    "accent_soft": "#EFE7FF",
+    "accent_gold": "#D8A72F",
     "hero_icon": " ____\n|$  |\n|___|",
     "intro_ascii_name": " ____        _            \n/ ___|  __ _| | ___  ___  \n\\___ \\ / _` | |/ _ \\/ __| \n ___) | (_| | |  __/\\__ \\ \n|____/ \\__,_|_|\\___||___/ ",
     "input_placeholder": "ask Sales Concierge which EasyAgent package fits..."

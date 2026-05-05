@@ -79,6 +79,7 @@ Agent persona and KB root are loaded from [`profiles/`](profiles/) through [`bac
 
 - **Tool schemas are authored in Anthropic shape.** When adding a tool, edit `SCHEMAS` and `run_tool` in [`backend/tools.py`](backend/tools.py). Provider adapters translate via `tool_translator.py`. Don't author the same tool twice.
 - **Agent identity belongs in profiles, not providers.** Add/edit `profiles/<id>/profile.json` and `system.md` for persona, welcome copy, suggestions, and KB root.
+- **Profile brand metadata is the production UI contract.** `/api/profile` and `/api/profiles` feed the site accent colors, ASCII names, banner mascots, and placeholders. Keep these values in profile JSON when changing an agent's identity. Current bundled accents are Strauss green, Customer Service/Easy Coffee orange, Research Analyst cool blue, and Sales Concierge purple with gold secondary details.
 - **Do not commit personal KB or secrets.** `kb/`, `.env*` files other than `.env.example`, API keys, private resumes, and XML codebase dumps must stay local/private.
 - **Follow the agent practices checklist.** [`docs/agent_best_practices.md`](docs/agent_best_practices.md) captures the standing rules for API boundaries, model selection, prompts, tools, streaming, retrieval, evals, and portability.
 - **All KB filesystem ops go through `_safe_resolve()`.** It rejects `..`, absolute paths, and symlink escapes. Never bypass it.
