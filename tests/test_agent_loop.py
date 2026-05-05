@@ -243,9 +243,11 @@ class TestUsageCategorization:
     """Per-turn usage events carry a category derived from observed provider events."""
 
     @pytest.mark.asyncio
-    async def test_thinking_then_tool_classifies_as_reasoning(self, kb_root):
-        # Turn that emits thinking and then dispatches a tool → reasoning bucket
-        # (had_thinking wins regardless of tool_use, since the work was reasoning).
+    async def test_thinking_then_tool_classifies_by_activity(self, kb_root):
+        # Turn that emits thinking and then dispatches a tool → tools bucket.
+        # Categorization is activity-priority: thinking is signalled separately on
+        # `had_thinking` so the frontend can fan reasoning_tokens into its own row
+        # while output_tokens still flow into Tools / Response by what the hop did.
         provider = FakeProvider(
             [
                 [
@@ -280,8 +282,10 @@ class TestUsageCategorization:
 
         usages = [e for e in events if e["event"] == "usage"]
         assert len(usages) == 2
-        assert usages[0]["category"] == "reasoning"
+        assert usages[0]["category"] == "tools"
+        assert usages[0]["had_thinking"] is True
         assert usages[1]["category"] == "response"
+        assert usages[1]["had_thinking"] is False
 
 
 class TestHopLimit:

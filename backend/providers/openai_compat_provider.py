@@ -214,10 +214,15 @@ def _norm_usage(u: Any) -> dict:
         )
     # DeepSeek surfaces KV-cache hits as prompt_cache_hit_tokens; absent on other providers.
     cache_hit = getattr(u, "prompt_cache_hit_tokens", 0) or 0
+    # reasoning_tokens is a subset of completion_tokens (see comment above), so make
+    # them disjoint here — the frontend buckets reasoning separately and would
+    # double-count if output_tokens still included it.
+    output_total = output_tokens or 0
+    reasoning = max(0, min(reasoning_tokens, output_total))
     return {
         "input_tokens": input_tokens or 0,
-        "output_tokens": output_tokens or 0,
-        "reasoning_tokens": reasoning_tokens,
+        "output_tokens": output_total - reasoning,
+        "reasoning_tokens": reasoning,
         "cache_read_input_tokens": cache_hit,
         "cache_creation_input_tokens": 0,
     }

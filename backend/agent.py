@@ -66,13 +66,19 @@ async def run_conversation_stream(
                 return
 
         if pending_usage is not None:
-            if had_thinking:
-                category = "reasoning"
-            elif tool_calls_pending:
-                category = "tools"
-            else:
-                category = "response"
-            yield {"event": "usage", "category": category, "hop": hop, **pending_usage}
+            # Categorize by what the hop produced, not by whether thinking happened —
+            # otherwise thinking-enabled models (Strauss runs Sonnet 4.5 with extended
+            # thinking on every hop) would always land in "reasoning" and the Tools /
+            # Response buckets could never increment. Reasoning tokens travel
+            # separately on `reasoning_tokens` so the frontend can fan them out.
+            category = "tools" if tool_calls_pending else "response"
+            yield {
+                "event": "usage",
+                "category": category,
+                "hop": hop,
+                "had_thinking": had_thinking,
+                **pending_usage,
+            }
 
         if stop_reason != "tool_use":
             yield {"event": "done", "stop_reason": stop_reason}

@@ -1,6 +1,7 @@
 """Anthropic provider — streaming tool-use loop, mirroring notebook 003/009."""
 from __future__ import annotations
 
+import json
 import os
 from typing import Any, AsyncIterator
 
@@ -92,21 +93,50 @@ class AnthropicProvider:
                     "arguments": block.input,
                 }
 
-        yield {"type": "usage", "usage": _norm_usage(response.usage)}
+        thinking_est = _estimate_thinking_tokens(
+            response.content, getattr(response.usage, "output_tokens", 0) or 0
+        )
+        yield {"type": "usage", "usage": _norm_usage(response.usage, thinking_tokens=thinking_est)}
         yield {
             "type": "message_done",
             "stop_reason": "tool_use" if response.stop_reason == "tool_use" else "end_turn",
         }
 
 
-def _norm_usage(u: Any) -> dict:
+def _estimate_thinking_tokens(content: list, total_output_tokens: int) -> int:
+    # Anthropic doesn't expose per-block token counts and rolls thinking into the
+    # cumulative output_tokens. Approximate the thinking share by character length
+    # across thinking / text / tool_use blocks. Imperfect but stable, and the only
+    # signal we have without re-tokenizing the response.
+    if not total_output_tokens:
+        return 0
+    thinking_chars = 0
+    other_chars = 0
+    for block in content:
+        btype = getattr(block, "type", None)
+        if btype == "thinking":
+            thinking_chars += len(getattr(block, "thinking", "") or "")
+        elif btype == "text":
+            other_chars += len(getattr(block, "text", "") or "")
+        elif btype == "tool_use":
+            other_chars += len(json.dumps(getattr(block, "input", {}) or {}))
+    total = thinking_chars + other_chars
+    if total == 0 or thinking_chars == 0:
+        return 0
+    return int(total_output_tokens * thinking_chars / total)
+
+
+def _norm_usage(u: Any, thinking_tokens: int = 0) -> dict:
     # Anthropic streaming usage rolls extended-thinking tokens into output_tokens
-    # without a per-stream split. Expose 0 reasoning_tokens so the field is
-    # consistent across providers.
+    # without a per-stream split. When thinking_tokens is supplied (estimated from
+    # content-block character lengths), expose it on reasoning_tokens and subtract
+    # it from output_tokens so the two are disjoint and the frontend can sum them.
+    output_total = getattr(u, "output_tokens", 0) or 0
+    reasoning = max(0, min(thinking_tokens, output_total))
     return {
         "input_tokens": getattr(u, "input_tokens", 0) or 0,
-        "output_tokens": getattr(u, "output_tokens", 0) or 0,
-        "reasoning_tokens": 0,
+        "output_tokens": output_total - reasoning,
+        "reasoning_tokens": reasoning,
         "cache_read_input_tokens": getattr(u, "cache_read_input_tokens", 0) or 0,
         "cache_creation_input_tokens": getattr(u, "cache_creation_input_tokens", 0) or 0,
     }
