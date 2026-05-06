@@ -72,7 +72,7 @@ Agent persona and KB root are loaded from [`profiles/`](profiles/) through [`bac
 - [`backend/config.py`](backend/config.py) — env loading, `MODEL_REGISTRY`, limits
 - `web/` — vanilla chat UI, palette/fonts borrowed from `bryanzane_v3`
 - `profiles/` — reusable agent profiles; `profiles/strauss/` is the bundled example (default)
-- `kb/` — local/private content such as resume files, project notes, and codebase XML dumps; ignored by git (only `kb/README.md` is tracked)
+- `kb/` — local/private content such as resume files, project notes, and codebase XML dumps; ignored by git (only `kb/README.md` and `kb/frampton/` are tracked). The `frampton` Fextralife scrape is third-party but public, so it ships with the repo so deploys are self-contained.
 - [`tests/conftest.py`](tests/conftest.py) — `use_mini_kb` autouse fixture monkeypatches `KB_ROOT` to `tests/fixtures/mini_kb/`
 
 ## Conventions
@@ -80,7 +80,7 @@ Agent persona and KB root are loaded from [`profiles/`](profiles/) through [`bac
 - **Tool schemas are authored in Anthropic shape.** When adding a tool, edit `SCHEMAS` and `run_tool` in [`backend/tools.py`](backend/tools.py). Provider adapters translate via `tool_translator.py`. Don't author the same tool twice.
 - **Agent identity belongs in profiles, not providers.** Add/edit `profiles/<id>/profile.json` and `system.md` for persona, welcome copy, suggestions, and KB root.
 - **Profile brand metadata is the production UI contract.** `/api/profile` and `/api/profiles` feed the site accent colors, ASCII names, banner mascots, and placeholders. Keep these values in profile JSON when changing an agent's identity. Current bundled accents are Strauss green, Customer Service/Easy Coffee orange, Research Analyst cool blue, and Sales Concierge purple with gold secondary details.
-- **Do not commit personal KB or secrets.** `kb/`, `.env*` files other than `.env.example`, API keys, private resumes, and XML codebase dumps must stay local/private.
+- **Do not commit personal KB or secrets.** `kb/`, `.env*` files other than `.env.example`, API keys, private resumes, and XML codebase dumps must stay local/private. The exception is `kb/frampton/`, which is a public third-party Fextralife scrape and is tracked.
 - **Follow the agent practices checklist.** [`docs/agent_best_practices.md`](docs/agent_best_practices.md) captures the standing rules for API boundaries, model selection, prompts, tools, streaming, retrieval, evals, and portability.
 - **All KB filesystem ops go through `_safe_resolve()`.** It rejects `..`, absolute paths, and symlink escapes. Never bypass it.
 - **The provider mutates `messages` inside `stream()`.** After the API call completes, append the assistant turn to `messages` *before* yielding `tool_use_complete` events. Mirror this contract in any new provider — otherwise the next API call rejects with "tool_result without preceding tool_use."

@@ -10,6 +10,7 @@ Bundled profiles:
 - `profiles/customer-service/` — a tier-1 in-widget customer-service agent for a fictional coffee shop, with realistic KB content and an adaptation `TEMPLATE.md`.
 - `profiles/research-analyst/` — a public research profile with web search, safe page fetching, and deterministic calculations.
 - `profiles/sales-concierge/` — an EasyAgent sales profile with catalog lookup, lead qualification, and preview-only lead/checkout flows.
+- `profiles/frampton/` — a Dark Souls 1 guide profile that expects a local categorized wiki scrape mounted at `kb/frampton`.
 
 The web chat widget includes an **agent switcher** in the controls strip — pick a profile from the dropdown to see how its persona, tools, MCP servers, and per-turn token usage differ. Switching resets the conversation.
 
@@ -90,6 +91,8 @@ kb/
 ```
 
 Tests use `tests/fixtures/mini_kb/`, so the framework can be developed and verified without committing private data.
+
+The Frampton profile is the exception: its Dark Souls 1 wiki scrape is public Fextralife content, so it ships in-repo at `kb/frampton/` and travels with the code on every deploy.
 
 ## Run It
 

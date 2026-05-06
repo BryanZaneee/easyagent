@@ -8,6 +8,15 @@ the source code alone. New decisions go at the top, dated. Each entry should ans
 
 ---
 
+## 2026-05-06 — Commit the Frampton Dark Souls KB to the repo
+
+### Decision: Track `kb/frampton/` in git instead of leaving it as a local-only scrape
+**Choice:** `.gitignore` now adds an exception (`!kb/frampton/`) so the categorized Fextralife scrape is committed alongside the profile. CLAUDE.md, AGENTS.md, README.md, and `kb/README.md` are updated to call out this single-profile exception to the broader "do not commit personal KB" rule.
+
+**Why:** Unlike resume files or codebase XML dumps under `kb/`, the Frampton corpus is third-party but public Dark Souls wiki content with no privacy concern. Committing it makes deploys self-contained — `bash /opt/deploy/deploy.sh easyagent` ships everything the profile needs in one shot, instead of requiring a separate `rsync` of `kb/frampton/` every time the scrape changes.
+
+**Rejected:** Continuing the rsync-only workflow. It was working but is two-step (push code, then rsync KB) and a deploy without the KB sync silently produces a broken Frampton agent on the VPS. Also rejected: committing other local KB folders (resume, codebases, projects, meta) — those remain private and gitignored.
+
 ## 2026-05-06 — Frampton brand contract turns red
 
 ### Decision: Make Frampton's Dark Souls identity canonical profile metadata
