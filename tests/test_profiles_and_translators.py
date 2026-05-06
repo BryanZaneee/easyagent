@@ -28,6 +28,26 @@ def test_strauss_profile_loads_persona_and_kb_root():
     assert "Tell me about Shuttrr." in profile.suggestions
 
 
+def test_frampton_profile_loads_ds1_persona_and_kb_tools():
+    profile = load_profile("frampton")
+    assert profile.id == "frampton"
+    assert profile.label == "Frampton"
+    assert "Dark Souls 1" in profile.description
+    assert profile.kb_root.as_posix().endswith(
+        ("kb/frampton", "dark_souls_1_fextra_kb_by_category")
+    )
+    assert "local Dark Souls 1 Fextralife knowledge base" in profile.system_prompt
+    assert profile.tools == ("list_kb", "read_file", "search_kb")
+    assert "Artorias" in profile.suggestions[1]
+    assert profile.brand["accent"] == "#B3261E"
+    assert profile.brand["accent_dark"] == "#4A0F0B"
+    assert profile.brand["accent_soft"] == "#F8D8D4"
+    assert profile.brand["grid"] == "rgba(179, 38, 30, 0.14)"
+    assert profile.brand["mark"] == "#E11D48"
+    assert profile.brand["hero_icon"] == " /\\_/\\\n( o_o )\n/|___|\\\n  v v"
+    assert profile.brand["input_placeholder"] == "ask Frampton about Dark Souls 1..."
+
+
 def test_unknown_explicit_profile_raises():
     with pytest.raises(FileNotFoundError):
         load_profile("definitely-not-a-profile")

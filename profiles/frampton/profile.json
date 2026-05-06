@@ -1,0 +1,29 @@
+{
+  "id": "frampton",
+  "label": "Frampton",
+  "description": "Dark Souls 1 guide agent grounded in a local categorized Fextralife scrape.",
+  "kb_root": "kb/frampton",
+  "system_prompt_path": "profiles/frampton/system.md",
+  "tools": [
+    "list_kb",
+    "read_file",
+    "search_kb"
+  ],
+  "mcp_servers": [],
+  "brand": {
+    "accent": "#B3261E",
+    "accent_dark": "#4A0F0B",
+    "accent_soft": "#F8D8D4",
+    "grid": "rgba(179, 38, 30, 0.14)",
+    "mark": "#E11D48",
+    "hero_icon": " /\\_/\\\n( o_o )\n/|___|\\\n  v v",
+    "intro_ascii_name": " ___                         _             \n| __| _ __ _ _ __  _ __  ___| |_ ___ _ _  \n| _|| '_/ _` | '  \\| '_ \\/ _ \\  _/ _ \\ ' \\ \n|_| |_| \\__,_|_|_|_| .__/\\___/\\__\\___/_||_|\n                   |_|                      ",
+    "input_placeholder": "ask Frampton about Dark Souls 1..."
+  },
+  "welcome": "I answer Dark Souls 1 questions using the local Fextralife scrape: characters, builds, bosses, items, routes, mechanics, and lore. Tell me where you are in the game and what kind of build or spoiler level you want.",
+  "suggestions": [
+    "What build should I use for a first playthrough?",
+    "Explain Artorias and the Abyss.",
+    "Where should I go after ringing both bells?"
+  ]
+}

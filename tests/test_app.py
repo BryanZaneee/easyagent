@@ -109,6 +109,33 @@ class TestModels:
 
 
 # --------------------------------------------------------------------------- #
+# /api/profile
+# --------------------------------------------------------------------------- #
+
+
+class TestProfiles:
+    def test_frampton_profile_exposes_red_brand_and_kb_tool_schemas(self, client):
+        c, _ = client
+        r = c.get("/api/profile", params={"profile_id": "frampton"})
+        assert r.status_code == 200
+        body = r.json()
+
+        assert body["id"] == "frampton"
+        assert body["label"] == "Frampton"
+        assert body["tools"] == ["list_kb", "read_file", "search_kb"]
+        assert [schema["name"] for schema in body["tool_schemas"]] == body["tools"]
+        assert body["mcp_servers"] == []
+        assert body["brand"]["accent"] == "#B3261E"
+        assert body["brand"]["accent_dark"] == "#4A0F0B"
+        assert body["brand"]["accent_soft"] == "#F8D8D4"
+        assert body["brand"]["grid"] == "rgba(179, 38, 30, 0.14)"
+        assert body["brand"]["mark"] == "#E11D48"
+        assert body["brand"]["hero_icon"] == " /\\_/\\\n( o_o )\n/|___|\\\n  v v"
+        assert "Dark Souls 1 questions" in body["welcome"]
+        assert "Explain Artorias and the Abyss." in body["suggestions"]
+
+
+# --------------------------------------------------------------------------- #
 # /api/chat
 # --------------------------------------------------------------------------- #
 

@@ -8,6 +8,24 @@ the source code alone. New decisions go at the top, dated. Each entry should ans
 
 ---
 
+## 2026-05-06 — Frampton brand contract turns red
+
+### Decision: Make Frampton's Dark Souls identity canonical profile metadata
+**Choice:** `profiles/frampton/profile.json` now declares a red primary accent, dark red controls, soft red surfaces, a red grid wash, a rose secondary mark, and a compact four-line monster `hero_icon` while keeping the profile limited to `list_kb`, `read_file`, and `search_kb`.
+
+**Why:** bryanzane.com consumes `/api/profile` and `/api/profiles` as the production brand contract once a backend profile is deployed. Encoding the red Dark Souls identity in the profile itself prevents the public site, source web UI, and future clients from drifting into a frontend-only override.
+
+**Rejected:** Styling Frampton only in the portfolio site's local fallback catalog. That would look right before deployment, but the API would still advertise Frampton with the old muted green profile colors.
+
+## 2026-05-06 — Frampton uses a local Dark Souls 1 KB mount
+
+### Decision: Add a DS1 profile without committing the scraped corpus
+**Choice:** `profiles/frampton/` defines the Frampton Dark Souls 1 guide persona, points `kb_root` at `kb/frampton`, and enables only the generic read-only KB tools. The scraped Fextralife corpus remains ignored runtime data and can be mounted locally from the Desktop category scrape.
+
+**Why:** The categorized scrape is large enough to be useful for an agent, but it is generated third-party content and does not belong in the public framework history. Keeping the data under the ignored `kb/` boundary preserves the EasyAgent profile/engine split: source code carries reusable agent behavior, while local KB content stays deployment-specific.
+
+**Rejected:** Committing the 3,500 scraped Markdown files, hardcoding an absolute Desktop path in `profile.json`, or adding Dark-Souls-specific backend tools before the generic KB search/read path has been proven with real player questions.
+
 ## 2026-05-05 — Sales brand contract is purple/gold
 
 ### Decision: Sales Concierge brand metadata owns the public accent
