@@ -13,7 +13,6 @@ from openai import AsyncOpenAI
 
 from backend.profiles import AgentProfile
 from backend.providers.base import Event
-from backend.providers.tool_translator import to_openai
 from backend.tools import ToolResult, schemas_for_tools
 
 
@@ -57,7 +56,17 @@ class OpenAICompatProvider:
             messages.append(msg)
 
     def tools_for_provider(self, profile: AgentProfile) -> list[dict]:
-        return to_openai(schemas_for_tools(profile.tools))
+        return [
+            {
+                "type": "function",
+                "function": {
+                    "name": s["name"],
+                    "description": s["description"],
+                    "parameters": s["input_schema"],
+                },
+            }
+            for s in schemas_for_tools(profile.tools)
+        ]
 
     def system_for_provider(self, profile: AgentProfile) -> dict:
         return {"role": "system", "content": profile.system_prompt}

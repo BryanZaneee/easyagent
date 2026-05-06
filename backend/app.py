@@ -167,7 +167,7 @@ async def profile(profile_id: str = DEFAULT_PROFILE) -> dict:
         "tools": list(p.tools),
         "tool_schemas": schemas_for_tools(p.tools),
         "brand": p.brand,
-        "mcp_servers": [s.get("name", "") for s in p.mcp_servers if isinstance(s, dict)],
+        "mcp_servers": [s["name"] for s in p.mcp_servers],
     }
 
 
@@ -189,7 +189,7 @@ async def list_profiles() -> dict:
                 "description": p.description,
                 "tools": list(p.tools),
                 "brand": p.brand,
-                "mcp_servers": [s.get("name", "") for s in p.mcp_servers if isinstance(s, dict)],
+                "mcp_servers": [s["name"] for s in p.mcp_servers],
             })
     return {"default": DEFAULT_PROFILE, "profiles": out}
 

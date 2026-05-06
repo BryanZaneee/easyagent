@@ -10,7 +10,6 @@ from google.genai import types
 
 from backend.profiles import AgentProfile
 from backend.providers.base import Event
-from backend.providers.tool_translator import to_gemini_declarations
 from backend.tools import ToolResult, schemas_for_tools
 
 
@@ -37,8 +36,12 @@ class GeminiProvider:
 
     def tools_for_provider(self, profile: AgentProfile) -> list[Any]:
         declarations = [
-            types.FunctionDeclaration(**decl)
-            for decl in to_gemini_declarations(schemas_for_tools(profile.tools))
+            types.FunctionDeclaration(
+                name=s["name"],
+                description=s["description"],
+                parameters_json_schema=s["input_schema"],
+            )
+            for s in schemas_for_tools(profile.tools)
         ]
         return [types.Tool(function_declarations=declarations)]
 

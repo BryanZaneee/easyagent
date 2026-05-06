@@ -12,8 +12,9 @@ from backend.config import KB_ROOT
 
 MAX_BYTES_PER_CALL = 80_000
 MAX_LINES_PER_READ = 3000
-DEFAULT_LINES_PER_READ = 1500
-LIST_MAX_DEPTH = 2
+DEFAULT_LINES_PER_READ = 400
+LIST_ROOT_DEPTH = 1
+LIST_SUBDIR_DEPTH = 2
 
 # Aliases the model might use for project lookup. Maps lowercase input → file slug under kb/projects/.
 # Files not in this map can still be looked up by their exact slug.
@@ -63,7 +64,12 @@ def _safe_resolve(rel: str, *, root: Path | None = None) -> Path:
 
 
 def list_kb(subdir: str = "", *, root: Path | None = None) -> list[dict]:
-    """List entries under `subdir`. Walk depth ≤ LIST_MAX_DEPTH. Hidden/junk paths skipped."""
+    """List entries under `subdir`. Hidden/junk paths skipped.
+
+    Empty `subdir` walks depth-1 (top-level only) so a root listing of a large KB
+    returns categories without exploding into thousands of children. Explicit
+    `subdir` walks depth-2 so the model sees one level of drill-down.
+    """
     base_rel = subdir if subdir else "."
     base = _safe_resolve(base_rel, root=root)
     if not base.exists():
@@ -71,11 +77,11 @@ def list_kb(subdir: str = "", *, root: Path | None = None) -> list[dict]:
     if not base.is_dir():
         raise KBError(f"not a directory: {subdir}")
 
+    max_depth = LIST_ROOT_DEPTH if not subdir else LIST_SUBDIR_DEPTH
     root_resolved = _root(root)
     out: list[dict] = []
     for entry in sorted(base.rglob("*")):
-        # Depth relative to the listed base, not the kb root.
-        if len(entry.relative_to(base).parts) > LIST_MAX_DEPTH:
+        if len(entry.relative_to(base).parts) > max_depth:
             continue
         if entry.name.startswith(".") or "__pycache__" in entry.parts:
             continue

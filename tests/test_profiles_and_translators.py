@@ -1,13 +1,13 @@
 from __future__ import annotations
 
+import json
 from types import SimpleNamespace
 
 import pytest
 
-from backend.profiles import load_profile
+from backend.profiles import build_kb_manifest, load_profile
 from backend.providers.gemini_provider import GeminiProvider
 from backend.providers.openai_compat_provider import OpenAICompatProvider
-from backend.providers.tool_translator import to_openai
 from backend.tools import SCHEMAS, run_tool
 
 
@@ -26,6 +26,8 @@ def test_strauss_profile_loads_persona_and_kb_root():
     assert "advocate-in-residence" in profile.system_prompt
     assert "get_resume_summary" in profile.tools
     assert "Tell me about Shuttrr." in profile.suggestions
+    # Strauss does not opt into manifest injection, so its system prompt is not augmented.
+    assert "<knowledge_base_index>" not in profile.system_prompt
 
 
 def test_frampton_profile_loads_ds1_persona_and_kb_tools():
@@ -48,17 +50,66 @@ def test_frampton_profile_loads_ds1_persona_and_kb_tools():
     assert profile.brand["input_placeholder"] == "ask Frampton about Dark Souls 1..."
 
 
+def test_frampton_profile_prepends_kb_manifest():
+    profile = load_profile("frampton")
+    # Manifest is injected ahead of the persona block.
+    assert profile.system_prompt.startswith("<knowledge_base_index>")
+    assert "</knowledge_base_index>" in profile.system_prompt
+    # Common categories appear in the index so the model knows where to look without list_kb.
+    assert "Bosses/" in profile.system_prompt
+    assert "Weapons/" in profile.system_prompt
+
+
+def test_build_kb_manifest_on_mini_kb(kb_root):
+    manifest = build_kb_manifest(kb_root)
+    assert manifest.startswith("<knowledge_base_index>")
+    assert manifest.endswith("</knowledge_base_index>")
+    # Mini KB has INDEX.md at the top level and several markdown subdirs.
+    assert "Top-level: INDEX" in manifest
+    assert "projects/: widget" in manifest
+    assert "resume/: resume" in manifest
+
+
+def test_build_kb_manifest_on_missing_root_returns_empty(tmp_path):
+    assert build_kb_manifest(tmp_path / "does-not-exist") == ""
+
+
+def test_inject_kb_manifest_opt_in(tmp_path, monkeypatch):
+    """A profile only gets the manifest when it opts in via inject_kb_manifest."""
+    profile_dir = tmp_path / "tinyprof"
+    profile_dir.mkdir()
+    kb_dir = tmp_path / "tinykb"
+    kb_dir.mkdir()
+    (kb_dir / "Notes").mkdir()
+    (kb_dir / "Notes" / "alpha.md").write_text("alpha")
+
+    (profile_dir / "system.md").write_text("you are a tiny agent")
+    (profile_dir / "profile.json").write_text(
+        json.dumps(
+            {
+                "id": "tinyprof",
+                "label": "Tiny",
+                "description": "test",
+                "kb_root": str(kb_dir),
+                "system_prompt_path": str(profile_dir / "system.md"),
+                "tools": ["list_kb", "read_file", "search_kb"],
+                "inject_kb_manifest": True,
+            }
+        )
+    )
+
+    from backend import profiles as profiles_module
+
+    monkeypatch.setattr(profiles_module, "PROFILE_ROOT", tmp_path)
+    profile = load_profile("tinyprof")
+    assert profile.system_prompt.startswith("<knowledge_base_index>")
+    assert "Notes/: alpha" in profile.system_prompt
+    assert "you are a tiny agent" in profile.system_prompt
+
+
 def test_unknown_explicit_profile_raises():
     with pytest.raises(FileNotFoundError):
         load_profile("definitely-not-a-profile")
-
-
-def test_openai_tool_translation_wraps_shared_schema():
-    tools = to_openai(SCHEMAS)
-    first = tools[0]
-    assert first["type"] == "function"
-    assert first["function"]["name"] == SCHEMAS[0]["name"]
-    assert first["function"]["parameters"] == SCHEMAS[0]["input_schema"]
 
 
 def test_tool_allowlist_blocks_disabled_tool(kb_root):

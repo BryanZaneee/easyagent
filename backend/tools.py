@@ -1,7 +1,7 @@
 """Tool schemas (Anthropic shape) + the dispatcher.
 
-SCHEMAS are authored once in Anthropic's `input_schema` shape. The OpenAICompatProvider
-translates these via tool_translator.to_openai() at startup.
+SCHEMAS are authored once in Anthropic's `input_schema` shape. The OpenAI and
+Gemini providers inline-translate these in their `tools_for_provider` methods.
 """
 from __future__ import annotations
 
@@ -34,8 +34,9 @@ SCHEMAS: list[dict[str, Any]] = [
         "description": (
             "List files under the knowledge base, optionally filtered by a subdirectory. "
             "Returns relative paths so they can be passed to read_file. "
-            "Call this only when you don't already know what's available — the system context "
-            "already includes a manifest of the KB. Walk depth limited to 2."
+            "Empty subdir lists top-level entries only (categories). Pass an explicit "
+            "subdir like 'Bosses' or 'projects' to drill in one level. "
+            "Prefer the manifest already embedded in the system prompt over calling this."
         ),
         "input_schema": {
             "type": "object",
@@ -44,7 +45,7 @@ SCHEMAS: list[dict[str, Any]] = [
                     "type": "string",
                     "description": (
                         "Relative subdirectory under the KB root (e.g. 'projects', 'codebases'). "
-                        "Empty string lists from the root."
+                        "Empty string lists top-level entries only."
                     ),
                 }
             },
@@ -55,9 +56,10 @@ SCHEMAS: list[dict[str, Any]] = [
         "name": "read_file",
         "description": (
             "Read a single file from the knowledge base by relative path. "
-            "Files are markdown (resume, project summaries, FAQs) or repomix XML codebase dumps. "
-            "Repomix dumps are LARGE — for them, pass start_line/end_line to slice. "
-            "Returns {path, lines: 'X-Y of Z', content} so you know exactly what you didn't see."
+            "Files are markdown (resume, project summaries, FAQs, wiki pages) or repomix XML codebase dumps. "
+            "Default returns the first 400 lines (~16KB). For longer pages, pass start_line/end_line. "
+            "Returns {path, lines: 'X-Y of Z', content} so you know exactly what you didn't see "
+            "and can request more with a follow-up call."
         ),
         "input_schema": {
             "type": "object",
@@ -74,7 +76,7 @@ SCHEMAS: list[dict[str, Any]] = [
                 },
                 "end_line": {
                     "type": "integer",
-                    "description": "Optional 1-indexed end line, inclusive. Default: start+1499. Hard cap: start+2999.",
+                    "description": "Optional 1-indexed end line, inclusive. Default: start+399. Hard cap: start+2999.",
                 },
             },
             "required": ["path"],
@@ -1081,23 +1083,7 @@ def run_tool(
             arguments=arguments,
             output=out,
         )
-    except KBError as e:
-        return _tool_result(
-            tool_use_id=tool_use_id,
-            name=name,
-            content=json.dumps({"error": str(e)}),
-            is_error=True,
-            arguments=arguments,
-        )
-    except WebSearchError as e:
-        return _tool_result(
-            tool_use_id=tool_use_id,
-            name=name,
-            content=json.dumps({"error": str(e)}),
-            is_error=True,
-            arguments=arguments,
-        )
-    except ToolExecutionError as e:
+    except (KBError, WebSearchError, ToolExecutionError) as e:
         return _tool_result(
             tool_use_id=tool_use_id,
             name=name,

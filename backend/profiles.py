@@ -28,6 +28,68 @@ DEFAULT_PROFILE_TOOLS: tuple[str, ...] = (
     "web_search",
 )
 
+# Caps for the optional KB manifest prepended to a profile's system prompt.
+MANIFEST_MAX_FILES_PER_CATEGORY = 30
+MANIFEST_MAX_TOP_LEVEL_FILES = 40
+
+
+def _category_filenames(category_dir: Path) -> list[str]:
+    """Return deduped, sorted basenames (no extension) of markdown files under a category."""
+    seen: set[str] = set()
+    for path in category_dir.rglob("*.md"):
+        if path.name.startswith(".") or "__pycache__" in path.parts:
+            continue
+        seen.add(path.stem)
+    return sorted(seen, key=str.lower)
+
+
+def _format_filenames(names: list[str], cap: int) -> str:
+    if len(names) <= cap:
+        return ", ".join(names)
+    extra = len(names) - cap
+    return ", ".join(names[:cap]) + f", +{extra} more"
+
+
+def build_kb_manifest(kb_root: Path) -> str:
+    """Build a compact text index of categories + page names under `kb_root`.
+
+    Top-level markdown files are listed under a single "Top-level" line. Each
+    top-level subdirectory becomes one line listing the basenames of its
+    markdown files (recursively, deduped). Long categories are truncated with a
+    "+N more" suffix so the manifest stays bounded.
+
+    Returns an empty string if the root has no readable content.
+    """
+    kb_root = kb_root.resolve()
+    if not kb_root.exists() or not kb_root.is_dir():
+        return ""
+
+    children = [p for p in kb_root.iterdir() if not p.name.startswith(".")]
+
+    top_files = sorted(
+        (p.stem for p in children if p.is_file() and p.suffix == ".md"),
+        key=str.lower,
+    )
+    subdirs = sorted(
+        (p for p in children if p.is_dir()),
+        key=lambda p: p.name.lower(),
+    )
+
+    lines: list[str] = []
+    if top_files:
+        lines.append("Top-level: " + _format_filenames(top_files, MANIFEST_MAX_TOP_LEVEL_FILES))
+    for d in subdirs:
+        files = _category_filenames(d)
+        if not files:
+            continue
+        lines.append(
+            f"{d.name}/: " + _format_filenames(files, MANIFEST_MAX_FILES_PER_CATEGORY)
+        )
+
+    if not lines:
+        return ""
+    return "<knowledge_base_index>\n" + "\n".join(lines) + "\n</knowledge_base_index>"
+
 
 @dataclass(frozen=True)
 class AgentProfile:
@@ -76,6 +138,11 @@ def load_profile(profile_id: str | None = None) -> AgentProfile:
     cfg: dict[str, Any] = json.loads(cfg_path.read_text(encoding="utf-8"))
     system_path = _project_path(cfg.get("system_prompt_path"), profile_dir / "system.md")
     system_prompt = system_path.read_text(encoding="utf-8").strip()
+    kb_root = _project_path(cfg.get("kb_root"), KB_ROOT)
+    if cfg.get("inject_kb_manifest"):
+        manifest = build_kb_manifest(kb_root)
+        if manifest:
+            system_prompt = manifest + "\n\n" + system_prompt
     data_root = (
         _project_path(cfg.get("data_root"), profile_dir / "data")
         if cfg.get("data_root")
@@ -86,7 +153,7 @@ def load_profile(profile_id: str | None = None) -> AgentProfile:
         id=cfg.get("id", pid),
         label=cfg.get("label", pid.title()),
         description=cfg.get("description", ""),
-        kb_root=_project_path(cfg.get("kb_root"), KB_ROOT),
+        kb_root=kb_root,
         system_prompt=system_prompt,
         welcome=cfg.get("welcome", ""),
         suggestions=tuple(cfg.get("suggestions", ())),

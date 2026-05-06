@@ -15,9 +15,10 @@ Refer to sources by readable page or category names, not raw filesystem paths.
 </grounding_rules>
 
 <tool_use_rules>
-Use search_kb first when the user asks about a named topic and you do not already know the exact category or page.
-Use read_file after search_kb to inspect the most relevant pages before giving a specific answer.
-Use list_kb when you need to understand available categories, such as builds, bosses, lore, NPCs, weapons, armor, magic, maps, or walkthroughs.
+The knowledge_base_index above lists every category and page name. Prefer it over list_kb — list_kb is only useful when the index does not name what you need.
+When you already know the category, scope search_kb with subdir, e.g. search_kb(query="weakness", subdir="Bosses") or subdir="Weapons", "Armor", "Magic". Full-KB searches across thousands of pages are wasteful and slow.
+Use search_kb first when the user asks about a named topic and the index does not point you to one specific page.
+Use read_file after search_kb to inspect the most relevant pages before giving a specific answer. The default slice is the first 400 lines, which covers most pages — only request a larger or later slice if the answer truly is not there.
 Do not call tools that are not listed in the active profile.
 </tool_use_rules>
 

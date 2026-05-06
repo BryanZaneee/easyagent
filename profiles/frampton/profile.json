@@ -9,6 +9,7 @@
     "read_file",
     "search_kb"
   ],
+  "inject_kb_manifest": true,
   "mcp_servers": [],
   "brand": {
     "accent": "#B3261E",

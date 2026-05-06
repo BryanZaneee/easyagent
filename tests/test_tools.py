@@ -63,6 +63,13 @@ class TestListKB:
         assert "INDEX.md" in sizes
         assert sizes["INDEX.md"] > 0
 
+    def test_root_listing_does_not_recurse(self):
+        # Root listing is depth-1 only so a large KB does not blow up the model's context.
+        entries = list_kb("")
+        paths = {e["path"] for e in entries}
+        assert "projects/widget.md" not in paths
+        assert "resume/resume.md" not in paths
+
     def test_subdir_listing(self):
         entries = list_kb("projects")
         assert any(e["path"] == "projects/widget.md" and e["kind"] == "file" for e in entries)
