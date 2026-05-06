@@ -1,0 +1,310 @@
+---
+title: Butcher Knife
+url: "https://darksouls.wiki.fextralife.com/Butcher+Knife"
+categories: ["Black Phantom", "Weapons"]
+physical_damage: 225
+critical: 100
+magic_damage: 170(182)
+stability: 36
+fire_damage: 216(216)
+durability: 250
+lightning_damage: 225(225)
+weight: 10.0
+strength: 24
+dexterity: "-"
+intelligence: "-"
+faith: "-"
+weapon_type: Axe
+attack_type: Regular
+enchantable: true
+special: true
+---
+# Butcher Knife
+
+| butcher knife Butcher Knife +15 | | | | | | | | | | | | | | | | | | | |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| physical damage | | | | | 225 | | | | | critical | | | | | 100 | | | | |
+| magic damage | | | | | 170(182) | | | | | stability | | | | | 36 | | | | |
+| fire damage | | | | | 216(216) | | | | | durability | | | | | 250 | | | | |
+| lightning damage | | | | | 225(225) | | | | | weight | | | | | 10.0 | | | | |
+| Requirements & Bonus | | | | | | | | | | | | | | | | | | | |
+| strength | | | | dexterity | | | | intelligence | | | | faith | | | |
+| 24 | | | | - | | | | - | | | | - | | | |
+| Weapon Type | | | | | | | | Axe | | | | | | | | | | | |
+| Attack Type | | | | | | | | Regular | | | | | | | | | | | |
+| Enchantable | | | | | | | | Yes | | | | | | | | | | | |
+| Special | | | | | | | | Yes | | | | | | | | | | | |
+
+\*When infused with Magic: 170 physical dmg/182 magic dmg, with Fire: 216 physical dmg/216 Fire dmg, with Lightning: 225 physical dmg/225 Lightning dmg
+
+**Butcher Knife** is a Weapon in **Dark Souls** and **Dark Souls Remastered**. **Butcher Knife** allows heavy strength-based damage with excellent reach, making it a fearsome tool for raw power builds. Axes deliver heavy, high-damage swings with a wide arc, but their slow recovery makes missed strikes risky. Their broad swings can also be interrupted in tight spaces if they collide with walls.
+
+> Giant butcher knife wielded by the Undead man-eating cook lurking in the Depths. More of a tool for subduing and preparing live catches than an actual weapon. Those who have faced this deadly blade have a deeper sense of how helpless prey must feel."
+
+### How to Get / Where to Find
+
+* Black Phantom Maneater Mildred
+
+### Notes
+
+* Give to Frampt to receive 50 souls.
+* Upgrade cost: 200 Souls
+* Special: This weapon will heal 5 HP with each successful hit.
+* Same R1 moveset as battle axe, but differing R2 moveset; R2 one handed causes player to run forward and perform an overhead attack, R2 2-handed causes player to grab the other end of the weapon and smash it into the ground from overhead position.
+* Considered to be the best strength weapon by some because of it's damage output, reach and moveset.
+
+### Youtube relevant videos
+
+* Moveset
+
+### Upgrade Table
+
+Max
+
+standard upgrade s
+
+crystal upgrade s
+
+lightning upgrade s
+
+raw upgrade s
+
+magic upgrade s
+
+enchanted upgrade s
+
+divine upgrade s
+
+occult upgrade s
+
+fire upgrade s
+
+chaos upgrade s
+
+Overview table for all Upgrades at regular, max and threshold levels. Click on the tabs to see individual upgrade paths in detail.
+Use this table to quickly compare performance
+
+|  | Attack Values | | | | | Parameter Bonuses | | | | Auxiliary Effects | | | | Damage Reduction (%) | | | | Stability |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Butcher Knife | physical damage | magic damage | fire damage | lightning damage | critical | strength | dexterity | intelligence | faith | bleed | poison | divine | occult | physical defense | magic defense | fire defense | lightning defense | stability |
+| Regular | 90 | 0 | 0 | 0 | 100 | B | - | - | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Regular +5 | 135 | 0 | 0 | 0 | 100 | B | - | - | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Regular +10 | 180 | 0 | 0 | 0 | 100 | B | - | - | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Regular +14 | 216 | 0 | 0 | 0 | 100 | A | - | - | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Regular +15 | 225 | 0 | 0 | 0 | 100 | A | - | - | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Crystal | 198 | 0 | 0 | 0 | 100 | A | - | - | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Crystal +4 | 233 | 0 | 0 | 0 | 100 | A | - | - | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Crystal +5 | 243 | 0 | 0 | 0 | 100 | A | - | - | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Lightning | 162 | 0 | 0 | 162 | 100 | - | - | - | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Lightning +4 | 198 | 0 | 0 | 198 | 100 | - | - | - | - | - | - | - | - | 55 | 10 | 40 | 52.8 | 36 |
+| Lightning +5 | 225 | 0 | 0 | 225 | 100 | - | - | - | - | - | - | - | - | 55 | 10 | 40 | 56 | 36 |
+| Raw | 156 | 0 | 0 | 0 | 100 | C | - | - | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Raw +5 | 208 | 0 | 0 | 0 | 100 | C | - | - | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Magic | 102 | 109 | 0 | 0 | 100 | D | - | C | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Magic +5 | 136 | 146 | 0 | 0 | 100 | D | - | C | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Magic +9 | 163 | 175 | 0 | 0 | 100 | D | - | C | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Magic +10 | 170 | 182 | 0 | 0 | 100 | D | - | C | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Enchanted | 136 | 144 | 0 | 0 | 100 | E | - | C | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Enchanted +4 | 157 | 161 | 0 | 0 | 100 | D | - | A | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Enchanted +5 | 163 | 167 | 0 | 0 | 100 | D | - | A | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Divine | 91 | 111 | 0 | 0 | 100 | D | - | - | C | - | - | 110 | - | 55 | 10 | 40 | 40 | 36 |
+| Divine +5 | 122 | 148 | 0 | 0 | 100 | D | - | - | C | - | - | 110 | - | 55 | 10 | 40 | 40 | 36 |
+| Divine +9 | 146 | 177 | 0 | 0 | 100 | D | - | - | C | - | - | 110 | - | 55 | 10 | 40 | 40 | 36 |
+| Divine +10 | 152 | 185 | 0 | 0 | 100 | D | E | - | C | - | - | 110 | - | 55 | 10 | 40 | 40 | 36 |
+| Occult | 124 | 136 | 0 | 0 | 100 | D | - | - | B | - | - | - | 110 | 55 | 10 | 40 | 40 | 36 |
+| Occult +4 | 153 | 163 | 0 | 0 | 100 | D | - | - | B | - | - | - | 110 | 55 | 10 | 40 | 40 | 36 |
+| Occult +5 | 161 | 170 | 0 | 0 | 100 | D | - | - | B | - | - | - | 110 | 55 | 10 | 40 | 40 | 36 |
+| Fire | 116 | 0 | 116 | 0 | 100 | - | - | - | - | - | - | - | - | 55 | 10 | 42 | 40 | 36 |
+| Fire +5 | 162 | 0 | 162 | 0 | 100 | - | - | - | - | - | - | - | - | 55 | 10 | 42 | 40 | 36 |
+| Fire +9 | 205 | 0 | 205 | 0 | 100 | - | - | - | - | - | - | - | - | 55 | 10 | 43.6 | 40 | 36 |
+| Fire +10 | 216 | 0 | 216 | 0 | 100 | - | - | - | - | - | - | - | - | 55 | 10 | 44 | 40 | 36 |
+| Chaos | 140 | 0 | 162 | 0 | 100 | - | - | - | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Chaos +4 | 171 | 0 | 198 | 0 | 100 | - | - | - | - | - | - | - | - | 55 | 10 | 42,8 | 40 | 36 |
+| Chaos +4 @ 10 Humanity | + | 0 | + | 0 | 100 | - | - | - | - | - | - | - | - | 55 | 10 | 42,8 | 40 | 36 |
+| Chaos +5 | 179 | 0 | 207 | 0 | 100 | - | - | - | - | - | - | - | - | 55 | 10 | 44 | 40 | 36 |
+| Chaos +5 @ 10 Humanity | + | 0 | + | 0 | 100 | - | - | - | - | - | - | - | - | 55 | 10 | 44 | 40 | 36 |
+
+Regular Upgrades are performed by Andre of Astora at the Undead Parish.
+Regular +6 requires a regular +5 weapon and to hand in the Large Ember. Regular +11 requires a regular +10 weapon and to hand in the Very Large Ember.
+Regular Reinforcement Scales 88% for strengthStrength to increase your AR.
+To reach max, you need: 3,000 souls, 9 titanite shards to +5, 9 large titanite shards to +10, 7 titanite chunks to +14 and 1 titanite slab to +15
+
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+|  | Attack Values | | | | Parameter Bonus | | | | Auxiliary | | Damage Reduction (%) | | | | Stability |
+| Butcher Knife | physical damage | magic damage | fire damage | lightning damage | strength | dexterity | intelligence | faith | divine | occult | physical defense | magic defense | fire defense | lightning defense | stability |
+| Regular | 90 | - | - | - | B | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Regular +1 (titanite shard sx1) | 99 | - | - | - | B | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Regular +2 (titanite shard sx1) | 108 | - | - | - | B | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Regular +3 (titanite shard sx2) | 116 | - | - | - | B | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Regular +4 (titanite shard sx2) | 126 | - | - | - | B | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Regular +5 (titanite shard sx3) | 135 | - | - | - | B | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Regular +6 (large titanite shard sx1) | 144 | - | - | - | B | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Regular +7 (large titanite shard sx1) | 153 | - | - | - | B | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Regular +8 (large titanite shard sx2) | 162 | - | - | - | B | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Regular +9 (large titanite shard sx2) | 171 | - | - | - | B | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Regular +10 (large titanite shard sx3) | 180 | - | - | - | B | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Regular +11 (titanite chunk sx1) | 188 | - | - | - | A | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Regular +12 (titanite chunk sx1) | 198 | - | - | - | A | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Regular +13 (titanite chunk sx2) | 207 | - | - | - | A | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Regular +14 (titanite chunk sx3) | 216 | - | - | - | A | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Regular +15 (titanite slab sx1) | 225 | - | - | - | A | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+
+Crystal Upgrades are performed by the Giant Blacksmith at Anor Londo.
+Crystal Upgrades require a regular +10 weapon and to hand in the Crystal Ember.
+Crystal Reinforcement reduces weapon Durability by 25, but increases base damage. It scales 88% for strengthStrength to increase your AR.
+To reach max, you need: 1,000 souls, 8 titanite chunks to +4 and 1 titanite slab to +5
+
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+|  | Attack Values | | | | Parameter Bonus | | | | Auxiliary | | Damage Reduction (%) | | | | Stability |
+| Butcher Knife | physical damage | magic damage | fire damage | lightning damage | strength | dexterity | intelligence | faith | divine | occult | physical defense | magic defense | fire defense | lightning defense | stability |
+| Crystal (titanite chunk sx1) | 198 | - | - | - | A | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Crystal +1 (titanite chunk sx1) | 207 | - | - | - | A | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Crystal +2 (titanite chunk sx1) | 216 | - | - | - | A | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Crystal +3 (titanite chunk sx2) | 225 | - | - | - | A | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Crystal +4 (titanite chunk sx3) | 233 | - | - | - | A | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Crystal +5 (titanite slab sx1) | 243 | - | - | - | A | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+
+Lightning Upgrades are performed by the Giant Blacksmith at Anor Londo.
+Lightning Upgrades require a regular +10 weapon, but no special Ember is required.
+Lightning Reinforcement removes all scaling but adds Lightning Damage.
+To reach max, you need: 1,000 souls, 8 titanite chunks to +4 and 1 titanite slab to +5
+
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+|  | Attack Values | | | | Parameter Bonus | | | | Auxiliary | | Damage Reduction (%) | | | | Stability |
+| Butcher Knife | physical damage | magic damage | fire damage | lightning damage | strength | dexterity | intelligence | faith | divine | occult | physical defense | magic defense | fire defense | lightning defense | stability |
+| Lightning (titanite chunk sx1) | 162 | - | - | 162 | - | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Lightning +1 (titanite chunk sx1) | 174 | - | - | 174 | - | - | - | - | - | - | 55 | 10 | 40 | 43.2 | 36 |
+| Lightning +2 (titanite chunk sx1) | 187 | - | - | 187 | - | - | - | - | - | - | 55 | 10 | 40 | 46.4 | 36 |
+| Lightning +3 (titanite chunk sx2) | 199 | - | - | 199 | - | - | - | - | - | - | 55 | 10 | 40 | 49.6 | 36 |
+| Lightning +4 (titanite chunk sx3) | 212 | - | - | 212 | - | - | - | - | - | - | 55 | 10 | 40 | 52.8 | 36 |
+| Lightning +5 (titanite slab sx1) | 225 | - | - | 225 | - | - | - | - | - | - | 55 | 10 | 40 | 56 | 36 |
+
+Raw Upgrades are performed by Andre of Astora at the Undead Parish.
+Raw Upgrades require a regular +5 weapon and to hand in the Large Ember.
+Raw Reinforcement increases base damage whilst reducing stat bonuses. Scales 66% for strengthStrength to increase your AR.
+To reach max, you need: 1,000 souls, 10 large titanite shards
+
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+|  | Attack Values | | | | Parameter Bonus | | | | Auxiliary | | Damage Reduction (%) | | | | Stability |
+| Butcher Knife | physical damage | magic damage | fire damage | lightning damage | strength | dexterity | intelligence | faith | divine | occult | physical defense | magic defense | fire defense | lightning defense | stability |
+| Raw (large titanite shard sx1) | 156 | - | - | - | C | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Raw +1 (large titanite shard sx1) | 166 | - | - | - | C | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Raw +2 (large titanite shard sx1) | 176 | - | - | - | C | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Raw +3 (large titanite shard sx2) | 187 | - | - | - | C | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Raw +4 (large titanite shard sx2) | 197 | - | - | - | C | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Raw +5 (large titanite shard sx3) | 208 | - | - | - | C | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+
+Magic Upgrades are performed by Rickert of Vinheim, found in New Londo Ruins.
+Magic Upgrade +1 requires a regular +5 weapon. Magic +6 requires a Magic +5 and to hand in the Large Magic Ember
+Magic Reinforcement adds Magic Damage and an Intelligence bonus. The weapon can no longer be buffed with Magic Weapon. Scales 25% for strengthStrength and 63% faith Intelligence to increase your AR.
+To reach max, you need: 2,000 souls, 10 Green Titanite Shards to +5, 7 Blue Titanite Chunks to +14 and 1 Blue Titanite Slab to +15
+
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+|  | Attack Values | | | | Parameter Bonus | | | | Auxiliary | | Damage Reduction (%) | | | | Stability |
+| Butcher Knife | physical damage | magic damage | fire damage | lightning damage | strength | dexterity | intelligence | faith | divine | occult | physical defense | magic defense | fire defense | lightning defense | stability |
+| Magic (green titanite shard sx1) | 102 | 109 | - | - | D | - | C | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Magic +1 (green titanite shard sx1) | 108 | 116 | - | - | D | - | C | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Magic +2 (green titanite shard sx1) | 115 | 124 | - | - | D | - | C | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Magic +3 (green titanite shard sx2) | 122 | 131 | - | - | D | - | C | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Magic +4 (green titanite shard sx2) | 129 | 138 | - | - | D | - | C | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Magic +5 (green titanite shard sx3) | 136 | 146 | - | - | D | - | C | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Magic +6 (blue titanite chunk sx1) | 142 | 153 | - | - | D | - | C | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Magic +7 (blue titanite chunk sx1) | 149 | 160 | - | - | D | - | C | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Magic +8 (blue titanite chunk sx2) | 156 | 167 | - | - | D | - | C | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Magic +9 (blue titanite chunk sx3) | 163 | 175 | - | - | D | - | C | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Magic +10 (blue titanite slab sx1) | 170 | 182 | - | - | D | - | C | - | - | - | 55 | 10 | 40 | 40 | 36 |
+
+Enchanted Upgrades are performed by Rickert of Vinheim, found in New Londo Ruins.
+Enchanted Upgrade +1 requires a regular +5 weapon. Enchanted +6 requires a Enchanted +5 and to hand in the Large Magic Ember
+Enchanted Reinforcement increases the Intelligence bonus at the cost of base magic damage. The weapon can no longer be buffed with Magic Weapon.  Scales 18% for strengthStrength and 62% faith Intelligence to increase your AR.
+To reach max, you need: 1,000 souls, 8 Blue Titanite Chunks to +4 and 1 Blue Titanite Slab to +5
+
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+|  | Attack Values | | | | Parameter Bonus | | | | Auxiliary | | Damage Reduction (%) | | | | Stability |
+| Butcher Knife | physical damage | magic damage | fire damage | lightning damage | strength | dexterity | intelligence | faith | divine | occult | physical defense | magic defense | fire defense | lightning defense | stability |
+| Enchanted (blue titanite chunk sx1) | 136 | 144 | - | - | E | - | C | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Enchanted +1 (blue titanite chunk sx1) | 141 | 148 | - | - | E | - | C | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Enchanted +2 (blue titanite chunk sx1) | 146 | 152 | - | - | E | - | B | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Enchanted +3 (blue titanite chunk sx2) | 152 | 156 | - | - | E | - | B | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Enchanted +4 (blue titanite chunk sx3) | 157 | 161 | - | - | D | - | A | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Enchanted +5 (blue titanite slab sx1) | 163 | 167 | - | - | D | - | A | - | - | - | 55 | 10 | 40 | 40 | -36 |
+
+Divine Upgrades are performed by Andre of Astora at the Undead Parish.
+Divine Upgrades require a regular +5 weapon and to hand in the Divine Ember. Divine +6 upgrades require a Divine Weapon +5 and to hand in the Large Divine Ember.
+Divine Reinforcement adds Magic Damage and Faith scaling. Scales 34% for strengthStrength and 63% faithFaith to increase your AR.
+To reach max, you need: 2,000 souls, 10 Green Titanite Shards, 7 White Titanite Chunks and 1 White Titanite Slab
+
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+|  | Attack Values | | | | Parameter Bonus | | | | Auxiliary | | Damage Reduction (%) | | | | Stability |
+| Butcher Knife | physical damage | magic damage | fire damage | lightning damage | strength | dexterity | intelligence | faith | divine | occult | physical defense | magic defense | fire defense | lightning defense | stability |
+| Divine (green titanite shard sx1) | 96 | 111 | - | - | D | - | - | C | 110 | - | 55 | 10 | 40 | 40 | 36 |
+| Divine +1 (green titanite shard sx1) | 102 | 118 | - | - | D | - | - | C | 110 | - | 55 | 10 | 40 | 40 | 36 |
+| Divine +2 (green titanite shard sx1) | 108 | 125 | - | - | D | - | - | C | 110 | - | 55 | 10 | 40 | 40 | 36 |
+| Divine +3 (green titanite shard sx2) | 115 | 133 | - | - | D | - | - | C | 110 | - | 55 | 10 | 40 | 40 | 36 |
+| Divine +4 (green titanite shard sx2) | 121 | 140 | - | - | D | - | - | C | 110 | - | 55 | 10 | 40 | 40 | 36 |
+| Divine +5 (green titanite shard sx3) | 128 | 14 | - | - | D | - | - | C | 110 | - | 55 | 10 | 40 | 40 | 36 |
+| Divine +6 (white titanite chunk sx1) | 134 | 155 | - | - | D | - | - | C | 110 | - | 55 | 10 | 40 | 40 | 36 |
+| Divine +7 (white titanite chunk sx1) | 140 | 162 | - | - | D | - | - | C | 110 | - | 55 | 10 | 40 | 40 | 36 |
+| Divine +8 (white titanite chunk sx2) | 147 | 170 | - | - | D | - | - | C | 110 | - | 55 | 10 | 40 | 40 | 36 |
+| Divine +9 (white titanite chunk sx3) | 153 | 177 | - | - | D | - | - | C | 110 | - | 55 | 10 | 40 | 40 | 36 |
+| Divine +10 (white titanite slab sx1) | 160 | 185 | - | - | D | - | - | C | 110 | - | 55 | 10 | 40 | 40 | 36 |
+
+Occult Upgrades are performed by Andre of Astora at the Undead Parish.
+Occult Upgrades require a Divine+5 weapon and to hand in the Dark Ember.
+Occult Reinforcement reduces the base damage but increases Faith scaling. Scales 32% for strengthStrength and 74% faithFaith to increase your AR.
+To reach max, you need: 1,000 souls, 7 White Titanite Chunks and 1 White Titanite Slab
+
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+|  | Attack Values | | | | Parameter Bonus | | | | Auxiliary | | Damage Reduction (%) | | | | Stability |
+| Butcher Knife | physical damage | magic damage | fire damage | lightning damage | strength | dexterity | intelligence | faith | divine | occult | physical defense | magic defense | fire defense | lightning defense | stability |
+| Occult (white titanite chunk sx1) | 124 | 136 | - | - | D | - | - | B | - | 110 | 55 | 10 | 40 | 40 | 36 |
+| Occult +1 (white titanite chunk sx1) | 131 | 142 | - | - | D | - | - | B | - | 110 | 55 | 10 | 40 | 40 | 36 |
+| Occult +2 (white titanite chunk sx1) | 138 | 149 | - | - | D | - | - | B | - | 110 | 55 | 10 | 40 | 40 | 36 |
+| Occult +3 (white titanite chunk sx2) | 146 | 156 | - | - | D | - | - | B | - | 110 | 55 | 10 | 40 | 40 | 36 |
+| Occult +4 (white titanite chunk sx3) | 153 | 163 | - | - | D | - | - | B | - | 110 | 55 | 10 | 40 | 40 | 36 |
+| Occult +5 (white titanite slab sx1) | 161 | 170 | - | - | D | - | - | B | - | 110 | 55 | 10 | 40 | 40 | 36 |
+
+Fire Upgrades are performed by Blacksmith Vamos in The Catacombs.
+Fire Upgrades require a regular +5 weapon. Fire+6 requires a Fire+5 weapon and to hand in the Large Flame Ember.
+Fire Reinforcement adds Fire Damage but removes all scaling bonuses from the weapon.
+To reach max, you need: 2,000 souls, 10 Green Titanite Shards, 7 Red Titanite Chunks and 1 Red Titanite Slab
+
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+|  | Attack Values | | | | Parameter Bonus | | | | Auxiliary | | Damage Reduction (%) | | | | Stability |
+| Butcher Knife | physical damage | magic damage | fire damage | lightning damage | strength | dexterity | intelligence | faith | divine | occult | physical defense | magic defense | fire defense | lightning defense | stability |
+| Fire (green titanite shard sx1) | 116 | - | 116 | - | - | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Fire +1 (green titanite shard sx1) | 126 | - | 126 | - | - | - | - | - | - | - | 55 | 10 | 40.4 | 40 | 36 |
+| Fire +2 (green titanite shard sx1) | 135 | - | 135 | - | - | - | - | - | - | - | 55 | 10 | 40.8 | 40 | 36 |
+| Fire +3 (green titanite shard sx2) | 144 | - | 144 | - | - | - | - | - | - | - | 55 | 10 | 41.2 | 40 | 36 |
+| Fire +4 (green titanite shard sx2) | 153 | - | 153 | - | - | - | - | - | - | - | 55 | 10 | 41.6 | 40 | 36 |
+| Fire +5 (green titanite shard sx3) | 162 | - | 162 | - | - | - | - | - | - | - | 55 | 10 | 42 | 40 | 36 |
+| Fire +6 (red titanite chunk sx1) | 172 | - | 172 | - | - | - | - | - | - | - | 55 | 10 | 42.4 | 40 | 36 |
+| Fire +7 (red titanite chunk sx1) | 183 | - | 183 | - | - | - | - | - | - | - | 55 | 10 | 42.8 | 40 | 36 |
+| Fire +8 (red titanite chunk sx2) | 194 | - | 194 | - | - | - | - | - | - | - | 55 | 10 | 43.2 | 40 | 36 |
+| Fire +9 (red titanite chunk sx3) | 205 | - | 205 | - | - | - | - | - | - | - | 55 | 10 | 43.6 | 40 | 36 |
+| Fire +10 (red titanite slab sx1) | 216 | - | 216 | - | - | - | - | - | - | - | 55 | 10 | 44 | 40 | 36 |
+
+Chaos Upgrades are performed by Blacksmith Vamos in The Catacombs.
+Chaos Upgrades require a Fire+5 weapon and to hand in the Chaos Flame Ember
+Fire Reinforcement reduces Fire Damage but adds a bonus based on the Humanity you hold.
+To reach max, you need: 1,000 souls, 7 Red Titanite Chunks and 1 Red Titanite Slab
+
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+|  | Attack Values | | | | Parameter Bonus | | | | Auxiliary | | Damage Reduction (%) | | | | Stability |
+| Butcher Knife | physical damage | magic damage | fire damage | lightning damage | strength | dexterity | intelligence | faith | divine | occult | physical defense | magic defense | fire defense | lightning defense | stability |
+| Chaos (red titanite chunk sx1) | 140 | - | 162 | - | - | - | - | - | - | - | 55 | 10 | 40 | 40 | 36 |
+| Chaos +1 (red titanite chunk sx1) | 148 | - | 171 | - | - | - | - | - | - | - | 55 | 10 | 40.8 | 40 | 36 |
+| Chaos +2 (red titanite chunk sx1) | 156 | - | 180 | - | - | - | - | - | - | - | 55 | 10 | 41.6 | 40 | 36 |
+| Chaos +3 (red titanite chunk sx2) | 163 | - | 188 | - | - | - | - | - | - | - | 55 | 10 | 42.4 | 40 | 36 |
+| Chaos +4 (red titanite chunk sx3) | 171 | - | 198 | - | - | - | - | - | - | - | 55 | 10 | 43.2 | 40 | 36 |
+| Chaos +5 (red titanite slab sx1) | 179 | - | 207 | - | - | - | - | - | - | - | 55 | 10 | 44 | 40 | 36 |

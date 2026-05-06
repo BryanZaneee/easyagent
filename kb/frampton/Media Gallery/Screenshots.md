@@ -1,0 +1,20 @@
+---
+title: Screenshots
+url: "https://darksouls.wiki.fextralife.com/Screenshots"
+category: Media Gallery
+---
+# Screenshots
+
+**Dark Souls Screenshots**, featuring the original FromSoftware title published by Bandai Namco
+
+Trailers
+
+Artwork
+
+Screenshots
+
+Wallpapers
+
+Fan Art
+
+Woods1on1ArchitectureBoarBeamCo opDragonDragon CliffFirebreathFiresFort KnightPhalanxRatRuinsSaintDarkSoulsBlackForestIron KnightVenusflylizardswampskelliespendulumIron FormChaseBeaconfire wolfironknightsummonfirebossdangocrumblemap castle002map traproad003trap traproad048trap traproad039trap traproad038trap traproad028trap traproad021trap traproad012trap traproad003Architecture2BP stanceColdSightCrystalDragonDeceasedPassageDesperateStrokeDestructionD vs GEpicDuelFierySpectacleGallantBeastGloomySolitudeHarshAlleysHeadlessKingOfThunderLostlimbsMeetTheSlimeOverviewPoleDemonRoGSwingingDeathTooLateUndeadDefenseUpThereWarmWelcomeYay igotballzItWillFadeMightyMiracle BlessedDuoFirestormCuteFoeTangledNatureCathedraaaaaaaAmbushAheadMetalbarrelGearSmith DwarfSmith Giant

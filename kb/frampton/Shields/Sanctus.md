@@ -1,0 +1,226 @@
+---
+title: Sanctus
+url: "https://darksouls.wiki.fextralife.com/Sanctus"
+categories: ["Black Phantom", "Lore", "Rare Items", "Shields"]
+physical_damage: 124
+critical: 100
+magic_damage: 94(100)
+stability: 63
+fire_damage: 124(124)
+durability: 410
+lightning_damage: 124(124)
+weight: 3.0
+strength: 10
+dexterity: "-"
+intelligence: –
+faith: 18
+weapon_type: Standard Shield
+attack_type: Strike
+enchantable: true
+special: true
+---
+# Sanctus
+
+| sanctus Sanctus+15Stats | | | | | | | | | | | | | | | | | | | |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| physical damage | | | | | 124 | | | | | critical | | | | | 100 | | | | |
+| magic damage | | | | | 94(100) | | | | | stability | | | | | 63 | | | | |
+| fire damage | | | | | 124(124) | | | | | durability | | | | | 410 | | | | |
+| lightning damage | | | | | 124(124) | | | | | weight | | | | | 3.0 | | | | |
+| Requirements & Bonus | | | | | | | | | | | | | | | | | | | |
+| strength | | | | dexterity | | | | intelligence | | | | faith | | | |
+| 10 | | | | - | | | | – | | | | 18 | | | |
+| Weapon Type | | | | | | | | Standard Shield | | | | | | | | | | | |
+| Attack Type | | | | | | | | Strike | | | | | | | | | | | |
+| Enchantable | | | | | | | | Yes | | | | | | | | | | | |
+| Special | | | | | | | | Yes | | | | | | | | | | | |
+
+
+\*When infused with Magic: 94 physical dmg/100 magic dmg, with Fire: 124 physical dmg/124 Fire dmg, with Lightning: 124 physical dmg/124 Lightning dmg
+
+**Sanctus** is a Standard Shield in Dark Souls. **Sanctus**, a legendary shield of the Way of the White, given to an Undead paladin in ancient times. Once imbued with the protection of a white flame, its power has waned, now offering only minor HP recovery. Standard Shields can be used not only to block an enemy but to parry their attack as well. This allows a riposte, a free attack by the player for a high amount of damage. Enemy attacks can be interrupted with a parry (pressing the Strong Attack button for the shield) and requires practice to learn the timing. Better at blocking than Small Shields.
+
+> "A legendary weapon of the Way of the White, granted to an Undead paladin long ago"
+>  "Once blessed with the protection of a white flame, but its power has all but faded, so that it provides only slight HP recovery."
+
+### Acquired
+
+* Defeating Paladin Leeroy in the Tomb of the Giants before killing the area boss.
+
+### Hints and Tips
+
+* Special: Restores 2 HP every 2 seconds when equipped, even if worn on the back.
+* Incorrectly categorized in the Complete Strategy Guide.
+* Winning contribution of the Japanese shield design contest.
+* You will still get the benefit of the healing effects even if you do not have 18 Faith, so long as you meet the strength requirements.
+
+### Youtube relevant videos
+
+* Videos go here
+
+### Upgrade Table
+
+Max
+
+standard upgrade s
+
+crystal upgrade s
+
+lightning upgrade s
+
+magic upgrade s
+
+divine upgrade s
+
+fire upgrade s
+
+Overview table for all Upgrades at regular, max and threshold levels. Click on the tabs to see individual upgrade paths in detail. Use this table to quickly compare performance.
+
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+|  | Attack Values | | | | Parameter Bonus | | | | Auxiliary | Damage Reduction (%) | | | | Stability |
+| Sanctus | physical damage | magic damage | fire damage | lightning damage | strength | dexterity | intelligence | faith | divine | physical defense | magic defense | fire defense | lightning defense | stability |
+| Regular | 62 | - | - | - | D | - | - | - | - | 95 | 40 | 70 | 50 | 51 |
+| Regular +5 | 77 | - | - | - | D | - | - | - | - | 95 | 40 | 70 | 50 | 56 |
+| Regular +10 | 96 | - | - | - | D | - | - | - | - | 95 | 40 | 70 | 50 | 61 |
+| Regular +14 | 113 | - | - | - | D | - | - | - | - | 95 | 40 | 70 | 50 | 63 |
+| Regular +15 | 124 | - | - | - | D | - | - | - | - | 95 | 40 | 70 | 50 | 63 |
+| Crystal | 96 | - | - | - | D | - | - | - | - | 95 | 40 | 70 | 50 | 63 |
+| Crystal +4 | 113 | - | - | - | D | - | - | - | - | 95 | 40 | 70 | 50 | 65 |
+| Crystal +5 | 124 | - | - | - | D | - | - | - | - | 95 | 40 | 70 | 50 | 66 |
+| Lightning | 96 | - | - | 96 | - | - | - | - | - | 95 | 40 | 70 | 56 | 51 |
+| Lightning +4 | 113 | - | - | 113 | - | - | - | - | - | 95 | 40 | 70 | 59 | 51 |
+| Lightning +5 | 124 | - | - | 124 | - | - | - | - | - | 95 | 40 | 70 | 60 | 51 |
+| Magic | 58 | 62 | - | - | E | - | D | - | - | 95 | 40 | 70 | 50 | 51 |
+| Magic +5 | 72 | 77 | - | - | E | - | D | - | - | 95 | 44 | 70 | 50 | 51 |
+| Magic +9 | 86 | 91 | - | - | E | - | D | - | - | 95 | 47.2 | 70 | 50 | 51 |
+| Magic +10 | 94 | 100 | - | - | E | - | D | - | - | 95 | 48 | 70 | 50 | 51 |
+| Divine | 52 | 63 | - | - | E | - | D | - | 110 | 95 | 40 | 70 | 50 | 51 |
+| Divine +5 | 68 | 82 | - | - | E | - | D | - | 110 | 95 | 40 | 70 | 50 | 51 |
+| Divine +9 | 76 | 93 | - | - | E | - | D | - | 110 | 95 | 40 | 70 | 50 | 51 |
+| Divine +10 | 84 | 102 | - | - | E | - | D |  | 110 | 95 | 40 | 70 | 50 | 51 |
+| Fire | 77 | - | 77 | - | - | - | - | - | - | 95 | 40 | 70 | 50 | 51 |
+| Fire +5 | 96 | - | 96 | - | - | - | - | - | - | 95 | 40 | 77 | 50 | 51 |
+| Fire +9 | 113 | - | 113 | - | - | - | - | - | - | 95 | 40 | 82.6 | 50 | 51 |
+| Fire +10 | 124 | - | 124 | - | - | - | - | - | - | 95 | 40 | 84 | 50 | 51 |
+
+Regular Upgrades are performed by Andre of Astora at the Undead Parish.
+Regular +6 requires a regular +5 weapon and to hand in the Large Ember. Regular +11 requires a regular +10 weapon and to hand in the Very Large Ember.
+Regular Reinforcement Scales 31% for strengthStrength to increase your AR.
+To reach max, you need: 3,000 souls, 9 titanite shards to +5, 9 large titanite shards to +10, 7 titanite chunks to +14 and 1 titanite slab to +15
+
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+|  | Attack Values | | | | Parameter Bonus | | | | Auxiliary | | Damage Reduction (%) | | | | Stability |
+| Sanctus | physical damage | magic damage | fire damage | lightning damage | strength | dexterity | intelligence | faith | divine | occult | physical defense | magic defense | fire defense | lightning defense | stability |
+| Regular | 62 | - | - | - | D | - | - | - | - | - | 95 | 40 | 70 | 50 | 51 |
+| Regular +1 (titanite shard sx1) | 65 | - | - | - | D | - | - | - | - | - | 95 | 40 | 70 | 50 | 52 |
+| Regular +2 (titanite shard sx1) | 68 | - | - | - | D | - | - | - | - | - | 95 | 40 | 70 | 50 | 53 |
+| Regular +3 (titanite shard sx2) | 71 | - | - | - | D | - | - | - | - | - | 95 | 40 | 70 | 50 | 54 |
+| Regular +4 (titanite shard sx2) | 74 | - | - | - | D | - | - | - | - | - | 95 | 40 | 70 | 50 | 55 |
+| Regular +5 (titanite shard sx3) | 77 | - | - | - | D | - | - | - | - | - | 95 | 40 | 70 | 50 | 56 |
+| Regular +6 (large titanite shard sx1) | 81 | - | - | - | D | - | - | - | - | - | 95 | 40 | 70 | 50 | 57 |
+| Regular +7 (large titanite shard sx1) | 84 | - | - | - | D | - | - | - | - | - | 95 | 40 | 70 | 50 | 58 |
+| Regular +8 (large titanite shard sx2) | 88 | - | - | - | D | - | - | - | - | - | 95 | 40 | 70 | 50 | 59 |
+| Regular +9 (large titanite shard sx2) | 92 | - | - | - | D | - | - | - | - | - | 95 | 40 | 70 | 50 | 60 |
+| Regular +10 (large titanite shard sx3) | 96 | - | - | - | D | - | - | - | - | - | 95 | 40 | 70 | 50 | 61 |
+| Regular +11 (titanite chunk sx1) | 100 | - | - | - | D | - | - | - | - | - | 95 | 40 | 70 | 50 | 61 |
+| Regular +12 (titanite chunk sx1) | 104 | - | - | - | D | - | - | - | - | - | 95 | 40 | 70 | 50 | 62 |
+| Regular +13 (titanite chunk sx2) | 109 | - | - | - | D | - | - | - | - | - | 95 | 40 | 70 | 50 | 62 |
+| Regular +14 (titanite chunk sx3) | 113 | - | - | - | D | - | - | - | - | - | 95 | 40 | 70 | 50 | 63 |
+| Regular +15 (titanite slab sx1) | 124 | - | - | - | D | - | - | - | - | - | 95 | 40 | 70 | 50 | 63 |
+
+Crystal Upgrades are performed by the Giant Blacksmith at Anor Londo.
+Crystal Upgrades require a regular +10 weapon and to hand in the Crystal Ember.
+Crystal Reinforcement reduces weapon Durability by 41, but increases base damage.  It scales 31% for strengthStrength  to increase your AR.
+To reach max, you need: 1000 souls, 8 titanite chunks to +4 and 1 titanite slab to +5
+
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+|  | Attack Values | | | | Parameter Bonus | | | | Auxiliary | | Damage Reduction (%) | | | | Stability |
+| Sanctus | physical damage | magic damage | fire damage | lightning damage | strength | dexterity | intelligence | faith | divine | occult | physical defense | magic defense | fire defense | lightning defense | stability |
+| Crystal (titanite chunk sx1) | 96 | - | - | - | D | - | - | - | - | - | 95 | 40 | 70 | 50 | 63 |
+| Crystal +1 (titanite chunk sx1) | 100 | - | - | - | D | - | - | - | - | - | 95 | 40 | 70 | 50 | 64 |
+| Crystal +2 (titanite chunk sx1) | 104 | - | - | - | D | - | - | - | - | - | 95 | 40 | 70 | 50 | 64 |
+| Crystal +3 (titanite chunk sx2) | 109 | - | - | - | D | - | - | - | - | - | 95 | 40 | 70 | 50 | 65 |
+| Crystal +4 (titanite chunk sx3) | 113 | - | - | - | D | - | - | - | - | - | 95 | 40 | 70 | 50 | 65 |
+| Crystal +5 (titanite slab sx1) | 124 | - | - | - | D | - | - | - | - | - | 95 | 40 | 70 | 50 | 66 |
+
+Lightning Upgrades are performed by the Giant Blacksmith at Anor Londo.
+Lightning Upgrades require a regular +10 weapon, but no special Ember is required.
+Lightning Reinforcement removes all scaling but adds Lightning Damage.
+To reach max, you need: 1000 souls, 8 titanite chunks to +4 and 1 titanite slab to +5
+
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+|  | Attack Values | | | | Parameter Bonus | | | | Auxiliary | | Damage Reduction (%) | | | | Stability |
+| Sanctus | physical damage | magic damage | fire damage | lightning damage | strength | dexterity | intelligence | faith | divine | occult | physical defense | magic defense | fire defense | lightning defense | stability |
+| Lightning (titanite chunk sx1) | 96 | - | - | 96 | - | - | - | - | - | - | 95 | 40 | 70 | 56 | 51 |
+| Lightning +1 (titanite chunk sx1) | 100 | - | - | 100 | - | - | - | - | - | - | 95 | 40 | 70 | 57 | 51 |
+| Lightning +2 (titanite chunk sx1) | 104 | - | - | 104 | - | - | - | - | - | - | 95 | 40 | 70 | 57.5 | 51 |
+| Lightning +3 (titanite chunk sx2) | 109 | - | - | 109 | - | - | - | - | - | - | 95 | 40 | 70 | 58 | 51 |
+| Lightning +4 (titanite chunk sx3) | 113 | - | - | 113 | - | - | - | - | - | - | 95 | 40 | 70 | 59 | 51 |
+| Lightning +5 (titanite slab sx1) | 124 | - | - | 124 | - | - | - | - | - | - | 95 | 40 | 70 | 60 | 51 |
+
+Magic Upgrades are performed by Rickert of Vinheim, found in New Londo Ruins.
+Magic Upgrade +1 requires a regular +5 weapon. Magic +6 requires a Magic +5 and to hand in the Large Magic Ember
+Magic Reinforcement adds Magic Damage and an Intelligence bonus. The weapon can no longer be buffed with Magic Weapon. Scales 8% for strengthStrength and 22% faith Intelligence to increase your AR.
+ To reach max, you need: 2,000 souls, 10 Green Titanite Shards to +5, 7 Blue Titanite Chunks to +14 and 1 Blue Titanite Slab to +15
+
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+|  | Attack Values | | | | Parameter Bonus | | | | Auxiliary | | Damage Reduction (%) | | | | Stability |
+| Sanctus | physical damage | magic damage | fire damage | lightning damage | strength | dexterity | intelligence | faith | divine | occult | physical defense | magic defense | fire defense | lightning defense | stability |
+| Magic (green titanite shard sx1) | 58 | 62 | - | - | E | - | D | - | - | - | 95 | 40 | 70 | 50 | 51 |
+| Magic +1 (green titanite shard sx1) | 61 | 65 | - | - | E | - | D | - | - | - | 95 | 40.8 | 70 | 50 | 51 |
+| Magic +2 (green titanite shard sx1) | 64 | 68 | - | - | E | - | D | - | - | - | 95 | 41.6 | 70 | 50 | 51 |
+| Magic +3 (green titanite shard sx2) | 67 | 71 | - | - | E | - | D | - | - | - | 95 | 42.4 | 70 | 50 | 51 |
+| Magic +4 (green titanite shard sx2) | 70 | 74 | - | - | E | - | D | - | - | - | 95 | 43.2 | 70 | 50 | 51 |
+| Magic +5 (green titanite shard sx3) | 72 | 77 | - | - | E | - | D | - | - | - | 95 | 44 | 70 | 50 | 51 |
+| Magic +6 (blue titanite chunk sx1) | 76 | 81 | - | - | E | - | D | - | - | - | 95 | 44.8 | 70 | 50 | 51 |
+| Magic +7 (blue titanite chunk sx1) | 79 | 84 | - | - | E | - | D | - | - | - | 95 | 45.6 | 70 | 50 | 51 |
+| Magic +8 (blue titanite chunk sx2) | 82 | 88 | - | - | E | - | D | - | - | - | 95 | 46.4 | 70 | 50 | 51 |
+| Magic +9 (blue titanite chunk sx3) | 86 | 91 | - | - | E | - | D | - | - | - | 95 | 47.2 | 70 | 50 | 51 |
+| Magic +10 (blue titanite slab sx1) | 94 | 100 | - | - | E | - | D | - | - | - | 95 | 48 | 70 | 50 | 51 |
+
+Divine Upgrades are performed by Andre of Astora at the Undead Parish.
+Divine Upgrades require a regular +5 weapon and to hand in the Divine Ember. Divine +6 upgrades require a Divine Weapon +5 and to hand in the Large Divine Ember.
+Divine Reinforcement adds Magic Damage and Faith scaling. Scales 10% for strengthStrength and 25% faithFaith to increase your AR.
+To reach max, you need: 2000 souls, 10 Green Titanite Shards, 7 White Titanite Chunks and 1 White Titanite Slab
+
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+|  | Attack Values | | | | Parameter Bonus | | | | Auxiliary | | Damage Reduction (%) | | | | Stability |
+| Sanctus | physical damage | magic damage | fire damage | lightning damage | strength | dexterity | intelligence | faith | divine | occult | physical defense | magic defense | fire defense | lightning defense | stability |
+| Divine (green titanite shard sx1) | 52 | 63 | - | - | E | - | D | - | 110 | - | 95 | 40 | 70 | 50 | 51 |
+| Divine +1 (green titanite shard sx1) | 55 | 66 | - | - | E | - | D | - | 110 | - | 95 | 40 | 70 | 50 | 51 |
+| Divine +2 (green titanite shard sx1) | 57 | 69 | - | - | E | - | D | - | 110 | - | 95 | 40 | 70 | 50 | 51 |
+| Divine +3 (green titanite shard sx2) | 60 | 72 | - | - | E | - | D | - | 110 | - | 95 | 40 | 70 | 50 | 51 |
+| Divine +4 (green titanite shard sx2) | 62 | 75 | - | - | E | - | D | - | 110 | - | 95 | 40 | 70 | 50 | 51 |
+| Divine +5 (green titanite shard sx3) | 65 | 79 | - | - | E | - | D | - | 110 | - | 95 | 40 | 70 | 50 | 51 |
+| Divine +6 (white titanite chunk sx1) | 68 | 82 | - | - | E | - | D | - | 110 | - | 95 | 40 | 70 | 50 | 51 |
+| Divine +7 (white titanite chunk sx1) | 70 | 86 | - | - | E | - | D | - | 110 | - | 95 | 40 | 70 | 50 | 51 |
+| Divine +8 (white titanite chunk sx2) | 73 | 89 | - | - | E | - | D | - | 110 | - | 95 | 40 | 70 | 50 | 51 |
+| Divine +9 (white titanite chunk sx3) | 76 | 93 | - | - | E | - | D | - | 110 | - | 95 | 40 | 70 | 50 | 51 |
+| Divine +10 (white titanite slab sx1) | 84 | 102 | - | - | E | - | D | - | 110 | - | 95 | 40 | 70 | 50 | 51 |
+
+Fire Upgrades are performed by Blacksmith Vamos in The Catacombs.
+Fire Upgrades require a regular +5 weapon. Fire+6 requires a Fire+5 weapon and to hand in the Large Flame Ember.
+Fire Reinforcement adds Fire Damage but removes all scaling bonuses from the weapon.
+ To reach max, you need: 2000 souls, 10 Green Titanite Shards, 7 Red Titanite Chunks and 1 Red Titanite Slab
+
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+|  | Attack Values | | | | Parameter Bonus | | | | Auxiliary | | Damage Reduction (%) | | | | Stability |
+| Sanctus | physical damage | magic damage | fire damage | lightning damage | strength | dexterity | intelligence | faith | divine | occult | physical defense | magic defense | fire defense | lightning defense | stability |
+| Fire (green titanite shard sx1) | 77 | - | 77 | - | - | - | - | - | - | - | 95 | 40 | 70 | 50 | 51 |
+| Fire +1 (green titanite shard sx1) | 81 | - | 81 | - | - | - | - | - | - | - | 95 | 40 | 71.4 | 50 | 51 |
+| Fire +2 (green titanite shard sx1) | 84 | - | 84 | - | - | - | - | - | - | - | 95 | 40 | 72.8 | 50 | 51 |
+| Fire +3 (green titanite shard sx2) | 88 | - | 88 | - | - | - | - | - | - | - | 95 | 40 | 74.2 | 50 | 51 |
+| Fire +4 (green titanite shard sx2) | 92 | - | 92 | - | - | - | - | - | - | - | 95 | 40 | 75.6 | 50 | 51 |
+| Fire +5 (green titanite shard sx3) | 96 | - | 96 | - | - | - | - | - | - | - | 95 | 40 | 77 | 50 | 51 |
+| Fire +6 (red titanite chunk sx1) | 100 | - | 100 | - | - | - | - | - | - | - | 95 | 40 | 78.4 | 50 | 51 |
+| Fire +7 (red titanite chunk sx1) | 104 | - | 104 | - | - | - | - | - | - | - | 95 | 40 | 79.8 | 50 | 51 |
+| Fire +8 (red titanite chunk sx2) | 109 | - | 109 | - | - | - | - | - | - | - | 95 | 40 | 81.2 | 50 | 51 |
+| Fire +9 (red titanite chunk sx3) | 113 | - | 113 | - | - | - | - | - | - | - | 95 | 40 | 82.6 | 50 | 51 |
+| Fire +10 (red titanite slab sx1) | 124 | - | 124 | - | - | - | - | - | - | - | 95 | 40 | 84 | 50 | 51 |
