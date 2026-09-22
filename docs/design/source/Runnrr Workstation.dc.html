@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta name="design_doc_mode" content="app">
+  <style>
+    body { margin: 0; background: oklch(98% 0.003 250); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: #E8622C; }
+    a:hover { color: #C94F1F; }
+    @keyframes rn-spin { to { transform: rotate(360deg); } }
+    @keyframes rn-pulse { 0%, 100% { box-shadow: 0 0 0 0 oklch(64% 0.19 40 / 0.45); } 50% { box-shadow: 0 0 0 6px oklch(64% 0.19 40 / 0); } }
+    @keyframes rn-blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+    @keyframes rn-rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes rn-toast-in { from { opacity: 0; transform: translateY(8px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+  </style>
+</helmet>
+<div style="height: 100vh; width: 100%; display: flex; background: oklch(98% 0.003 250); color: oklch(18% 0.01 260); overflow: hidden; box-sizing: border-box;">
+
+  <!-- LEFT SIDEBAR -->
+  <div style="width: 272px; flex: none; display: flex; flex-direction: column; background: #ffffff; border-right: 1px solid oklch(91% 0.006 250); height: 100%;">
+    <div style="padding: {{ padSidebarTop }}; display: flex; flex-direction: column; gap: 10px; border-bottom: 1px solid oklch(93% 0.006 250);">
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -0.02em; color: oklch(18% 0.01 260);">Runnrr</div>
+        <div style="display: flex; align-items: center; gap: 6px; background: oklch(96% 0.03 145); padding: 4px 9px; border-radius: 999px;">
+          <div style="width: 6px; height: 6px; border-radius: 50%; background: oklch(55% 0.14 145);"></div>
+          <div style="font-size: 11px; font-weight: 600; color: oklch(35% 0.1 145);">{{ headerStatusText }}</div>
+        </div>
+      </div>
+      <div style="display: flex; background: oklch(96% 0.004 250); border-radius: 10px; padding: 3px; gap: 2px;">
+        <div onClick="{{ selectSidebarChats }}" style="{{ chatsTabStyle }}">Chats</div>
+        <div onClick="{{ selectSidebarAgents }}" style="{{ agentsTabStyle }}">Agents</div>
+      </div>
+    </div>
+
+    <div style="padding: 12px 14px 8px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+      <div onClick="{{ goCapabilities }}" style="{{ navPillStyle.capabilities }}">Skills &amp; Tools</div>
+      <div onClick="{{ goChannels }}" style="{{ navPillStyle.channels }}">Channels</div>
+      <div onClick="{{ goAutomations }}" style="{{ navPillStyle.automations }}">Automations</div>
+      <div onClick="{{ goFiles }}" style="{{ navPillStyle.files }}">Files &amp; Links</div>
+    </div>
+
+    <div style="flex: 1; overflow-y: auto; padding: 4px 10px 10px;">
+      <sc-if value="{{ sidebarIsChats }}" hint-placeholder-val="{{ true }}">
+        <div>
+          <sc-if value="{{ hasPinned }}" hint-placeholder-val="{{ false }}">
+            <div style="padding: 10px 6px 4px; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; color: oklch(55% 0.01 260);">PINNED</div>
+            <sc-for list="{{ pinnedSessions }}" as="s" hint-placeholder-count="1">
+              <div onClick="{{ s.onSelect }}" style="{{ s.rowStyle }}">
+                <div style="{{ s.dotStyle }}"></div>
+                <div style="flex: 1; min-width: 0;">
+                  <div style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ s.title }}</div>
+                  <div style="font-size: 11.5px; color: oklch(52% 0.01 260);">{{ s.botName }}</div>
+                </div>
+                <div style="font-size: 11px; color: oklch(58% 0.01 260); flex: none;">{{ s.time }}</div>
+              </div>
+            </sc-for>
+          </sc-if>
+          <div style="padding: 12px 6px 4px; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; color: oklch(55% 0.01 260);">TODAY</div>
+          <sc-for list="{{ todaySessions }}" as="s" hint-placeholder-count="2">
+            <div onClick="{{ s.onSelect }}" style="{{ s.rowStyle }}">
+              <div style="{{ s.dotStyle }}"></div>
+              <div style="flex: 1; min-width: 0;">
+                <div style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ s.title }}</div>
+                <div style="font-size: 11.5px; color: oklch(52% 0.01 260);">{{ s.botName }}</div>
+              </div>
+              <div style="font-size: 11px; color: oklch(58% 0.01 260); flex: none;">{{ s.time }}</div>
+            </div>
+          </sc-for>
+          <div style="padding: 12px 6px 4px; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; color: oklch(55% 0.01 260);">YESTERDAY</div>
+          <sc-for list="{{ yesterdaySessions }}" as="s" hint-placeholder-count="3">
+            <div onClick="{{ s.onSelect }}" style="{{ s.rowStyle }}">
+              <div style="{{ s.dotStyle }}"></div>
+              <div style="flex: 1; min-width: 0;">
+                <div style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ s.title }}</div>
+                <div style="font-size: 11.5px; color: oklch(52% 0.01 260);">{{ s.botName }}</div>
+              </div>
+              <div style="font-size: 11px; color: oklch(58% 0.01 260); flex: none;">{{ s.time }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+      <sc-if value="{{ sidebarIsAgents }}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; flex-direction: column; gap: 4px; padding-top: 6px;">
+          <sc-for list="{{ agentRows }}" as="b" hint-placeholder-count="4">
+            <div onClick="{{ b.onSelect }}" style="{{ b.rowStyle }}">
+              <div style="{{ b.avatarStyle }}">{{ b.initial }}</div>
+              <div style="flex: 1; min-width: 0;">
+                <div style="font-size: 13.5px; font-weight: 700;">{{ b.name }}</div>
+                <div style="font-size: 11.5px; color: oklch(52% 0.01 260); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ b.role }}</div>
+              </div>
+              <div style="{{ b.statusDotStyle }}"></div>
+            </div>
+          </sc-for>
+          <div style="margin-top: 6px; padding: 10px; border: 1.5px dashed oklch(85% 0.008 250); border-radius: 10px; text-align: center; font-size: 12.5px; font-weight: 600; color: oklch(50% 0.01 260); cursor: pointer;" onClick="{{ addAgentStub }}">+ New agent</div>
+        </div>
+      </sc-if>
+    </div>
+
+    <div style="padding: 12px 14px; border-top: 1px solid oklch(93% 0.006 250); display: flex; align-items: center; gap: 8px;">
+      <sc-for list="{{ agentRows }}" as="b" hint-placeholder-count="4">
+        <div style="{{ b.miniAvatarStyle }}" title="{{ b.name }}">{{ b.initial }}</div>
+      </sc-for>
+      <div style="width: 26px; height: 26px; border-radius: 50%; border: 1.5px dashed oklch(80% 0.008 250); display: flex; align-items: center; justify-content: center; font-size: 14px; color: oklch(55% 0.01 260); cursor: pointer;">+</div>
+    </div>
+  </div>
+
+  <!-- MAIN AREA -->
+  <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; height: 100%; position: relative;">
+
+    <sc-if value="{{ viewIsChat }}" hint-placeholder-val="{{ true }}">
+      <div style="display: flex; flex-direction: column; height: 100%;">
+        <div style="height: 60px; flex: none; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; border-bottom: 1px solid oklch(92% 0.006 250); background: #fff;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="{{ activeBotHeaderAvatarStyle }}">{{ activeBotInitial }}</div>
+            <div>
+              <div style="font-size: 14.5px; font-weight: 700;">{{ activeSessionTitle }}</div>
+              <div style="font-size: 11.5px; color: oklch(52% 0.01 260);">{{ activeBotName }} · {{ activeBotWorkingText }}</div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div onClick="{{ toggleRightPanel }}" style="{{ filePanelToggleStyle }}">Files {{ openFilesCount }}</div>
+          </div>
+        </div>
+
+        <div style="flex: 1; min-width: 0; display: flex; overflow: hidden;">
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; overflow: hidden;">
+            <div style="flex: 1; overflow-y: auto; padding: {{ padTranscript }}; display: flex; flex-direction: column; gap: 16px;">
+              <sc-for list="{{ transcript }}" as="m" hint-placeholder-count="4">
+                <div style="animation: rn-rise 0.35s ease both;">
+
+                  <sc-if value="{{ m.isUser }}" hint-placeholder-val="{{ false }}">
+                    <div style="display: flex; justify-content: flex-end;">
+                      <div style="max-width: 68%; display: flex; flex-direction: column; gap: 6px; align-items: flex-end;">
+                        <div style="background: oklch(20% 0.01 260); color: #fff; padding: 11px 15px; border-radius: 14px; font-size: 14px; line-height: 1.5;">{{ m.text }}</div>
+                        <sc-if value="{{ m.hasFileAttachment }}" hint-placeholder-val="{{ false }}">
+                          <div style="display: flex; align-items: center; gap: 6px; background: oklch(95% 0.006 250); border: 1px solid oklch(89% 0.006 250); border-radius: 8px; padding: 5px 10px; font-size: 12px; color: oklch(35% 0.01 260);">
+                            <div style="width: 16px; height: 16px; border-radius: 4px; background: oklch(64% 0.19 40); color: #fff; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center;">{{ m.attachmentExt }}</div>
+                            {{ m.attachmentName }}
+                          </div>
+                        </sc-if>
+                        <sc-if value="{{ m.hasImageAttachment }}" hint-placeholder-val="{{ false }}">
+                          <div style="width: 160px; height: 110px; border-radius: 10px; background: repeating-linear-gradient(45deg, oklch(93% 0.006 250), oklch(93% 0.006 250) 8px, oklch(96% 0.004 250) 8px, oklch(96% 0.004 250) 16px); border: 1px solid oklch(88% 0.006 250); display: flex; align-items: center; justify-content: center; font-family: monospace; font-size: 10.5px; color: oklch(45% 0.01 260); text-align: center; padding: 8px;">{{ m.imageLabel }}</div>
+                        </sc-if>
+                      </div>
+                    </div>
+                  </sc-if>
+
+                  <sc-if value="{{ m.isThinking }}" hint-placeholder-val="{{ false }}">
+                    <div style="max-width: 640px;">
+                      <div onClick="{{ m.onToggleExpand }}" style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer; padding: 5px 10px; border-radius: 7px; background: oklch(96% 0.004 250);">
+                        <div style="{{ m.chevronStyle }}">▸</div>
+                        <div style="font-size: 12.5px; font-weight: 600; color: oklch(45% 0.01 260);">{{ m.thinkingLabel }}</div>
+                      </div>
+                      <sc-if value="{{ m.expanded }}" hint-placeholder-val="{{ false }}">
+                        <div style="margin: 6px 0 0 10px; padding-left: 12px; border-left: 2px solid oklch(90% 0.006 250); display: flex; flex-direction: column; gap: 4px;">
+                          <sc-for list="{{ m.lines }}" as="line" hint-placeholder-count="2">
+                            <div style="font-size: 12.5px; color: oklch(50% 0.01 260);">{{ line }}</div>
+                          </sc-for>
+                        </div>
+                      </sc-if>
+                    </div>
+                  </sc-if>
+
+                  <sc-if value="{{ m.isTool }}" hint-placeholder-val="{{ false }}">
+                    <div style="display: inline-flex; align-items: center; gap: 8px; background: oklch(97% 0.004 250); border: 1px solid oklch(92% 0.006 250); border-radius: 8px; padding: 6px 11px;">
+                      <div style="{{ m.toolIconStyle }}">{{ m.toolIconGlyph }}</div>
+                      <div style="font-size: 12.5px; color: oklch(38% 0.01 260); font-weight: 500;">{{ m.toolLabel }}</div>
+                      <sc-if value="{{ m.toolRunning }}" hint-placeholder-val="{{ false }}">
+                        <div style="width: 11px; height: 11px; border-radius: 50%; border: 2px solid oklch(85% 0.006 250); border-top-color: oklch(64% 0.19 40); animation: rn-spin 0.7s linear infinite;"></div>
+                      </sc-if>
+                      <sc-if value="{{ m.toolDone }}" hint-placeholder-val="{{ true }}">
+                        <div style="color: oklch(55% 0.14 145); font-size: 13px; font-weight: 700;">✓</div>
+                      </sc-if>
+                    </div>
+                  </sc-if>
+
+                  <sc-if value="{{ m.isAssistantText }}" hint-placeholder-val="{{ false }}">
+                    <div style="display: flex; gap: 10px; max-width: 640px;">
+                      <div style="{{ activeBotSmallAvatarStyle }}">{{ activeBotInitial }}</div>
+                      <div style="font-size: 14.5px; line-height: 1.6; color: oklch(20% 0.01 260); padding-top: 2px;">{{ m.displayText }}<sc-if value="{{ m.showCaret }}" hint-placeholder-val="{{ false }}"><span style="animation: rn-blink 1s steps(1) infinite;">▌</span></sc-if></div>
+                    </div>
+                  </sc-if>
+
+                  <sc-if value="{{ m.isFile }}" hint-placeholder-val="{{ false }}">
+                    <div onClick="{{ m.onOpenFile }}" style="max-width: 420px; display: flex; align-items: center; gap: 10px; background: #fff; border: 1px solid oklch(90% 0.006 250); border-radius: 10px; padding: 10px 12px; cursor: pointer;">
+                      <div style="width: 30px; height: 30px; border-radius: 7px; background: oklch(64% 0.19 40 / 0.12); color: oklch(64% 0.19 40); font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none;">{{ m.fileExt }}</div>
+                      <div style="flex: 1; min-width: 0; font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ m.fileName }}</div>
+                      <div onClick="{{ m.onDownload }}" style="font-size: 12px; font-weight: 600; color: oklch(64% 0.19 40); padding: 5px 9px;">Download</div>
+                      <div onClick="{{ m.onHide }}" style="font-size: 12px; font-weight: 600; color: oklch(55% 0.01 260); padding: 5px 9px;">Hide</div>
+                    </div>
+                  </sc-if>
+
+                  <sc-if value="{{ m.isClarify }}" hint-placeholder-val="{{ false }}">
+                    <div style="max-width: 460px; background: #fff; border: 1px solid oklch(90% 0.006 250); border-radius: 12px; padding: 14px 16px;">
+                      <div style="font-size: 11.5px; font-weight: 700; color: oklch(64% 0.19 40); margin-bottom: 6px;">{{ m.answeredLabel }}</div>
+                      <div style="font-size: 14px; font-weight: 600; margin-bottom: 10px;">{{ m.question }}</div>
+                      <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <sc-for list="{{ m.options }}" as="opt" hint-placeholder-count="2">
+                          <div onClick="{{ opt.onSelect }}" style="{{ opt.rowStyle }}">
+                            <div style="{{ opt.letterStyle }}">{{ opt.letter }}</div>
+                            <div style="flex: 1; font-size: 13px;">{{ opt.label }}</div>
+                            <sc-if value="{{ opt.recommended }}" hint-placeholder-val="{{ false }}">
+                              <div style="font-size: 10.5px; font-weight: 700; color: oklch(55% 0.14 145); background: oklch(96% 0.03 145); padding: 2px 6px; border-radius: 5px;">Recommended</div>
+                            </sc-if>
+                          </div>
+                        </sc-for>
+                      </div>
+                      <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 12px;">
+                        <div style="{{ m.skipStyle }}">Skip</div>
+                        <div onClick="{{ m.onConfirm }}" style="{{ m.confirmStyle }}">Confirm and continue</div>
+                      </div>
+                    </div>
+                  </sc-if>
+
+                  <sc-if value="{{ m.isApproval }}" hint-placeholder-val="{{ false }}">
+                    <div style="max-width: 460px; background: oklch(97% 0.02 80); border: 1px solid oklch(88% 0.05 80); border-radius: 12px; padding: 13px 16px;">
+                      <div style="font-size: 13.5px; color: oklch(30% 0.02 80); margin-bottom: 10px;">{{ m.approvalText }}</div>
+                      <div style="display: flex; gap: 8px;">
+                        <div onClick="{{ m.onEdit }}" style="{{ m.editBtnStyle }}">Edit first</div>
+                        <div onClick="{{ m.onApprove }}" style="{{ m.approveBtnStyle }}">{{ m.approveLabel }}</div>
+                      </div>
+                    </div>
+                  </sc-if>
+
+                </div>
+              </sc-for>
+              <div style="height: 1px;"></div>
+            </div>
+
+            <div style="flex: none; padding: {{ padComposer }}; border-top: 1px solid oklch(92% 0.006 250); background: #fff;">
+              <sc-if value="{{ hasAttachments }}" hint-placeholder-val="{{ false }}">
+                <div style="display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap;">
+                  <sc-for list="{{ composerAttachments }}" as="a" hint-placeholder-count="0">
+                    <div style="display: flex; align-items: center; gap: 6px; background: oklch(96% 0.004 250); border: 1px solid oklch(90% 0.006 250); border-radius: 7px; padding: 4px 8px; font-size: 12px;">
+                      {{ a.name }}
+                      <div onClick="{{ a.onRemove }}" style="cursor: pointer; color: oklch(55% 0.01 260); font-weight: 700;">×</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <div style="display: flex; align-items: center; gap: 8px; background: oklch(96% 0.004 250); border: 1.5px solid oklch(91% 0.006 250); border-radius: 14px; padding: 8px 10px;">
+                <div onClick="{{ addAttachment }}" style="{{ composerIconStyle }}">+</div>
+                <input value="{{ composerText }}" onChange="{{ onComposerChange }}" onKeyDown="{{ onComposerKeyDown }}" placeholder="{{ composerPlaceholder }}" style="flex: 1; border: none; background: transparent; outline: none; font-size: 14px; font-family: 'Inter', sans-serif; color: oklch(18% 0.01 260);"></input>
+                <div onClick="{{ toggleMic }}" style="{{ micStyle }}">●</div>
+                <div onClick="{{ sendMessage }}" style="{{ sendBtnStyle }}">↑</div>
+              </div>
+              <div style="font-size: 11px; color: oklch(58% 0.01 260); margin-top: 6px; padding-left: 4px;">Runnrr shows you exactly what it's doing before it acts.</div>
+            </div>
+          </div>
+
+          <sc-if value="{{ rightPanelOpen }}" hint-placeholder-val="{{ false }}">
+            <div style="width: 340px; flex: none; border-left: 1px solid oklch(92% 0.006 250); background: #fff; display: flex; flex-direction: column;">
+              <div style="display: flex; border-bottom: 1px solid oklch(92% 0.006 250); overflow-x: auto;">
+                <sc-for list="{{ openFiles }}" as="f" hint-placeholder-count="1">
+                  <div onClick="{{ f.onSelect }}" style="{{ f.tabStyle }}">
+                    {{ f.name }}
+                    <span onClick="{{ f.onClose }}" style="margin-left: 6px; color: oklch(60% 0.01 260);">×</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="flex: 1; overflow-y: auto; padding: 16px;">
+                <sc-if value="{{ hasOpenFile }}" hint-placeholder-val="{{ false }}">
+                  <div style="font-family: 'SF Mono', monospace; font-size: 12.5px; white-space: pre-wrap; color: oklch(28% 0.01 260); line-height: 1.6;">{{ activeFileContent }}</div>
+                </sc-if>
+                <sc-if value="{{ hasOpenFile }}" hint-placeholder-val="{{ true }}">
+                </sc-if>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ viewIsCapabilities }}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; flex-direction: column; height: 100%;">
+        <div style="height: 60px; flex: none; display: flex; align-items: center; gap: 18px; padding: 0 20px; border-bottom: 1px solid oklch(92% 0.006 250); background: #fff;">
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px;">Skills &amp; Tools</div>
+          <div style="display: flex; gap: 4px;">
+            <div onClick="{{ selectCapSkills }}" style="{{ capTabStyle.skills }}">Skills · {{ skillsCount }}</div>
+            <div onClick="{{ selectCapTools }}" style="{{ capTabStyle.tools }}">Tools · {{ toolGroupsCount }}</div>
+            <div onClick="{{ selectCapMcp }}" style="{{ capTabStyle.mcp }}">Connections</div>
+          </div>
+        </div>
+        <div style="flex: 1; display: flex; overflow: hidden;">
+          <div style="flex: 1; overflow-y: auto; padding: 18px 20px;">
+            <sc-if value="{{ capIsSkills }}" hint-placeholder-val="{{ true }}">
+              <div style="display: flex; flex-direction: column; gap: 8px; max-width: 640px;">
+                <sc-for list="{{ skills }}" as="sk" hint-placeholder-count="6">
+                  <div onClick="{{ sk.onSelect }}" style="{{ sk.rowStyle }}">
+                    <div style="flex: 1;">
+                      <div style="font-size: 13.5px; font-weight: 600;">{{ sk.name }}<sc-if value="{{ sk.learned }}" hint-placeholder-val="{{ false }}"><span style="margin-left: 7px; font-size: 10px; font-weight: 700; color: oklch(55% 0.14 145); background: oklch(96% 0.03 145); padding: 2px 6px; border-radius: 5px;">Learned</span></sc-if></div>
+                      <div style="font-size: 12px; color: oklch(55% 0.01 260);">{{ sk.category }}</div>
+                    </div>
+                    <div onClick="{{ sk.onToggle }}" style="{{ sk.toggleTrackStyle }}"><div style="{{ sk.toggleThumbStyle }}"></div></div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ capIsTools }}" hint-placeholder-val="{{ false }}">
+              <div style="display: flex; flex-direction: column; gap: 8px; max-width: 640px;">
+                <sc-for list="{{ toolGroups }}" as="tg" hint-placeholder-count="6">
+                  <div onClick="{{ tg.onSelect }}" style="{{ tg.rowStyle }}">
+                    <div style="flex: 1;">
+                      <div style="font-size: 13.5px; font-weight: 600;">{{ tg.name }}</div>
+                      <div style="font-size: 12px; color: oklch(55% 0.01 260);">{{ tg.desc }}</div>
+                    </div>
+                    <div style="font-size: 11.5px; color: oklch(58% 0.01 260); margin-right: 10px;">{{ tg.count }}</div>
+                    <div onClick="{{ tg.onToggle }}" style="{{ tg.toggleTrackStyle }}"><div style="{{ tg.toggleThumbStyle }}"></div></div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ capIsMcp }}" hint-placeholder-val="{{ false }}">
+              <div style="max-width: 480px; border: 1.5px dashed oklch(85% 0.008 250); border-radius: 12px; padding: 24px; text-align: center;">
+                <div style="font-size: 14px; font-weight: 700; margin-bottom: 6px;">Connect custom tools</div>
+                <div style="font-size: 12.5px; color: oklch(52% 0.01 260); margin-bottom: 14px;">For advanced setups — link Runnrr to specialized business software your team already uses. None connected yet.</div>
+                <div style="display: inline-block; font-size: 12.5px; font-weight: 700; color: #fff; background: oklch(64% 0.19 40); padding: 8px 16px; border-radius: 8px; cursor: pointer;">+ Connect a tool</div>
+              </div>
+            </sc-if>
+            <div style="font-size: 11px; color: oklch(60% 0.01 260); margin-top: 16px;">Changes apply to new chats.</div>
+          </div>
+          <div style="width: 300px; flex: none; border-left: 1px solid oklch(92% 0.006 250); padding: 18px; overflow-y: auto;">
+            <sc-if value="{{ hasCapDetail }}" hint-placeholder-val="{{ false }}">
+              <div style="font-size: 15px; font-weight: 700; margin-bottom: 6px;">{{ capDetailTitle }}</div>
+              <div style="font-size: 13px; color: oklch(45% 0.01 260); line-height: 1.6;">{{ capDetailDesc }}</div>
+            </sc-if>
+            <sc-if value="{{ noCapDetail }}" hint-placeholder-val="{{ true }}">
+              <div style="font-size: 13px; color: oklch(60% 0.01 260);">Select an item to see details.</div>
+            </sc-if>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ viewIsChannels }}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; height: 100%;">
+        <div style="width: 300px; flex: none; border-right: 1px solid oklch(92% 0.006 250); overflow-y: auto;">
+          <div style="padding: 18px 16px 10px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px;">Channels</div>
+          <div style="padding: 0 8px;">
+            <sc-for list="{{ channels }}" as="c" hint-placeholder-count="6">
+              <div onClick="{{ c.onSelect }}" style="{{ c.rowStyle }}">
+                <div style="{{ c.dotStyle }}"></div>
+                <div style="flex: 1;">
+                  <div style="font-size: 13.5px; font-weight: 600;">{{ c.name }}</div>
+                  <div style="font-size: 11.5px; color: oklch(55% 0.01 260);">{{ c.status }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="flex: 1; padding: 24px; overflow-y: auto;">
+          <sc-if value="{{ hasChannelDetail }}" hint-placeholder-val="{{ false }}">
+            <div style="max-width: 460px;">
+              <div style="font-size: 18px; font-weight: 700; margin-bottom: 4px;">{{ channelDetailName }}</div>
+              <div style="font-size: 13px; color: oklch(50% 0.01 260); margin-bottom: 18px;">{{ channelDetailDesc }}</div>
+              <sc-if value="{{ channelNeedsSetup }}" hint-placeholder-val="{{ false }}">
+                <div style="font-size: 12px; font-weight: 700; color: oklch(50% 0.01 260); margin-bottom: 6px;">{{ channelFieldLabel }}</div>
+                <input placeholder="{{ channelFieldPlaceholder }}" style="width: 100%; box-sizing: border-box; border: 1.5px solid oklch(88% 0.006 250); border-radius: 9px; padding: 10px 12px; font-size: 13.5px; font-family: 'Inter', sans-serif; margin-bottom: 14px;"></input>
+                <div onClick="{{ saveChannel }}" style="display: inline-block; font-size: 13px; font-weight: 700; color: #fff; background: oklch(64% 0.19 40); padding: 9px 18px; border-radius: 9px; cursor: pointer;">Connect</div>
+              </sc-if>
+              <sc-if value="{{ channelNeedsSetup }}" hint-placeholder-val="{{ true }}">
+                <div style="font-size: 12.5px; color: oklch(55% 0.14 145); font-weight: 600;">✓ Connected — Runnrr is watching this channel.</div>
+              </sc-if>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ viewIsAutomations }}" hint-placeholder-val="{{ false }}">
+      <div style="padding: 24px; overflow-y: auto; height: 100%; box-sizing: border-box;">
+        <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; margin-bottom: 4px;">Automations</div>
+        <div style="font-size: 13px; color: oklch(52% 0.01 260); margin-bottom: 20px;">Runnrr can run tasks on a schedule and deliver the results wherever you want.</div>
+        <div style="display: flex; flex-direction: column; gap: 8px; max-width: 640px; margin-bottom: 28px;">
+          <sc-for list="{{ automationJobs }}" as="j" hint-placeholder-count="2">
+            <div style="display: flex; align-items: center; gap: 12px; background: #fff; border: 1px solid oklch(90% 0.006 250); border-radius: 10px; padding: 12px 14px;">
+              <div style="flex: 1;">
+                <div style="font-size: 13.5px; font-weight: 700;">{{ j.name }}</div>
+                <div style="font-size: 12px; color: oklch(52% 0.01 260);">{{ j.schedule }} → {{ j.destination }}</div>
+              </div>
+              <div onClick="{{ j.onToggle }}" style="{{ j.toggleTrackStyle }}"><div style="{{ j.toggleThumbStyle }}"></div></div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="font-size: 13px; font-weight: 700; margin-bottom: 10px;">Ready-made ideas</div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; max-width: 700px;">
+          <sc-for list="{{ blueprints }}" as="bp" hint-placeholder-count="4">
+            <div style="border: 1px solid oklch(90% 0.006 250); border-radius: 10px; padding: 14px; background: #fff;">
+              <div style="font-size: 13.5px; font-weight: 700; margin-bottom: 4px;">{{ bp.name }}</div>
+              <div style="font-size: 12px; color: oklch(52% 0.01 260); margin-bottom: 10px;">{{ bp.desc }}</div>
+              <div onClick="{{ bp.onAdd }}" style="{{ bp.btnStyle }}">{{ bp.btnLabel }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ viewIsFiles }}" hint-placeholder-val="{{ false }}">
+      <div style="padding: 24px; overflow-y: auto; height: 100%; box-sizing: border-box;">
+        <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; margin-bottom: 14px;">Files &amp; Links</div>
+        <div style="display: flex; gap: 4px; margin-bottom: 18px;">
+          <sc-for list="{{ artifactFilters }}" as="af" hint-placeholder-count="4">
+            <div onClick="{{ af.onSelect }}" style="{{ af.style }}">{{ af.label }}</div>
+          </sc-for>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; max-width: 900px;">
+          <sc-for list="{{ visibleArtifacts }}" as="ar" hint-placeholder-count="4">
+            <div style="border: 1px solid oklch(90% 0.006 250); border-radius: 10px; overflow: hidden; background: #fff;">
+              <sc-if value="{{ ar.isImage }}" hint-placeholder-val="{{ false }}">
+                <div style="height: 90px; background: repeating-linear-gradient(45deg, oklch(93% 0.006 250), oklch(93% 0.006 250) 8px, oklch(96% 0.004 250) 8px, oklch(96% 0.004 250) 16px); display: flex; align-items: center; justify-content: center; font-family: monospace; font-size: 10.5px; color: oklch(48% 0.01 260);">image</div>
+              </sc-if>
+              <div style="padding: 10px 12px;">
+                <div style="font-size: 12.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ ar.label }}</div>
+                <div style="font-size: 11px; color: oklch(55% 0.01 260); margin-top: 2px;">{{ ar.sourceLabel }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+  </div>
+
+  <div style="position: absolute; bottom: 22px; right: 22px; display: flex; flex-direction: column; gap: 8px; z-index: 50;">
+    <sc-for list="{{ toasts }}" as="t" hint-placeholder-count="0">
+      <div style="animation: rn-toast-in 0.25s ease both; background: oklch(18% 0.01 260); color: #fff; font-size: 13px; font-weight: 600; padding: 10px 16px; border-radius: 9px; box-shadow: 0 8px 24px oklch(0% 0 0 / 0.18);">{{ t.text }}</div>
+    </sc-for>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;density&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;standard&quot;, &quot;options&quot;: [&quot;roomy&quot;, &quot;standard&quot;, &quot;dense&quot;], &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Behavior&quot;},
+  &quot;showThinkingBlocks&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Behavior&quot;},
+  &quot;autoApprovalMode&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Behavior&quot;}
+}">
+
+const TOOL_ICON = { calendar: 'C', contact: '@', web: 'W', file: 'F', email: 'E', phone: 'P' };
+const BOT_META = {
+  'front-desk': { name: 'Front Desk', role: 'Calls, booking & messages', hue: 40, tools: [
+      { label: "Checking the calendar for open slots", kind: 'calendar' },
+      { label: "Looking up the caller's contact card", kind: 'contact' },
+      { label: "Looking up business hours online", kind: 'web' }
+    ], finalText: "Done — I checked the calendar, found two open times, and sent Dana a text to pick one. I'll let you know when she replies." },
+  'billing': { name: 'Billing', role: 'Invoices & payments', hue: 260, tools: [
+      { label: "Pulling up the invoice", kind: 'file' },
+      { label: "Checking the payment history", kind: 'file' },
+      { label: "Drafting a reminder email", kind: 'email' }
+    ], finalText: "Done — I sent a friendly reminder to the customer. I'll follow up again in 3 days if it's still unpaid." },
+  'inbox': { name: 'Inbox', role: 'Email triage & replies', hue: 150, tools: [
+      { label: "Reading the message", kind: 'email' },
+      { label: "Searching past orders for context", kind: 'web' },
+      { label: "Drafting a reply", kind: 'email' }
+    ], finalText: "Done — I drafted a reply and I'm holding it for your approval before it goes out, since it's customer-facing." },
+  'scheduler': { name: 'Scheduler', role: 'Calendar & appointments', hue: 310, tools: [
+      { label: "Checking today's calendar", kind: 'calendar' },
+      { label: "Finding open time slots", kind: 'calendar' },
+      { label: "Sending a confirmation text", kind: 'phone' }
+    ], finalText: "Done — booked and a confirmation text is on its way." }
+};
+
+function botColor(botId, l, c) { return 'oklch(' + (l || 64) + '% ' + (c || 0.19) + ' ' + BOT_META[botId].hue + ')'; }
+let uid = 100;
+function nextId() { return 'm' + (uid++); }
+
+class Component extends DCLogic {
+  state = {
+    sidebarTab: 'chats',
+    view: 'chat',
+    activeBotId: 'front-desk',
+    activeSessionId: 'fd1',
+    rightPanelOpen: false,
+    activeFileTabId: null,
+    openFiles: [],
+    composerText: '',
+    composerAttachments: [],
+    isRecording: false,
+    simulating: false,
+    capTab: 'skills',
+    selectedSkillId: 's1',
+    selectedToolGroupId: null,
+    selectedChannelId: 'sms',
+    artifactFilter: 'all',
+    toasts: [],
+    skills: [
+      { id: 's1', name: 'Answer phone calls', category: 'Calls', enabled: true, learned: false },
+      { id: 's2', name: 'Send text messages', category: 'Messaging', enabled: true, learned: false },
+      { id: 's3', name: 'Read & reply to email', category: 'Email', enabled: true, learned: false },
+      { id: 's4', name: 'Manage the calendar', category: 'Scheduling', enabled: true, learned: false },
+      { id: 's5', name: 'Create invoices', category: 'Billing', enabled: true, learned: false },
+      { id: 's6', name: 'Look things up on the web', category: 'Research', enabled: true, learned: false },
+      { id: 's7', name: 'Remember past conversations', category: 'Memory', enabled: true, learned: true },
+      { id: 's8', name: 'Take notes for you', category: 'Productivity', enabled: false, learned: false }
+    ],
+    toolGroups: [
+      { id: 't1', name: 'Phone & Calls', desc: 'Answer, transfer, and log calls', count: 1, enabled: true },
+      { id: 't2', name: 'Text & Chat Messaging', desc: 'Send and receive texts', count: 1, enabled: true },
+      { id: 't3', name: 'Email', desc: 'Read inbox, draft & send replies', count: 2, enabled: true },
+      { id: 't4', name: 'Calendar', desc: 'Check availability, book & confirm', count: 3, enabled: true },
+      { id: 't5', name: 'Invoicing & Payments', desc: 'Create invoices, send reminders', count: 4, enabled: true },
+      { id: 't6', name: 'Web Search', desc: 'Look up hours, prices, addresses', count: 1, enabled: true },
+      { id: 't7', name: 'File Handling', desc: 'Read receipts, save documents', count: 2, enabled: true },
+      { id: 't8', name: 'Reminders & Scheduling', desc: 'Recurring nudges and follow-ups', count: 1, enabled: true }
+    ],
+    channels: [
+      { id: 'sms', name: 'Text messages (SMS)', status: 'Connected' },
+      { id: 'email', name: 'Email', status: 'Connected' },
+      { id: 'widget', name: 'Website chat widget', status: 'Connected' },
+      { id: 'whatsapp', name: 'WhatsApp', status: 'Needs setup' },
+      { id: 'messenger', name: 'Facebook Messenger', status: 'Needs setup' },
+      { id: 'instagram', name: 'Instagram DM', status: 'Off' }
+    ],
+    automationJobs: [
+      { id: 'j1', name: 'Morning briefing', schedule: 'Every day, 8:00am', destination: 'Text message', enabled: true },
+      { id: 'j2', name: 'Unpaid invoice follow-up', schedule: 'Every Monday', destination: 'Email', enabled: true }
+    ],
+    addedBlueprints: [],
+    sessions: {
+      fd1: { id: 'fd1', botId: 'front-desk', title: 'Missed call from Dana Reyes', day: 'today', pinned: true, time: 'now', messages: [
+        { id: 'a1', role: 'user', kind: 'text', text: "Dana Reyes called at 2:14pm while you were with a customer. Can you handle it?", fileAttachment: { name: 'voicemail_dana.mp3', ext: 'MP3' } },
+        { id: 'a2', role: 'assistant', kind: 'thinking', expanded: false, seconds: 6, lines: ["Checking who Dana Reyes is", "Looking at open appointment slots", "Drafting a callback message"] },
+        { id: 'a3', role: 'assistant', kind: 'tool', label: "Checking the calendar for open slots", toolKind: 'calendar', status: 'done' },
+        { id: 'a4', role: 'assistant', kind: 'tool', label: "Looking up the caller's contact card", toolKind: 'contact', status: 'done' },
+        { id: 'a5', role: 'assistant', kind: 'text', text: "Dana called about rescheduling Thursday's appointment. I found two open slots and sent her a text with times — she just needs to reply with her pick. I'll let you know when she responds.", streaming: false, shownLength: 999 },
+        { id: 'a6', role: 'assistant', kind: 'file', fileName: 'callback_message.txt', fileExt: 'TXT', content: "Hi Dana, this is Runnrr for [Business]. Sorry we missed you! We have Thursday openings at 10:30am or 2:00pm — reply with your pick and we'll lock it in.", hidden: false }
+      ] },
+      bill1: { id: 'bill1', botId: 'billing', title: 'Invoice #1042 — Maple Cafe', day: 'today', pinned: false, time: '1h', messages: [
+        { id: 'b1', role: 'user', kind: 'text', text: "Maple Cafe still hasn't paid invoice #1042. It's 12 days late." },
+        { id: 'b2', role: 'assistant', kind: 'thinking', expanded: false, seconds: 4, lines: ["Pulling up invoice #1042", "Checking payment history"] },
+        { id: 'b3', role: 'assistant', kind: 'tool', label: "Pulling up invoice #1042", toolKind: 'file', status: 'done' },
+        { id: 'b4', role: 'assistant', kind: 'clarify', question: "How firm should the reminder be?", answeredId: null, confirmed: false, options: [
+            { id: 'o1', label: 'Friendly nudge', recommended: true },
+            { id: 'o2', label: 'Firm reminder with late fee note', recommended: false },
+            { id: 'o3', label: 'Other', recommended: false }
+          ] }
+      ] },
+      bill2: { id: 'bill2', botId: 'billing', title: 'Receipt logged — Office Depot', day: 'yesterday', pinned: false, time: '1d', messages: [
+        { id: 'c1', role: 'user', kind: 'text', text: "Here's the receipt from today.", imageAttachment: true, imageLabel: 'receipt_office-depot.jpg' },
+        { id: 'c2', role: 'assistant', kind: 'thinking', expanded: false, seconds: 3, lines: ["Reading the receipt", "Matching it to an expense category"] },
+        { id: 'c3', role: 'assistant', kind: 'tool', label: "Reading the receipt", toolKind: 'file', status: 'done' },
+        { id: 'c4', role: 'assistant', kind: 'tool', label: "Logging the expense", toolKind: 'file', status: 'done' },
+        { id: 'c5', role: 'assistant', kind: 'text', text: "Done — logged $84.20 under Office Supplies from Office Depot, dated today.", streaming: false, shownLength: 999 },
+        { id: 'c6', role: 'assistant', kind: 'file', fileName: 'expense_office-depot.csv', fileExt: 'CSV', content: "date,vendor,category,amount\\n2026-09-06,Office Depot,Office Supplies,84.20", hidden: false }
+      ] },
+      sched1: { id: 'sched1', botId: 'scheduler', title: "Book a dentist follow-up", day: 'yesterday', pinned: false, time: '1d', messages: [
+        { id: 'd1', role: 'user', kind: 'text', text: "Can you book Mrs. Alvarez in for her dentist follow-up next week?" },
+        { id: 'd2', role: 'assistant', kind: 'tool', label: "Checking next week's calendar", toolKind: 'calendar', status: 'done' },
+        { id: 'd3', role: 'assistant', kind: 'tool', label: "Sending a confirmation text", toolKind: 'phone', status: 'done' },
+        { id: 'd4', role: 'assistant', kind: 'text', text: "Booked Mrs. Alvarez for Thursday at 10:30am and sent her a confirmation text.", streaming: false, shownLength: 999 },
+        { id: 'd5', role: 'assistant', kind: 'file', fileName: 'appointment_confirmation.txt', fileExt: 'TXT', content: "Confirmed: Alvarez follow-up, Thursday 10:30am.", hidden: false }
+      ] },
+      inbox1: { id: 'inbox1', botId: 'inbox', title: "Complaint from a customer", day: 'yesterday', pinned: false, time: '1d', messages: [
+        { id: 'e1', role: 'user', kind: 'text', text: "A customer emailed pretty upset about a late order. Can you handle it?" },
+        { id: 'e2', role: 'assistant', kind: 'thinking', expanded: false, seconds: 5, lines: ["Reading the message", "Checking the order history", "Drafting an apology + resolution"] },
+        { id: 'e3', role: 'assistant', kind: 'tool', label: "Reading the message", toolKind: 'email', status: 'done' },
+        { id: 'e4', role: 'assistant', kind: 'tool', label: "Searching past orders for context", toolKind: 'web', status: 'done' },
+        { id: 'e5', role: 'assistant', kind: 'file', fileName: 'reply_draft.txt', fileExt: 'TXT', content: "Hi there — so sorry about the delay on your order. We're crediting you for the shipping cost and it will arrive by Friday.", hidden: false },
+        { id: 'e6', role: 'assistant', kind: 'approval', approved: false }
+      ] }
+    }
+  };
+
+  mapMessage(sess, m, showThinking) {
+    const isUser = m.role === 'user';
+    if (m.kind === 'thinking' && !showThinking) return null;
+    const base = { id: m.id, isUser, isThinking: false, isTool: false, isAssistantText: false, isFile: false, isClarify: false, isApproval: false, hasFileAttachment: false, hasImageAttachment: false };
+    if (isUser) {
+      base.text = m.text;
+      if (m.fileAttachment) { base.hasFileAttachment = true; base.attachmentName = m.fileAttachment.name; base.attachmentExt = m.fileAttachment.ext; }
+      if (m.imageAttachment) { base.hasImageAttachment = true; base.imageLabel = m.imageLabel; }
+      return base;
+    }
+    if (m.kind === 'thinking') {
+      base.isThinking = true;
+      base.expanded = !!m.expanded;
+      base.thinkingLabel = m.expanded ? ('Thinking · ' + m.seconds + 's') : ('Thought for ' + m.seconds + 's');
+      base.chevronStyle = 'font-size: 10px; color: oklch(55% 0.01 260); transition: transform 0.15s;' + (m.expanded ? ' transform: rotate(90deg);' : '');
+      base.lines = m.lines;
+      base.onToggleExpand = () => this.toggleThinking(sess.id, m.id);
+      return base;
+    }
+    if (m.kind === 'tool') {
+      base.isTool = true;
+      base.toolLabel = m.label;
+      base.toolRunning = m.status === 'running';
+      base.toolDone = m.status === 'done';
+      base.toolIconGlyph = TOOL_ICON[m.toolKind] || 'F';
+      base.toolIconStyle = 'width: 16px; height: 16px; border-radius: 4px; background: oklch(64% 0.19 40 / 0.14); color: oklch(64% 0.19 40); font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: monospace;';
+      return base;
+    }
+    if (m.kind === 'text') {
+      base.isAssistantText = true;
+      const shown = m.streaming ? m.text.slice(0, m.shownLength) : m.text;
+      base.displayText = shown;
+      base.showCaret = !!m.streaming;
+      return base;
+    }
+    if (m.kind === 'file') {
+      if (m.hidden) return null;
+      base.isFile = true;
+      base.fileName = m.fileName;
+      base.fileExt = m.fileExt;
+      base.onOpenFile = () => this.openFileInPanel(m);
+      base.onDownload = (e) => { e && e.stopPropagation && e.stopPropagation(); this.pushToast('Downloaded ' + m.fileName); };
+      base.onHide = (e) => { e && e.stopPropagation && e.stopPropagation(); this.hideFile(sess.id, m.id); };
+      return base;
+    }
+    if (m.kind === 'clarify') {
+      base.isClarify = true;
+      base.question = m.question;
+      base.answeredLabel = (m.confirmed ? '1 of 1 answered · confirmed' : (m.answeredId ? '1 of 1 answered' : '0 of 1 answered'));
+      base.skipStyle = 'font-size: 12.5px; font-weight: 600; color: oklch(50% 0.01 260); padding: 8px 14px; cursor: pointer;';
+      const disabled = !m.answeredId || m.confirmed;
+      base.confirmStyle = 'font-size: 12.5px; font-weight: 700; color: #fff; padding: 8px 14px; border-radius: 8px; cursor: ' + (disabled ? 'default' : 'pointer') + '; background: ' + (disabled ? 'oklch(85% 0.006 250)' : 'oklch(64% 0.19 40)') + ';';
+      base.onConfirm = disabled ? () => {} : () => this.confirmClarify(sess.id, m.id);
+      base.options = m.options.map((o, i) => {
+        const letter = String.fromCharCode(65 + i);
+        const selected = m.answeredId === o.id;
+        return {
+          id: o.id, label: o.label, recommended: o.recommended, letter,
+          rowStyle: 'display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 8px; cursor: pointer; border: 1.5px solid ' + (selected ? 'oklch(64% 0.19 40)' : 'oklch(92% 0.006 250)') + '; background: ' + (selected ? 'oklch(64% 0.19 40 / 0.06)' : 'transparent') + ';',
+          letterStyle: 'width: 20px; height: 20px; border-radius: 5px; background: oklch(95% 0.004 250); font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none;',
+          onSelect: m.confirmed ? () => {} : () => this.selectClarifyOption(sess.id, m.id, o.id)
+        };
+      });
+      return base;
+    }
+    if (m.kind === 'approval') {
+      base.isApproval = true;
+      base.approvalText = m.approved ? "Sent to the customer." : "This reply goes straight to the customer — want me to send it, or would you like to edit it first?";
+      base.approveLabel = m.approved ? '✓ Sent' : 'Approve & send';
+      base.editBtnStyle = 'font-size: 12.5px; font-weight: 600; color: oklch(35% 0.02 80); background: #fff; border: 1.5px solid oklch(80% 0.05 80); padding: 8px 14px; border-radius: 8px; cursor: pointer;';
+      base.approveBtnStyle = 'font-size: 12.5px; font-weight: 700; color: #fff; background: ' + (m.approved ? 'oklch(70% 0.05 80)' : 'oklch(64% 0.19 40)') + '; padding: 8px 14px; border-radius: 8px; cursor: pointer;';
+      base.onEdit = () => this.pushToast('Opens the reply editor');
+      base.onApprove = m.approved ? () => {} : () => this.approveReply(sess.id, m.id);
+      return base;
+    }
+    return null;
+  }
+
+  updateSession(sessionId, fn) {
+    this.setState(s => {
+      const sess = s.sessions[sessionId];
+      const updated = fn({ ...sess, messages: sess.messages.slice() });
+      return { sessions: { ...s.sessions, [sessionId]: updated } };
+    });
+  }
+
+  updateMessage(sessionId, msgId, patch) {
+    this.updateSession(sessionId, sess => {
+      sess.messages = sess.messages.map(m => m.id === msgId ? { ...m, ...(typeof patch === 'function' ? patch(m) : patch) } : m);
+      return sess;
+    });
+  }
+
+  addMessage(sessionId, msg) {
+    this.updateSession(sessionId, sess => { sess.messages = sess.messages.concat([msg]); return sess; });
+  }
+
+  toggleThinking(sessionId, msgId) {
+    this.updateMessage(sessionId, msgId, m => ({ expanded: !m.expanded }));
+  }
+
+  hideFile(sessionId, msgId) {
+    this.updateMessage(sessionId, msgId, { hidden: true });
+  }
+
+  openFileInPanel(m) {
+    this.setState(s => {
+      const exists = s.openFiles.find(f => f.id === m.id);
+      const openFiles = exists ? s.openFiles : s.openFiles.concat([{ id: m.id, name: m.fileName, content: m.content }]);
+      return { rightPanelOpen: true, openFiles, activeFileTabId: m.id };
+    });
+  }
+
+  closeFileTab(id, e) {
+    e && e.stopPropagation && e.stopPropagation();
+    this.setState(s => {
+      const openFiles = s.openFiles.filter(f => f.id !== id);
+      const activeFileTabId = s.activeFileTabId === id ? (openFiles[0] ? openFiles[0].id : null) : s.activeFileTabId;
+      return { openFiles, activeFileTabId, rightPanelOpen: openFiles.length > 0 };
+    });
+  }
+
+  toggleRightPanel() { this.setState(s => ({ rightPanelOpen: !s.rightPanelOpen })); }
+
+  selectClarifyOption(sessionId, msgId, optId) {
+    this.updateMessage(sessionId, msgId, { answeredId: optId });
+  }
+
+  confirmClarify(sessionId, msgId) {
+    this.updateMessage(sessionId, msgId, { confirmed: true });
+    setTimeout(() => {
+      this.addMessage(sessionId, { id: nextId(), role: 'assistant', kind: 'tool', label: 'Sent a reminder email to the customer', toolKind: 'email', status: 'done' });
+      setTimeout(() => {
+        this.addMessage(sessionId, { id: nextId(), role: 'assistant', kind: 'text', text: "Sent — a friendly reminder is on its way. I'll check back in 3 days.", streaming: false, shownLength: 999 });
+        this.pushToast('Reminder sent ✓');
+      }, 500);
+    }, 500);
+  }
+
+  approveReply(sessionId, msgId) {
+    if (this.props.autoApprovalMode) return;
+    this.updateMessage(sessionId, msgId, { approved: true });
+    setTimeout(() => {
+      this.addMessage(sessionId, { id: nextId(), role: 'assistant', kind: 'tool', label: 'Sending reply to customer', toolKind: 'email', status: 'done' });
+      this.pushToast('Reply sent ✓');
+    }, 500);
+  }
+
+  selectSidebarChats() { this.setState({ sidebarTab: 'chats' }); }
+  selectSidebarAgents() { this.setState({ sidebarTab: 'agents' }); }
+  goCapabilities() { this.setState({ view: 'capabilities' }); }
+  goChannels() { this.setState({ view: 'channels' }); }
+  goAutomations() { this.setState({ view: 'automations' }); }
+  goFiles() { this.setState({ view: 'files' }); }
+  addAgentStub() { this.pushToast('Agent builder opens here'); }
+
+  selectSession(sessionId) {
+    const sess = this.state.sessions[sessionId];
+    this.setState({ activeSessionId: sessionId, activeBotId: sess.botId, view: 'chat', sidebarTab: 'chats' });
+  }
+
+  selectBot(botId) {
+    const sess = Object.values(this.state.sessions).find(s => s.botId === botId);
+    this.setState({ activeBotId: botId, activeSessionId: sess ? sess.id : this.state.activeSessionId, view: 'chat' });
+  }
+
+  selectCapTab(tab) { this.setState({ capTab: tab }); }
+  selectSkill(id) { this.setState({ selectedSkillId: id, selectedToolGroupId: null }); }
+  toggleSkillEnabled(id, e) {
+    e && e.stopPropagation && e.stopPropagation();
+    this.setState(s => ({ skills: s.skills.map(sk => sk.id === id ? { ...sk, enabled: !sk.enabled } : sk) }));
+  }
+  selectToolGroup(id) { this.setState({ selectedToolGroupId: id, selectedSkillId: null }); }
+  toggleToolGroupEnabled(id, e) {
+    e && e.stopPropagation && e.stopPropagation();
+    this.setState(s => ({ toolGroups: s.toolGroups.map(tg => tg.id === id ? { ...tg, enabled: !tg.enabled } : tg) }));
+  }
+
+  selectChannel(id) { this.setState({ selectedChannelId: id }); }
+  saveChannel() {
+    this.setState(s => ({ channels: s.channels.map(c => c.id === s.selectedChannelId ? { ...c, status: 'Connected' } : c) }));
+    this.pushToast('Channel connected ✓');
+  }
+
+  toggleAutomationJob(id) {
+    this.setState(s => ({ automationJobs: s.automationJobs.map(j => j.id === id ? { ...j, enabled: !j.enabled } : j) }));
+  }
+
+  addBlueprint(bp) {
+    if (this.state.addedBlueprints.includes(bp.id)) return;
+    this.setState(s => ({
+      automationJobs: s.automationJobs.concat([{ id: 'j' + nextId(), name: bp.name, schedule: bp.schedule, destination: 'Email', enabled: true }]),
+      addedBlueprints: s.addedBlueprints.concat([bp.id])
+    }));
+    this.pushToast('Automation added ✓');
+  }
+
+  selectArtifactFilter(f) { this.setState({ artifactFilter: f }); }
+
+  onComposerChange(e) { this.setState({ composerText: e.target.value }); }
+  onComposerKeyDown(e) { if (e.key === 'Enter') this.sendMessage(); }
+  addAttachment() {
+    const names = ['receipt.jpg', 'contract.pdf', 'notes.txt'];
+    const i = this.state.composerAttachments.length % names.length;
+    const name = names[i];
+    this.setState(s => ({ composerAttachments: s.composerAttachments.concat([{ id: nextId(), name }]) }));
+  }
+  removeAttachment(id) { this.setState(s => ({ composerAttachments: s.composerAttachments.filter(a => a.id !== id) })); }
+  toggleMic() {
+    if (this.state.isRecording) return;
+    this.setState({ isRecording: true });
+    setTimeout(() => {
+      this.setState(s => ({ isRecording: false, composerText: s.composerText ? s.composerText : "Call the plumber back and confirm tomorrow morning." }));
+    }, 1600);
+  }
+
+  pushToast(text) {
+    const id = nextId();
+    this.setState(s => ({ toasts: s.toasts.concat([{ id, text }]) }));
+    setTimeout(() => this.setState(s => ({ toasts: s.toasts.filter(t => t.id !== id) })), 3600);
+  }
+
+  sendMessage() {
+    const text = this.state.composerText.trim();
+    const attachments = this.state.composerAttachments;
+    if (!text && attachments.length === 0) return;
+    const sessionId = this.state.activeSessionId;
+    const botId = this.state.activeBotId;
+    const userMsg = { id: nextId(), role: 'user', kind: 'text', text: text || 'Sent an attachment.' };
+    if (attachments.length) userMsg.fileAttachment = { name: attachments[0].name, ext: attachments[0].name.split('.').pop().toUpperCase() };
+    this.addMessage(sessionId, userMsg);
+    this.setState({ composerText: '', composerAttachments: [], simulating: true });
+    this.simulateAssistant(sessionId, botId);
+  }
+
+  simulateAssistant(sessionId, botId) {
+    const meta = BOT_META[botId];
+    const thinkId = nextId();
+    setTimeout(() => {
+      this.addMessage(sessionId, { id: thinkId, role: 'assistant', kind: 'thinking', expanded: true, seconds: 3, lines: meta.tools.map(t => t.label) });
+      let delay = 700;
+      meta.tools.forEach((tool, i) => {
+        const toolId = nextId();
+        setTimeout(() => this.addMessage(sessionId, { id: toolId, role: 'assistant', kind: 'tool', label: tool.label, toolKind: tool.kind, status: 'running' }), delay);
+        delay += 600;
+        setTimeout(() => this.updateMessage(sessionId, toolId, { status: 'done' }), delay);
+        delay += 200;
+      });
+      setTimeout(() => {
+        this.updateMessage(sessionId, thinkId, { expanded: false });
+        const textId = nextId();
+        const full = meta.finalText;
+        this.addMessage(sessionId, { id: textId, role: 'assistant', kind: 'text', text: full, streaming: true, shownLength: 0 });
+        let len = 0;
+        const iv = setInterval(() => {
+          len += 3;
+          if (len >= full.length) {
+            len = full.length;
+            clearInterval(iv);
+            this.updateMessage(sessionId, textId, { streaming: false, shownLength: len });
+            this.setState({ simulating: false });
+            this.pushToast('Task completed');
+          } else {
+            this.updateMessage(sessionId, textId, { shownLength: len });
+          }
+        }, 25);
+      }, delay + 200);
+    }, 500);
+  }
+
+  renderVals() {
+    const s = this.state;
+    const density = this.props.density || 'standard';
+    const scale = density === 'roomy' ? 1.3 : density === 'dense' ? 0.7 : 1;
+    const pad = (v) => Math.round(v * scale) + 'px';
+    const showThinking = this.props.showThinkingBlocks !== false;
+
+    const tabBase = 'flex: 1; text-align: center; padding: 6px 0; border-radius: 8px; font-size: 12.5px; font-weight: 600; cursor: pointer; transition: background 0.15s;';
+    const tabActive = tabBase + ' background: #fff; box-shadow: 0 1px 3px oklch(0% 0 0 / 0.08); color: oklch(18% 0.01 260);';
+    const tabInactive = tabBase + ' color: oklch(50% 0.01 260);';
+
+    const navBase = 'font-size: 11.5px; font-weight: 600; padding: 7px 8px; border-radius: 8px; cursor: pointer; text-align: center; border: 1px solid transparent;';
+    const navActive = navBase + ' background: oklch(64% 0.19 40 / 0.1); color: oklch(64% 0.19 40); border-color: oklch(64% 0.19 40 / 0.25);';
+    const navInactive = navBase + ' background: oklch(96% 0.004 250); color: oklch(45% 0.01 260);';
+
+    const sessions = Object.values(s.sessions);
+    const dayName = (b) => BOT_META[b].name;
+    const mapSess = (sess) => ({
+      id: sess.id, title: sess.title, botName: dayName(sess.botId), time: sess.time,
+      rowStyle: 'display: flex; align-items: center; gap: 9px; padding: 8px 8px; border-radius: 9px; cursor: pointer; margin-bottom: 2px; background: ' + (sess.id === s.activeSessionId ? 'oklch(96% 0.004 250)' : 'transparent') + ';',
+      dotStyle: 'width: 7px; height: 7px; border-radius: 50%; flex: none; background: ' + botColor(sess.botId) + ';',
+      onSelect: () => this.selectSession(sess.id)
+    });
+    const pinnedSessions = sessions.filter(x => x.pinned).map(mapSess);
+    const todaySessions = sessions.filter(x => !x.pinned && x.day === 'today').map(mapSess);
+    const yesterdaySessions = sessions.filter(x => x.day === 'yesterday').map(mapSess);
+
+    const agentRows = Object.keys(BOT_META).map(id => {
+      const meta = BOT_META[id];
+      const active = id === s.activeBotId;
+      return {
+        id, name: meta.name, role: meta.role, initial: meta.name[0],
+        rowStyle: 'display: flex; align-items: center; gap: 10px; padding: 8px; border-radius: 10px; cursor: pointer; background: ' + (active ? 'oklch(96% 0.004 250)' : 'transparent') + ';',
+        avatarStyle: 'width: 32px; height: 32px; border-radius: 9px; background: ' + botColor(id) + '; color: #fff; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center; flex: none;',
+        miniAvatarStyle: 'width: 26px; height: 26px; border-radius: 8px; background: ' + botColor(id) + '; color: #fff; font-weight: 700; font-size: 11px; display: flex; align-items: center; justify-content: center; flex: none; border: ' + (active ? '2px solid oklch(64% 0.19 40)' : '2px solid transparent') + ';',
+        statusDotStyle: 'width: 7px; height: 7px; border-radius: 50%; background: oklch(55% 0.14 145); flex: none;',
+        onSelect: () => this.selectBot(id)
+      };
+    });
+
+    const activeSess = s.sessions[s.activeSessionId];
+    const transcript = activeSess.messages.map(m => this.mapMessage(activeSess, m, showThinking)).filter(Boolean);
+
+    const anyRunning = activeSess.messages.some(m => m.kind === 'tool' && m.status === 'running');
+
+    const skills = s.skills.map(sk => ({
+      ...sk,
+      rowStyle: 'display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; cursor: pointer; background: #fff; border: 1px solid ' + (sk.id === s.selectedSkillId ? 'oklch(64% 0.19 40)' : 'oklch(90% 0.006 250)') + ';',
+      onSelect: () => this.selectSkill(sk.id),
+      onToggle: (e) => this.toggleSkillEnabled(sk.id, e),
+      toggleTrackStyle: 'width: 34px; height: 19px; border-radius: 999px; background: ' + (sk.enabled ? 'oklch(64% 0.19 40)' : 'oklch(88% 0.006 250)') + '; padding: 2px; cursor: pointer;',
+      toggleThumbStyle: 'width: 15px; height: 15px; border-radius: 50%; background: #fff; transition: transform 0.15s; transform: translateX(' + (sk.enabled ? '15px' : '0') + ');'
+    }));
+    const toolGroups = s.toolGroups.map(tg => ({
+      ...tg,
+      rowStyle: 'display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; cursor: pointer; background: #fff; border: 1px solid ' + (tg.id === s.selectedToolGroupId ? 'oklch(64% 0.19 40)' : 'oklch(90% 0.006 250)') + ';',
+      onSelect: () => this.selectToolGroup(tg.id),
+      onToggle: (e) => this.toggleToolGroupEnabled(tg.id, e),
+      toggleTrackStyle: 'width: 34px; height: 19px; border-radius: 999px; background: ' + (tg.enabled ? 'oklch(64% 0.19 40)' : 'oklch(88% 0.006 250)') + '; padding: 2px; cursor: pointer;',
+      toggleThumbStyle: 'width: 15px; height: 15px; border-radius: 50%; background: #fff; transition: transform 0.15s; transform: translateX(' + (tg.enabled ? '15px' : '0') + ');'
+    }));
+    const selectedSkill = s.skills.find(sk => sk.id === s.selectedSkillId);
+    const selectedToolGroup = s.toolGroups.find(tg => tg.id === s.selectedToolGroupId);
+    const hasCapDetail = !!(selectedSkill || selectedToolGroup);
+    const capDetailTitle = selectedSkill ? selectedSkill.name : (selectedToolGroup ? selectedToolGroup.name : '');
+    const capDetailDesc = selectedSkill ? ('Category: ' + selectedSkill.category + '. ' + (selectedSkill.enabled ? 'Currently on — Runnrr can use this.' : 'Currently off.')) : (selectedToolGroup ? (selectedToolGroup.desc + ' · ' + selectedToolGroup.count + ' tool(s).') : '');
+
+    const channels = s.channels.map(c => ({
+      ...c,
+      rowStyle: 'display: flex; align-items: center; gap: 10px; padding: 10px 8px; border-radius: 9px; cursor: pointer; margin-bottom: 2px; background: ' + (c.id === s.selectedChannelId ? 'oklch(96% 0.004 250)' : 'transparent') + ';',
+      dotStyle: 'width: 7px; height: 7px; border-radius: 50%; flex: none; background: ' + (c.status === 'Connected' ? 'oklch(55% 0.14 145)' : c.status === 'Needs setup' ? 'oklch(70% 0.15 80)' : 'oklch(75% 0.006 250)') + ';',
+      onSelect: () => this.selectChannel(c.id)
+    }));
+    const selectedChannel = s.channels.find(c => c.id === s.selectedChannelId);
+
+    const blueprintDefs = [
+      { id: 'bp1', name: 'Morning briefing', desc: 'A daily summary of calls, bookings and unpaid invoices.', schedule: 'Every day, 7:30am' },
+      { id: 'bp2', name: 'Follow up on unpaid invoices', desc: 'Reminders sent automatically after 7 days.', schedule: 'Every day, 9:00am' },
+      { id: 'bp3', name: "Confirm tomorrow's bookings", desc: 'Texts everyone booked for the next day.', schedule: 'Every day, 5:00pm' },
+      { id: 'bp4', name: 'Weekly business recap', desc: 'Revenue, new customers, and open tasks.', schedule: 'Every Friday, 6:00pm' }
+    ];
+    const blueprints = blueprintDefs.map(bp => {
+      const added = s.addedBlueprints.includes(bp.id);
+      return { ...bp, btnLabel: added ? 'Added ✓' : '+ Add this', onAdd: added ? () => {} : () => this.addBlueprint(bp),
+        btnStyle: 'display: inline-block; font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 7px; cursor: ' + (added ? 'default' : 'pointer') + '; background: ' + (added ? 'oklch(94% 0.03 145)' : 'oklch(64% 0.19 40)') + '; color: ' + (added ? 'oklch(40% 0.1 145)' : '#fff') + ';' };
+    });
+    const automationJobs = s.automationJobs.map(j => ({
+      ...j,
+      onToggle: () => this.toggleAutomationJob(j.id),
+      toggleTrackStyle: 'width: 34px; height: 19px; border-radius: 999px; background: ' + (j.enabled ? 'oklch(64% 0.19 40)' : 'oklch(88% 0.006 250)') + '; padding: 2px; cursor: pointer;',
+      toggleThumbStyle: 'width: 15px; height: 15px; border-radius: 50%; background: #fff; transform: translateX(' + (j.enabled ? '15px' : '0') + ');'
+    }));
+
+    const artifactDefs = [
+      { id: 'art1', type: 'file', label: 'callback_message.txt', source: 'Front Desk' },
+      { id: 'art2', type: 'file', label: 'expense_office-depot.csv', source: 'Billing' },
+      { id: 'art3', type: 'image', label: 'receipt_office-depot.jpg', source: 'Billing' },
+      { id: 'art4', type: 'file', label: 'reply_draft.txt', source: 'Inbox' },
+      { id: 'art5', type: 'file', label: 'appointment_confirmation.txt', source: 'Scheduler' },
+      { id: 'art6', type: 'link', label: 'Payment link sent to customer', source: 'Billing' }
+    ];
+    const filterDefs = [{ id: 'all', label: 'All' }, { id: 'image', label: 'Images' }, { id: 'file', label: 'Files' }, { id: 'link', label: 'Links' }];
+    const artifactFilters = filterDefs.map(f => ({
+      ...f,
+      onSelect: () => this.selectArtifactFilter(f.id),
+      style: 'font-size: 12.5px; font-weight: 600; padding: 6px 12px; border-radius: 999px; cursor: pointer; background: ' + (f.id === s.artifactFilter ? 'oklch(64% 0.19 40)' : 'oklch(95% 0.004 250)') + '; color: ' + (f.id === s.artifactFilter ? '#fff' : 'oklch(45% 0.01 260)') + ';'
+    }));
+    const visibleArtifacts = artifactDefs.filter(a => s.artifactFilter === 'all' || a.type === s.artifactFilter).map(a => ({ id: a.id, label: a.label, sourceLabel: a.source, isImage: a.type === 'image' }));
+
+    const activeFile = s.openFiles.find(f => f.id === s.activeFileTabId);
+    const openFiles = s.openFiles.map(f => ({
+      id: f.id, name: f.name,
+      tabStyle: 'padding: 10px 14px; font-size: 12px; font-weight: 600; cursor: pointer; border-bottom: 2px solid ' + (f.id === s.activeFileTabId ? 'oklch(64% 0.19 40)' : 'transparent') + '; color: ' + (f.id === s.activeFileTabId ? 'oklch(18% 0.01 260)' : 'oklch(55% 0.01 260)') + '; white-space: nowrap;',
+      onSelect: () => this.setState({ activeFileTabId: f.id }),
+      onClose: (e) => this.closeFileTab(f.id, e)
+    }));
+
+    const activeBotMeta = BOT_META[s.activeBotId];
+
+    return {
+      padSidebarTop: pad(16),
+      padTranscript: pad(24) + ' ' + pad(24),
+      padComposer: pad(16) + ' ' + pad(24),
+      headerStatusText: s.simulating ? 'Working now' : 'All caught up',
+      sidebarIsChats: s.sidebarTab === 'chats',
+      sidebarIsAgents: s.sidebarTab === 'agents',
+      chatsTabStyle: s.sidebarTab === 'chats' ? tabActive : tabInactive,
+      agentsTabStyle: s.sidebarTab === 'agents' ? tabActive : tabInactive,
+      selectSidebarChats: () => this.selectSidebarChats(),
+      selectSidebarAgents: () => this.selectSidebarAgents(),
+      navPillStyle: {
+        capabilities: s.view === 'capabilities' ? navActive : navInactive,
+        channels: s.view === 'channels' ? navActive : navInactive,
+        automations: s.view === 'automations' ? navActive : navInactive,
+        files: s.view === 'files' ? navActive : navInactive
+      },
+      goCapabilities: () => this.goCapabilities(),
+      goChannels: () => this.goChannels(),
+      goAutomations: () => this.goAutomations(),
+      goFiles: () => this.goFiles(),
+      hasPinned: pinnedSessions.length > 0,
+      pinnedSessions, todaySessions, yesterdaySessions,
+      agentRows,
+      addAgentStub: () => this.addAgentStub(),
+
+      viewIsChat: s.view === 'chat',
+      viewIsCapabilities: s.view === 'capabilities',
+      viewIsChannels: s.view === 'channels',
+      viewIsAutomations: s.view === 'automations',
+      viewIsFiles: s.view === 'files',
+
+      activeBotHeaderAvatarStyle: 'width: 36px; height: 36px; border-radius: 10px; background: ' + botColor(s.activeBotId) + '; color: #fff; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; ' + (anyRunning ? 'animation: rn-pulse 1.4s ease-in-out infinite;' : ''),
+      activeBotSmallAvatarStyle: 'width: 24px; height: 24px; border-radius: 7px; background: ' + botColor(s.activeBotId) + '; color: #fff; font-weight: 700; font-size: 11px; display: flex; align-items: center; justify-content: center; flex: none;',
+      activeBotInitial: activeBotMeta.name[0],
+      activeBotName: activeBotMeta.name,
+      activeSessionTitle: activeSess.title,
+      activeBotWorkingText: anyRunning ? 'working on this now…' : 'ready',
+      filePanelToggleStyle: 'font-size: 12.5px; font-weight: 600; padding: 7px 12px; border-radius: 8px; cursor: pointer; background: ' + (s.rightPanelOpen ? 'oklch(64% 0.19 40 / 0.1)' : 'oklch(96% 0.004 250)') + '; color: ' + (s.rightPanelOpen ? 'oklch(64% 0.19 40)' : 'oklch(45% 0.01 260)') + ';',
+      toggleRightPanel: () => this.toggleRightPanel(),
+      openFilesCount: s.openFiles.length ? '(' + s.openFiles.length + ')' : '',
+
+      transcript,
+
+      hasAttachments: s.composerAttachments.length > 0,
+      composerAttachments: s.composerAttachments.map(a => ({ ...a, onRemove: () => this.removeAttachment(a.id) })),
+      composerText: s.composerText,
+      onComposerChange: (e) => this.onComposerChange(e),
+      onComposerKeyDown: (e) => this.onComposerKeyDown(e),
+      composerPlaceholder: 'Tell ' + activeBotMeta.name + ' what to do…',
+      addAttachment: () => this.addAttachment(),
+      composerIconStyle: 'width: 26px; height: 26px; border-radius: 8px; background: oklch(91% 0.006 250); color: oklch(40% 0.01 260); font-size: 16px; font-weight: 700; display: flex; align-items: center; justify-content: center; cursor: pointer; flex: none;',
+      toggleMic: () => this.toggleMic(),
+      micStyle: 'width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; flex: none; font-size: 10px; color: ' + (s.isRecording ? '#fff' : 'oklch(45% 0.01 260)') + '; background: ' + (s.isRecording ? 'oklch(55% 0.19 25)' : 'transparent') + '; animation: ' + (s.isRecording ? 'rn-pulse 1s ease-in-out infinite' : 'none') + ';',
+      sendBtnStyle: 'width: 30px; height: 30px; border-radius: 50%; background: oklch(64% 0.19 40); color: #fff; font-size: 16px; font-weight: 700; display: flex; align-items: center; justify-content: center; cursor: pointer; flex: none;',
+      sendMessage: () => this.sendMessage(),
+
+      rightPanelOpen: s.rightPanelOpen,
+      openFiles,
+      hasOpenFile: !!activeFile,
+      activeFileContent: activeFile ? activeFile.content : '',
+
+      capIsSkills: s.capTab === 'skills',
+      capIsTools: s.capTab === 'tools',
+      capIsMcp: s.capTab === 'mcp',
+      capTabStyle: {
+        skills: 'font-size: 12.5px; font-weight: 600; padding: 8px 12px; border-radius: 8px; cursor: pointer; background: ' + (s.capTab === 'skills' ? 'oklch(96% 0.004 250)' : 'transparent') + ';',
+        tools: 'font-size: 12.5px; font-weight: 600; padding: 8px 12px; border-radius: 8px; cursor: pointer; background: ' + (s.capTab === 'tools' ? 'oklch(96% 0.004 250)' : 'transparent') + ';',
+        mcp: 'font-size: 12.5px; font-weight: 600; padding: 8px 12px; border-radius: 8px; cursor: pointer; background: ' + (s.capTab === 'mcp' ? 'oklch(96% 0.004 250)' : 'transparent') + ';'
+      },
+      selectCapSkills: () => this.selectCapTab('skills'),
+      selectCapTools: () => this.selectCapTab('tools'),
+      selectCapMcp: () => this.selectCapTab('mcp'),
+      skillsCount: s.skills.length,
+      toolGroupsCount: s.toolGroups.length,
+      skills, toolGroups,
+      hasCapDetail, noCapDetail: !hasCapDetail, capDetailTitle, capDetailDesc,
+
+      channels,
+      hasChannelDetail: !!selectedChannel,
+      channelDetailName: selectedChannel ? selectedChannel.name : '',
+      channelDetailDesc: selectedChannel ? ('Let Runnrr send and receive messages through ' + selectedChannel.name + '.') : '',
+      channelNeedsSetup: selectedChannel ? selectedChannel.status !== 'Connected' : false,
+      channelFieldLabel: 'Connection details',
+      channelFieldPlaceholder: 'Paste the details from your setup guide',
+      saveChannel: () => this.saveChannel(),
+
+      automationJobs, blueprints,
+
+      artifactFilters, visibleArtifacts
+    };
+  }
+}
+
+</script>
+</body>
+</html>

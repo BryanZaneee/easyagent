@@ -8,6 +8,24 @@ the source code alone. New decisions go at the top, dated. Each entry should ans
 
 ---
 
+## 2026-09-22 — Supplied workstation replaces prior UI
+
+**Choice:** Replace the dashboard, builder, and eval pages with the supplied light
+workstation design. Serve it from FastAPI, connect real profiles and SSE chat,
+and expose read-only skill metadata. Keep chats, drafts, and pins in page memory.
+The reference export lives under `docs/design/` and is not served by the app.
+
+**Why:** The UI can become useful now without implementing the entire backend
+roadmap. Unsupported actions are explicitly unavailable; simulated reference
+conversations and integrations do not become product behavior. Existing gated
+builder and eval APIs remain compatible.
+
+**Rejected:** Shipping the design export's custom runtime, false success messages,
+a frontend framework/build step, and browser-persisted transcripts that would
+outlive the server's conversation context.
+
+---
+
 ## 2026-09-22 — Repository relocation and branding
 
 **Choice:** Move the repository to `~/programming-projects/Runnrr`, preserving all Git objects, refs, private data, and configuration. Standardize maintained files on the Runnrr name; historical Git commits and tags remain unchanged.

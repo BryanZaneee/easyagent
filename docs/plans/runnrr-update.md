@@ -1,5 +1,11 @@
 # Runnrr: refactor, cut, and sandbox plan
 
+> September 22 update: the repository relocation is complete and the supplied
+> workstation replaces all previous UI pages. Live chat and capability inspection
+> are implemented; history remains temporary. Backend roadmap phases below remain
+> future work unless their code has landed. See `docs/design/` and `README.md`.
+
+
 ## Context
 
 Runnrr is a multi-provider agent engine that today exists to serve bryanzane.com's

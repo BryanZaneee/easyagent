@@ -1,5 +1,11 @@
 # Runnrr: analysis, corrections, and the PR sequence
 
+> September 22 update: the repository relocation is complete and the supplied
+> workstation replaces all previous UI pages. Live chat and capability inspection
+> are implemented; history remains temporary. Backend roadmap phases below remain
+> future work unless their code has landed. See `docs/design/` and `README.md`.
+
+
 ## Context
 
 Runnrr is evolving from a public chat engine into a single-tenant business-task runtime with a sandbox workspace, Supabase

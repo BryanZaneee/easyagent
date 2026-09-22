@@ -1,167 +1,148 @@
 # Runnrr
 
-Runnrr is a self-hosted business-task agent runtime: one runtime per
-business, running continuously on the owner's Mac or in a per-customer cloud container,
-reached through a web UI with a Supabase login. Each agent works inside its own sandbox
-workspace (files + shell), reads a curated knowledge base, and runs on whichever model
-provider is cheapest for the job (DeepSeek V4 Flash by default; Claude, OpenAI, Gemini,
-and Kimi are one profile setting away). Keys stay server-side; clients talk to the FastAPI
-runtime over SSE and never see provider credentials.
+A workstation for business agents, backed by a portable Python runtime.
+Choose an agent, give it a task, and follow its response and tool activity in one place.
 
-The engine is provider-agnostic and business-agnostic: profiles, knowledge bases,
-providers, and tools are separated so the same loop can power an invoice clerk, a
-customer-support bot, a sales assistant, or an internal-ops agent. The overhaul that turns
-the original engine into this product is tracked in
-[`docs/plans/runnrr-analysis.md`](./docs/plans/runnrr-analysis.md); deferred features live
-in [`docs/roadmap/`](./docs/roadmap/).
+Runnrr currently supports live streaming chat, configured agent profiles,
+read-only knowledge tools, skills, web research, and usage accounting. The web
+workstation is served by the runtime itself. Conversations, pins, and drafts
+are temporary and clear when the page reloads; server restarts or inactivity
+can reset conversation context too.
 
-## Bundled profiles
-
-- [`profiles/personal-agent/`](./profiles/personal-agent/) — showcase personal-site candidate/resume agent (default). KB + semantic RAG + web search.
-- [`profiles/customer-service/`](./profiles/customer-service/) — tier-1 in-widget support agent for a fictional coffee shop, with a self-contained KB and an adaptation `TEMPLATE.md`.
-- [`profiles/research-analyst/`](./profiles/research-analyst/) — public research with web search, safe page fetching, and a calculator.
-- [`profiles/sales-concierge/`](./profiles/sales-concierge/) — catalog lookup, lead qualification, and preview-only lead/checkout flows.
-- [`profiles/frampton/`](./profiles/frampton/) — Dark Souls 1 guide grounded in a public Fextralife scrape committed at `kb/frampton/`.
-
-Tier-2 multi-channel/multi-tenant agents (WhatsApp, Instagram, Gmail, Google Business) need a different runtime (channel adapters, queues, durable state) and will live in their own deployment when built — they are out of scope for this engine.
+![Runnrr workstation](docs/design/workstation-desktop.png)
 
 ## Quick start
 
+This checkout lives at `~/programming-projects/Runnrr`. Python 3.13 is pinned in
+`.python-version` (supported range: 3.11–3.13).
+
 ```bash
-# Python 3.11–3.13 (voyageai does not support 3.14+). `.python-version` pins 3.13.
-uv venv --python 3.13
-uv pip install -e ".[dev,rag]"
+uv sync --frozen --extra dev --extra rag
 cp .env.example .env
 ```
 
-Set one or more provider keys in `.env` (all stay server-side):
+Add a provider key to `.env` and choose its model with `DEFAULT_MODEL`.
+Supported provider keys include `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`,
+`DEEPSEEK_API_KEY`, `MOONSHOT_API_KEY`, and `GEMINI_API_KEY`.
+Keys stay on the server. `TAVILY_API_KEY` enables web search.
 
 ```bash
-ANTHROPIC_API_KEY=...
-OPENAI_API_KEY=...
-GEMINI_API_KEY=...
-MOONSHOT_API_KEY=...
-DEEPSEEK_API_KEY=...
-TAVILY_API_KEY=...   # optional; needed for web_search / Research Analyst
+.venv/bin/python -m uvicorn runnrr.app:app --host 127.0.0.1 --port 8001
 ```
 
-Run the backend, then (optionally) the local dashboard:
+Open **http://127.0.0.1:8001**. No frontend build or separate web server is required.
+After frontend edits, reload the page. Add `--reload` for backend development.
 
-```bash
-.venv/bin/python -m uvicorn runnrr.app:app --reload --port 8001
-.venv/bin/python -m http.server 8000 --directory web
-```
+## Workstation
 
-Visit `http://localhost:8000` for the dashboard (it defaults to `http://127.0.0.1:8001` for API calls). The public chat UI lives in the separate [`bryanzane_v3`](https://github.com/BryanZaneee/bryanzane_v3) repo under `runnrr/`, deployed at [bryanzane.com/runnrr](https://bryanzane.com/runnrr/).
+- **Chats:** streaming Markdown, tool activity, source labels, token usage,
+  temporary conversation switching, search, and pins.
+- **Agents:** real profiles advertised by the runtime. Set `DEFAULT_PROFILE`
+  in `.env` to choose the initial agent.
+- **Skills & Tools:** inspect capabilities configured for the selected agent.
+- **Files & Links:** inspect source metadata from conversations in this page.
+- **Channels and Automations:** visible previews with unavailable states.
 
-## Agent Builder (local)
+Agent creation, editing capabilities, attachments, file generation/previews,
+voice, approvals, messaging, scheduled work, authentication, and durable
+history are not implemented in the workstation yet. No actions are simulated
+as successful. The original supplied design is preserved in [docs/design/](docs/design/).
 
-A no-code page for creating and configuring an agent, then trying it immediately in a chat pane. Gated by `ENABLE_PROFILE_EDITOR` (default off) so the write API has no surface in production.
+The former dashboard, builder, and eval pages have been removed. Their backend
+APIs and eval CLI remain available. The builder write API is still disabled
+by default (`ENABLE_PROFILE_EDITOR=0`).
 
-```bash
-echo "ENABLE_PROFILE_EDITOR=1" >> .env
-.venv/bin/python -m uvicorn runnrr.app:app --reload --port 8001
-.venv/bin/python -m http.server 8000 --directory web
-```
+## Bundled agents
 
-Open `http://localhost:8000/builder/`. Agents you create there are written under `profiles/<id>/` and can only be edited by the builder that made them — bundled example profiles stay read-only. Keep `ENABLE_PROFILE_EDITOR` unset (or `0`) in production.
+| Profile | Purpose |
+| --- | --- |
+| `personal-agent` | Candidate/resume assistant using a local knowledge base; current default |
+| `customer-service` | Coffee-shop support example with a bundled knowledge base |
+| `research-analyst` | Public research, page fetching, and calculations |
+| `sales-concierge` | Catalog lookup, lead qualification, and checkout previews |
+| `bzs-concierge` | Workflow-consulting discovery and lead previews |
+| `frampton` | Dark Souls guide using bundled public wiki material |
 
-## Usability guide
+Profiles gate which tools an agent can use. Sales tools are previews: they do
+not persist leads to a CRM or charge customers. New business profiles can be
+added without changing the engine.
 
-### Pick a profile
+## Add an agent
 
-Set `DEFAULT_PROFILE=<id>` in `.env`, or pass `?profile_id=<id>` to the API per request. Switching profile or model mid-session resets the conversation.
-
-### Technical dashboard (`web/`)
-
-A no-build vanilla page for runtime health: provider/key status, available models, daily token budget, active sessions, and per-profile RAG index status. It is a read-only operator view, not the chat UI. It reads the aggregate `/api/status`; external clients should prefer the focused `/api/health`, `/api/budget`, `/api/models`, `/api/profile`, and `/api/rag/index` endpoints.
-
-### Semantic RAG
-
-`semantic_search_kb` is additive to `search_kb` (literal keyword/regex) and only appears for profiles that list it in `profile.json`. Build and query a profile index with the CLI:
-
-```bash
-# Build (Voyage embeddings). Free tier without a payment method: RUNNRR_EMBED_BATCH_SIZE=8
-VOYAGE_API_KEY=... RUNNRR_EMBEDDING_BACKEND=voyage \
-  .venv/bin/python -m runnrr.rag.cli build personal-agent
-.venv/bin/python -m runnrr.rag.cli info personal-agent
-.venv/bin/python -m runnrr.rag.cli query personal-agent "portable profile retrieval" --k 3
-
-# Model-free local fixtures / CI use the deterministic fake backend:
-.venv/bin/python -m runnrr.rag.cli --backend fake build customer-service
-```
-
-Indexes live under `profiles/<id>/.index/` (git-ignored); set `RUNNRR_RAG_INDEX_ROOT=/path` to relocate. Retrieval is hybrid BM25 + dense vectors fused with RRF; set `RUNNRR_RERANK=1` to enable the optional LLM reranker. **Rebuild after any KB change** — chat boot only warns on a stale index, it never rebuilds in the request path. A long-running dev server caches the manifest and retriever, so restart it after rebuilding.
-
-### Evals
-
-Measure retrieval and answer quality before shipping prompt, tool, or retrieval changes. Datasets live at `profiles/<id>/evals/rag.json`.
-
-```bash
-# Retrieval-only quality (no model keys needed with --backend fake)
-.venv/bin/python -m runnrr.evals.cli --backend fake run personal-agent \
-  --mode retrieval-only --variants keyword,hybrid,hybrid_rerank --k 5
-
-.venv/bin/python -m runnrr.evals.cli list personal-agent
-.venv/bin/python -m runnrr.evals.cli compare personal-agent \
-  --latest --baseline keyword --candidate hybrid
-.venv/bin/python -m runnrr.evals.cli report personal-agent --latest
-```
-
-Runs persist under `profiles/<id>/evals/runs/<run_id>/` as `records.jsonl` + `summary.json`. Metrics include `recall_at_k`, `context_precision`, `reciprocal_rank` (MRR), and—on end-to-end runs—`faithfulness`, `answer_relevance`, and `answer_vs_ground_truth`.
-
-To browse runs visually, open the eval dashboard at `web/evals/` and set `ENABLE_EVALS_API=1` so the backend exposes the read-only `/api/evals/runs/{profile}`, `/api/evals/run/{profile}/{run_id}`, and `/api/evals/index-status/{profile}` endpoints.
-
-The Research Analyst and Sales Concierge profiles also ship tool-sequencing smoke datasets at `profiles/<id>/evals/smoke.json`. Keep both dataset kinds close to the profile prompts and update them when behavior changes.
-
-## Adding a profile
-
-Create `profiles/<id>/` with a `profile.json` and a `system.md` prompt — no git branches or engine edits required:
+Create `profiles/<id>/profile.json` and a `system.md` prompt. For example:
 
 ```json
 {
   "id": "my-agent",
-  "label": "My Custom Agent",
-  "kb_root": "kb/my-agent-kb",
+  "label": "My Agent",
+  "description": "Answers questions about our business",
+  "kb_root": "kb/my-agent",
   "system_prompt_path": "profiles/my-agent/system.md",
-  "tools": ["list_kb", "read_file", "search_kb"],
-  "brand": { "accent": "#386f3d", "intro_ascii_name": "My Agent" }
+  "tools": ["list_kb", "read_file", "search_kb"]
 }
 ```
 
-To activate it, set `DEFAULT_PROFILE=my-agent` and restart, or pass `?profile_id=my-agent`. Profiles fail-fast on unknown tool names. Optional `profile.json` keys:
+Plain-English procedures live at `profiles/<id>/skills/<slug>/SKILL.md`, with
+`name` and `description` frontmatter. Their bodies are loaded as tool results,
+keeping the model's system prompt stable for caching. MCP configuration is
+parsed but no MCP client connects yet.
 
-- `tool_descriptions` — profile-specific wording for a shared tool.
-- `source_path_labels` — ordered `[match, label]` pairs mapping KB paths to public source labels in the UI (trailing `/` matches by prefix, else exact; first match wins), e.g. `[["menu/", "Menu"], ["policies/", "Store policy"]]`.
-- `mcp_servers` — standard MCP stdio configs. Parsed and shown in the agent-info panel today; full MCP client execution is a follow-up.
+## Knowledge and evaluations
 
-Native tools live in `runnrr/tools/` and `runnrr/rag/tools.py`. Each is a `ToolDef` pairing its schema, handler, and browser-safe source metadata; profiles only see the tools they list. Use native tools for small, stable server-owned capabilities (KB reads, web search, URL fetch, calculator, catalog/lead/checkout previews). The Sales Concierge tools are intentionally safe demos — `lead_capture_preview` does not persist to a CRM and `checkout_link_preview` does not touch Stripe.
+Semantic retrieval is opt-in through the `semantic_search_kb` tool. Build a
+profile index explicitly after changing its knowledge base:
 
-## Privacy boundary
+```bash
+.venv/bin/python -m runnrr.rag.cli build customer-service
+.venv/bin/python -m runnrr.rag.cli info customer-service
+.venv/bin/python -m runnrr.rag.cli query customer-service "opening hours" --k 3
+```
 
-This public repo does **not** include the personal knowledge base, resume files, codebase dumps, API keys, or deployment secrets for the personal site. The `kb/` directory is git-ignored; create your own local KB matching a profile's `kb_root` (e.g. `kb/resume/`, `kb/projects/`). Tests run against `tests/fixtures/mini_kb/`, so the framework develops and verifies without private data. The exception is `kb/frampton/`, public Fextralife content that ships in-repo so its profile travels with every deploy.
+Voyage embeddings require `VOYAGE_API_KEY`. Tests use deterministic fixtures.
+Indexes live under `profiles/<id>/.index/` and are ignored by Git. Chat never
+rebuilds an index automatically; restart the runtime after rebuilding.
 
-## More detail
+```bash
+.venv/bin/python -m runnrr.evals.cli --backend fake run customer-service \
+  --mode retrieval-only --variants keyword,hybrid --k 5
+.venv/bin/python -m runnrr.evals.cli list customer-service
+```
 
-- [`AGENTS.md`](AGENTS.md) / [`CLAUDE.md`](CLAUDE.md) — standing rules and a one-screen architecture tour for contributors and agents.
-- [`history.md`](history.md) — dated decision log (what was chosen and what was rejected), including the June 2026 RAG + eval roadmap.
-- [`docs/sales_pitch.md`](docs/sales_pitch.md) — BZS Software pitch, discovery questions, and demo runbooks for business workflow conversations.
-- [`docs/agent_best_practices.md`](docs/agent_best_practices.md) — checklist for API boundaries, model selection, prompts, tools, streaming, retrieval, and evals.
+Evaluation datasets live with profiles and outputs are ignored under
+`profiles/<id>/evals/runs/`. `ENABLE_EVALS_API=1` enables the read-only eval endpoints.
 
-## Forward-looking ideas
+## Validation
 
-- MCP runtime execution for CRM, calendar, Drive, Notion, Stripe, and browser tools.
-- Durable conversation storage with human handoff.
-- Multi-tenant business profiles with per-tenant budgets and channel adapters (WhatsApp, Instagram, Gmail, Google Business).
-- Observability traces for tool calls, latency, token cost, and retrieval quality.
-- Live Stripe Checkout and CRM lead capture behind explicit production credentials.
+```bash
+.venv/bin/python -m pytest -q
+node tests/workstation.mjs
+```
 
-## Contributing
+The frontend check uses Node's built-in assertions; no npm install is needed.
+Visual verification is recorded in [design-qa.md](design-qa.md).
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for branch naming, commit format, and the PR
-template. Run the tests with `.venv/bin/python -m pytest -q`. Never commit `.env*`
-(other than `.env.example`), `kb/` content, `workspace/`, or `data/`.
+## Architecture and privacy
+
+FastAPI exposes `/api/chat` as SSE and read-only profile, model, health,
+budget, tool, retrieval, and evaluation endpoints. Anthropic, OpenAI-compatible,
+and Gemini adapters share one agent loop. Sessions and the daily budget live
+in process memory, so run a single worker.
+
+Only `web/` is served as public static content. `.env`, profiles, local KBs,
+and Git metadata are not web assets. Private knowledge, resumes, codebase
+dumps, and credentials stay ignored. `kb/frampton/` is the exception: it
+contains public third-party wiki material.
+
+The product direction is one runtime per business with authenticated access,
+durable sessions, a writable workspace, and business integrations. Those are
+future backend work, tracked in [the implementation sequence](docs/plans/runnrr-analysis.md).
+
+## Contributing and deployment
+
+See [CONTRIBUTING.md](CONTRIBUTING.md), [AGENTS.md](AGENTS.md), and
+[history.md](history.md). Deployment remains manual; see [deploy/README.md](deploy/README.md).
+The separate frozen public-site deployment is not changed by this repository.
 
 ## License
 
-[MIT](./LICENSE).
+[MIT](LICENSE). Vendored frontend assets retain their [upstream licenses](web/vendor/README.md).

@@ -16,11 +16,13 @@ import logging
 import time
 import uuid
 from contextlib import asynccontextmanager
+from pathlib import Path
 from typing import AsyncIterator
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
@@ -55,6 +57,7 @@ from runnrr.profiles import AgentProfile, ProfileConfigError, load_profile
 from runnrr.rag.inspect import inspect_payload
 from runnrr.rag.status import rag_index_payload
 from runnrr.status import runtime_status_payload
+from runnrr.skills import discover_skills
 from runnrr.tools import schemas_for_tools
 from runnrr.tools.registry import TOOL_DEFS
 from runnrr.types import SessionDict
@@ -267,6 +270,10 @@ async def profile(profile_id: str = DEFAULT_PROFILE) -> dict:
         ),
         "brand": p.brand,
         "mcp_servers": [s["name"] for s in p.mcp_servers],
+        "skills": [
+            {"slug": skill.slug, "name": skill.name, "description": skill.description}
+            for skill in discover_skills(p.skills_root)
+        ],
     }
 
 
@@ -457,3 +464,13 @@ async def _sse_format(events: AsyncIterator[dict]) -> AsyncIterator[bytes]:
         log.exception("sse stream failed")
         payload = json.dumps({"message": "internal error while streaming the response"})
         yield f"event: error\ndata: {payload}\n\n".encode("utf-8")
+
+
+@app.api_route("/api/{path:path}", methods=["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"])
+async def unknown_api(path: str) -> None:
+    """Keep unmatched API requests out of the static-file handler."""
+    raise HTTPException(status_code=404, detail="Not found")
+
+
+# Registered last so API routes take precedence. Only public UI assets are served.
+app.mount("/", StaticFiles(directory=Path(__file__).resolve().parent.parent / "web", html=True))

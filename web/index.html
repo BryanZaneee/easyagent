@@ -1,134 +1,52 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Runnrr — Dev Dashboard</title>
-  <meta name="description" content="Technical dashboard for the Runnrr runtime: health, budget, profiles, tools, and RAG indexes." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=1" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Runnrr — a workspace for your business agents.">
+  <meta name="color-scheme" content="light">
+  <title>Runnrr — Workstation</title>
+  <link rel="icon" href="data:,">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/app.mjs"></script>
 </head>
 <body>
-  <header class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">
-        <span class="brand-mark">RN</span>
-        <div>
-          <h1>Runnrr</h1>
-          <p class="brand-sub">Technical dashboard</p>
+  <a class="skip-link" href="#main">Skip to workspace</a>
+  <div class="workstation">
+    <button id="sidebar-backdrop" class="backdrop" aria-label="Close navigation" hidden></button>
+    <aside id="sidebar" class="sidebar" aria-label="Workspace navigation">
+      <div class="sidebar-top">
+        <div class="brand-row"><a class="wordmark" href="/">Runnrr<span class="brand-period">.</span></a><span id="runtime-status" class="status-pill"><span class="status-dot"></span>Connecting</span><button id="close-nav" class="icon-button mobile-only" aria-label="Close navigation"><img src="/vendor/icons/x-mark.svg" alt=""></button></div>
+        <div class="segmented" aria-label="Sidebar view"><button id="chats-tab" aria-pressed="true">Chats</button><button id="agents-tab" aria-pressed="false">Agents</button></div>
+      </div>
+      <nav class="primary-nav" aria-label="Workspace"><button data-view="capabilities"><img src="/vendor/icons/squares-2x2.svg" alt="">Skills &amp; Tools</button><button data-view="channels"><img src="/vendor/icons/chat-bubble-left-right.svg" alt="">Channels</button><button data-view="automations"><img src="/vendor/icons/bolt.svg" alt="">Automations</button><button data-view="files"><img src="/vendor/icons/folder.svg" alt="">Files &amp; Links</button></nav>
+      <div class="sidebar-controls"><button id="new-chat" class="new-chat"><img src="/vendor/icons/plus.svg" alt="">New chat<span class="key-hint">⌘ ↵</span></button><label class="search-field"><img src="/vendor/icons/magnifying-glass.svg" alt=""><input id="sidebar-search" type="search" aria-label="Search chats" placeholder="Search chats"><kbd>⌘ K</kbd></label></div>
+      <div id="sidebar-list" class="sidebar-list"><p class="sidebar-empty">Loading your workspace…</p></div>
+      <footer class="sidebar-footer"><div id="agent-dock" class="agent-dock" aria-label="Choose an agent"></div><div class="workspace-note"><img src="/vendor/icons/clock.svg" alt=""><span>Temporary workspace</span><button id="session-info" class="text-button" aria-label="About temporary chats">Details</button></div></footer>
+    </aside>
+    <main id="main" class="main" tabindex="-1">
+      <header class="workspace-header"><button id="open-nav" class="icon-button mobile-only" aria-label="Open navigation" aria-controls="sidebar" aria-expanded="false"><img src="/vendor/icons/bars-3.svg" alt=""></button><div id="header-identity" class="header-identity"></div><div class="header-actions"><span id="model-label" class="model-label"></span><button id="files-toggle" class="soft-button" aria-expanded="false" aria-controls="file-panel"><img src="/vendor/icons/folder.svg" alt="">Files</button></div></header>
+      <div id="connection-banner" class="connection-banner" role="alert" hidden><span id="connection-message"></span><button id="reconnect" class="text-button">Reconnect</button></div>
+      <section id="chat-view" class="chat-view" aria-label="Chat">
+        <div class="chat-column">
+          <div id="transcript" class="transcript" tabindex="0" aria-label="Conversation"></div>
+          <button id="scroll-bottom" class="scroll-bottom soft-button" hidden>Latest message<img src="/vendor/icons/arrow-up.svg" alt=""></button>
+          <form id="composer-form" class="composer-wrap">
+            <div id="composer-context" class="composer-context"></div>
+            <div class="composer"><button class="icon-button attach-button" type="button" disabled title="Attachments are not available yet" aria-label="Attachments — not available yet"><img src="/vendor/icons/plus.svg" alt=""></button><label class="sr-only" for="composer-input">Message your agent</label><textarea id="composer-input" rows="1" maxlength="4000" placeholder="Tell your agent what to do…" disabled></textarea><button id="send-button" class="send-button" type="submit" aria-label="Send message" disabled><img src="/vendor/icons/arrow-up.svg" alt=""></button></div>
+            <div class="composer-footer"><span id="composer-hint">Chats clear when you reload this page.</span><span id="turn-status" role="status"></span></div>
+          </form>
         </div>
-      </div>
-      <div class="topbar-actions">
-        <a href="builder/" class="btn" style="text-decoration: none;">Agent Builder</a>
-        <label class="api-field">
-          <span>API</span>
-          <input id="api-base" type="url" spellcheck="false" />
-        </label>
-        <button type="button" id="refresh-btn" class="btn">Refresh</button>
-      </div>
-    </div>
-  </header>
-
-  <main class="layout">
-    <p id="load-error" class="banner banner-error hidden" role="alert"></p>
-    <p id="load-meta" class="load-meta"></p>
-
-    <section class="panel" aria-labelledby="runtime-heading">
-      <div class="panel-head">
-        <h2 id="runtime-heading">Runtime</h2>
-      </div>
-      <div id="runtime-grid" class="stat-grid"></div>
-      <dl id="limits-list" class="kv-list"></dl>
-    </section>
-
-    <section class="panel" aria-labelledby="budget-heading">
-      <div class="panel-head">
-        <h2 id="budget-heading">Token budget</h2>
-      </div>
-      <div id="budget-panel" class="budget-panel"></div>
-    </section>
-
-    <section class="panel" aria-labelledby="models-heading">
-      <div class="panel-head">
-        <h2 id="models-heading">Models</h2>
-      </div>
-      <div class="table-wrap">
-        <table id="models-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Label</th>
-              <th>Vendor</th>
-              <th>Provider</th>
-              <th>Default</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-    </section>
-
-    <section class="panel panel-wide" aria-labelledby="profiles-heading">
-      <div class="panel-head">
-        <h2 id="profiles-heading">Profiles</h2>
-        <label class="profile-picker">
-          <span>Inspect</span>
-          <select id="profile-select" aria-label="Select profile to inspect"></select>
-        </label>
-      </div>
-      <div class="table-wrap">
-        <table id="profiles-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Label</th>
-              <th>Tools</th>
-              <th>MCP</th>
-              <th>Default</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-      <div id="profile-detail" class="profile-detail hidden">
-        <h3 id="profile-detail-title">Profile detail</h3>
-        <p id="profile-description" class="profile-description"></p>
-        <div class="detail-columns">
-          <div>
-            <h4>Enabled tools</h4>
-            <ul id="profile-tools" class="chip-list"></ul>
-          </div>
-          <div>
-            <h4>MCP servers</h4>
-            <ul id="profile-mcp" class="chip-list"></ul>
-          </div>
-        </div>
-        <details class="json-block">
-          <summary>Tool schemas (JSON)</summary>
-          <pre id="profile-schemas" class="json-pre"></pre>
-        </details>
-      </div>
-    </section>
-
-    <section class="panel" aria-labelledby="rag-heading">
-      <div class="panel-head">
-        <h2 id="rag-heading">RAG index</h2>
-        <span id="rag-profile-label" class="muted"></span>
-      </div>
-      <div id="rag-panel" class="rag-panel"></div>
-    </section>
-
-    <section class="panel" aria-labelledby="endpoints-heading">
-      <div class="panel-head">
-        <h2 id="endpoints-heading">API endpoints</h2>
-      </div>
-      <ul id="endpoint-list" class="endpoint-list"></ul>
-    </section>
-  </main>
-
-  <script src="shared.js?v=1"></script>
-  <script src="app.js?v=1"></script>
+        <aside id="file-panel" class="file-panel" aria-label="Files and sources" hidden><div class="panel-heading"><h2>Files &amp; sources</h2><button id="close-files" class="icon-button" aria-label="Close files panel"><img src="/vendor/icons/x-mark.svg" alt=""></button></div><div id="file-panel-content"></div></aside>
+      </section>
+      <section id="workspace-view" class="workspace-view" aria-label="Workspace section" hidden></section>
+    </main>
+  </div>
+  <dialog id="info-dialog"><form method="dialog"><div class="panel-heading"><h2>About this workspace</h2><button class="icon-button" aria-label="Close"><img src="/vendor/icons/x-mark.svg" alt=""></button></div><p>Chats, pins, and drafts stay in this page until you reload or close it. Runtime restarts and inactivity can also reset your agent’s conversation context.</p><p>Saved chat history is coming in a later update. Copy anything you want to keep before leaving.</p><button class="primary-button">Got it</button></form></dialog>
+  <div id="toast" class="toast" role="status" hidden></div>
+  <noscript><p>Enable JavaScript to use the Runnrr workstation.</p></noscript>
 </body>
 </html>
