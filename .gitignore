@@ -30,3 +30,6 @@ repomix-output.xml
 # Runtime state (workspace sandboxes, SQLite, settings).
 /workspace/
 /data/
+
+# Local visual QA artifacts.
+/tmp/

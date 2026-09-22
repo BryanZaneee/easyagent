@@ -1,9 +1,8 @@
-# EasyAgent → Runnrr: analysis, corrections, and the PR sequence
+# Runnrr: analysis, corrections, and the PR sequence
 
 ## Context
 
-Bryan is pivoting EasyAgent (multi-provider agent engine serving bryanzane.com) into
-Runnrr: a single-tenant business-task runtime with a sandbox workspace, Supabase
+Runnrr is evolving from a public chat engine into a single-tenant business-task runtime with a sandbox workspace, Supabase
 login, and a Hermes-Agent-shaped feature surface (`runnrr-feature-inventory.md`).
 `Runnrr-update.md` already holds a phased plan (rename → cuts → workspace → state →
 `runnrr up`). This document is the result of auditing that plan against the code at
@@ -75,7 +74,7 @@ All file:line anchors were checked against `ed536ff`. Apply these before executi
 | 2 | `read_file` rename "38 hits, 15 files" | 42 / 18 in py+js+json today (85 / 30 incl. md/html); 38/15 assumes 1a+1c already ran |
 | 2 | "factor `_slice_lines` out" | no such helper; slicing is inline at `kb_loader.py:123-168` — an extraction, not a rename |
 | 3 | `runnrr/store.py` | collides with `from backend.evals import store` at `app.py:53`; alias the evals import |
-| 3a | "adapted from durable-sessions doc" | the draft doc specifies a `SessionStore` Protocol, `EASYAGENT_SESSION_DB`, a reset marker row; the plan says no Protocol, one file, epoch bump. Deliberate; say so in the roadmap fold. |
+| 3a | "adapted from durable-sessions doc" | the draft doc specifies a `SessionStore` Protocol, `RUNNRR_SESSION_DB`, a reset marker row; the plan says no Protocol, one file, epoch bump. Deliberate; say so in the roadmap fold. |
 | 3 | fold note "ignore tenant_id / PR #2" | audit + hitl docs also specify `X-Admin-Token`; note must add "replaced by Supabase `require_user`" |
 | 3b | PR #2 `auth.py` | 68 lines confirmed; also has `optional_user()` (401s on a bad token, `None` on no header) — keep it, it is the bypass path |
 | 0 | `Runnrr-update.md`, `runnrr-feature-inventory.md` | untracked and unignored; move to `docs/plans/` in P0 |
@@ -123,13 +122,13 @@ docs/
   roadmap/README.md + one file per deferred feature (8 draft-branch docs folded)
   plans/runnrr-update.md, runnrr-feature-inventory.md   (moved from root)
 deploy/
-  runnrr.service   (was easyagent.service; drop User=root, /opt/runnrr, runnrr.app:app)
+  runnrr.service   (was runnrr.service; drop User=root, /opt/runnrr, runnrr.app:app)
   README.md        (10 lines: manual deploy = git pull && systemctl restart runnrr)
 ```
 
-- `git mv easyagent.service deploy/runnrr.service`; delete `Caddyfile`, `deploy.sh` (nothing references them by filename).
+- `git mv runnrr.service deploy/runnrr.service`; delete `Caddyfile`, `deploy.sh` (nothing references them by filename).
 - `git mv` both planning docs to `docs/plans/`.
-- Delete empty `.cursor/`. `.gitignore`: drop stale `easyagent-walkthrough.html`; add `workspace/`, `data/`.
+- Delete empty `.cursor/`. `.gitignore`: drop stale `runnrr-walkthrough.html`; add `workspace/`, `data/`.
 - `uv lock` and commit `uv.lock` (P0 step 9's venv rebuild becomes reproducible; `.gitignore` already anticipates it).
 - `pyproject.toml`: minimal `[tool.ruff]` (`line-length = 100`, `select = ["E","F","I"]`); no mypy. `name`/`description`/`packages=["runnrr"]`; drop `google-genai`; add `pypdf`, `python-multipart`, `PyJWT` in the phases that need them.
 

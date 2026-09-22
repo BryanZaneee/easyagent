@@ -1,8 +1,8 @@
-# EasyAgent → Runnrr: refactor, cut, and sandbox plan
+# Runnrr: refactor, cut, and sandbox plan
 
 ## Context
 
-EasyAgent is a multi-provider agent engine that today exists to serve bryanzane.com's
+Runnrr is a multi-provider agent engine that today exists to serve bryanzane.com's
 public chat (personal-agent profile, brand chrome, Caddy on a shared VPS). Bryan is
 pivoting it into **Runnrr**: a business-task agent (invoices/paperwork, lead-gen,
 receptionist) that runs continuously either on the customer's Mac or on a dedicated
@@ -20,13 +20,13 @@ durable state exists on `main`.
 
 | Topic | Decision |
 | --- | --- |
-| Name | Rename in place, fully: GitHub repo `runnrr`, local dir `~/programming-projects/Runnrr`, package `backend/` → `runnrr/`, env `EASYAGENT_*` → `RUNNRR_*`, loggers `runnrr.*`, `runnrr.service` |
+| Name | Rename in place, fully: GitHub repo `runnrr`, local dir `~/programming-projects/Runnrr`, package `backend/` → `runnrr/`, env prefix `RUNNRR_*`, loggers `runnrr.*`, `runnrr.service` |
 | Shape | One **runtime per business** (the "hub"): runs on the customer's Mac (downloadable) or in a per-customer VPS container, continuously. Web UI (Bryan builds it in Claude Design, delivered later) talks to the runtime's HTTP API. Data lives with the runtime |
 | Tenancy | Single business per runtime. **No `tenant_id`.** Sessions/audit carry `user_id` (employees of that business). Group management (boss buys account, delegates employees) = later PR on Supabase tables |
 | Auth | **Supabase Auth from the start**: runtime verifies Supabase HS256 JWTs (salvage `backend/auth.py` from PR #2, 68 lines, PyJWT). `RUNNRR_AUTH_DISABLED=1` bypass only when `RUNNRR_ENV != production` |
 | Data | Workspace folder per agent + one SQLite file (stdlib) for sessions, audit, approvals. No Supabase for business data |
 | Sandbox | Local workspace dir, **full shell** jailed by cwd + timeout + output cap + env scrubbed of keys. No Docker inside the runtime (Docker is the deployment boundary between customers and the documented upgrade path) |
-| bryanzane.com | Cut loose. Freeze the VPS deploy on the last EasyAgent commit |
+| bryanzane.com | Cut loose. Freeze the VPS deploy on the last Runnrr commit |
 | Delete | Agent Builder, Gemini provider, personal-agent/frampton/bzs-concierge profiles, `kb/frampton`, `personal_kb.py`, Caddyfile, deploy.sh, sales_pitch.md, RAG pca/inspect/reranker |
 | Keep | Anthropic + OpenAI-compat providers, usage/pricing/budget, profiles, skills, RAG (trimmed), evals (generalize later), `web/` dashboard as dev tooling until the new UI lands |
 | First slice | Invoice/paperwork intake profile |
@@ -70,25 +70,12 @@ schemas, append-only messages, no volatile data in the system prompt.
 
 Test command everywhere: `.venv/bin/python -m pytest -q`.
 
-### Phase 0 — `chore/rename-runnrr`
+### Phase 0 — repository migration (completed)
 
-Purpose: mechanical rename, zero behavior change; conventions; roadmap fold; close PRs.
-
-1. **Freeze the old deploy first.** `git tag v0.1.0-easyagent-final ed536ff && git push origin --tags`. On the VPS, `/opt/easyagent` stays on that tag; remove `easyagent` from `/opt/deploy/deploy.sh`'s `REPO_MAP` so a stray dispatch can't pull Runnrr onto bryanzane.com.
-2. `gh repo rename runnrr` (updates `origin`). `git mv backend runnrr`, `git mv easyagent.service runnrr.service`.
-3. Anchored sed (macOS `sed -i ''`), excluding `.git`, `.venv`, `kb/`, `history.md` body:
-   `\bbackend\.`→`runnrr.`, `\bfrom backend\b`→`from runnrr`, `\bbackend/`→`runnrr/`,
-   `EASYAGENT_`→`RUNNRR_`, `EasyAgent`→`Runnrr`, `easyagent`→`runnrr`.
-   Do **not** touch the embedding-backend sense of "backend" (`EMBEDDING_BACKEND`, `self.embedding.backend`). Verify with `grep -rnw backend` (only embedding hits) and `grep -rni easyagent` (only history.md).
-   Tests that pin names: `caplog(logger="easyagent")` in `tests/test_instrument_log.py` (7×), `test_app.py` (2×), `test_app_runtime.py` (2×); regex `easyagent\[rag\]` at `tests/test_rag_foundation.py:190`; `tests/test_evals_runner.py:32` env name; `web/shared.js` localStorage key.
-4. Hand edits: `pyproject.toml` (name, description, `packages=["runnrr"]`), `runnrr/app.py` `FastAPI(title="Runnrr")`, `runnrr.service` (`/opt/runnrr`, `runnrr.app:app`, drop `User=root`), `runnrr/tools/web_fetch.py:112` User-Agent, `.gitignore`, `web/index.html` title/mark, `.env.example`.
-5. Docs: README first paragraph + CLAUDE.md "Project Overview" rewritten to the Runnrr positioning (self-hosted runtime, per-agent workspace, Supabase login); commands and VPS section updated; `history.md` gets a top naming note (Runnrr, formerly EasyAgent, formerly Strauss) and a dated entry "EasyAgent becomes Runnrr" with Choice/Why/Rejected (rejected: name-only split from PR #10, multi-tenant SaaS PRs #1–#3); `kb/README.md` still says `strauss`, fix.
-6. Conventions: invoke the `repo-conventions` skill and copy its assets verbatim (CONTRIBUTING.md, `.github/pull_request_template.md`). The branch `docs/runnrr-engine-map` has an older hand-written copy; the skill's version wins.
-7. Roadmap fold: `docs/roadmap/README.md` (order: supabase-auth → durable-sessions → audit-kill-switch → hitl → channel-webhooks → channel-voice → calendar-crm → mcp-runtime → dlp-redact → group-management → serve-ui-from-runtime → mac-packaging → cloud-provisioning → model-config-file → docker-sandbox). For each of the 8 branches: `git show origin/feat/<b>:docs/prs/feat-<b>.md > docs/roadmap/<b>.md`, prepend "Single-tenant: ignore every tenant_id / PR #2 reference", append the contract-test docstrings as an Acceptance list. Add a note that PR #2's `backend/auth.py` is the seed for supabase-auth.
-8. Close PRs #1–#3 (single-tenant runtime; auth.py salvaged), #10 (superseded), #11–#18 (folded). Delete merged remote branches (`feat/caching-and-event-loop`, `feat/honest-accounting`, `feat/markdown-skills`, `feat/model-capabilities`, `chore/debloat-*`, `refactor/tools-rag-evals-split`); delete the draft/SaaS branches after this PR merges.
-9. After merge: `mv ~/programming-projects/easyagent ~/programming-projects/Runnrr`, `rm -rf .venv && uv venv --python 3.13 && uv pip install -e ".[dev,rag]"` (editable `.pth` holds the old absolute path), rename keys in local `.env`.
-
-Verify: tests green; `uvicorn runnrr.app:app --port 8001` boots; grep checks above return nothing.
+The package, repository remote, environment prefix, and service use Runnrr.
+The local checkout is `~/programming-projects/Runnrr`. Git history and tags
+are preserved; the separate legacy deployment remains outside this project.
+The virtual environment is recreated at the new path from `uv.lock`.
 
 ### Phase 1 — three cut PRs (order matters)
 
@@ -169,12 +156,12 @@ agent-management-api (authenticated CRUD for agents, knowledge notes, skills, pe
 - **Prefix cache**: workspace schemas static; invoice-clerk `system.md` carries no dates/paths; approvals and resets are appends/epoch bumps; extend `test_prefix_is_byte_stable`.
 - **Import cycles**: `store.py` imports only `config`; `instrument.py` imports `store/budget/pricing/usage`, never `app`.
 - **`run_command`**: `shell=True` children need `start_new_session` + `killpg`; Unix only.
-- **bryanzane.com**: only safe once `/opt/easyagent` is pinned to the tag and removed from the VPS dispatcher (Phase 0 step 1).
+- **bryanzane.com**: only safe once `the frozen deployment directory` is pinned to the tag and removed from the VPS dispatcher (Phase 0 step 1).
 - **Memory**: after leaving plan mode, save two memories: the reversed `saas-control-plane` decision (single-tenant runtime, Supabase Auth only, PRs closed) and the owner's standing constraint that cost effectiveness and usability for non-technical people gate every design choice.
 
 ## Verification (end to end, after Phase 4)
 
-1. `pytest -q` green on every phase; no `easyagent`/`bryanzane`/`gemini`/`builder` grep hits.
+1. `pytest -q` green on every phase; no `runnrr`/`bryanzane`/`gemini`/`builder` grep hits.
 2. `uvicorn runnrr.app:app --port 8001` with `RUNNRR_AUTH_DISABLED=1`; `POST /api/chat` with a Supabase test JWT works, without one → 401.
 3. Invoice slice: copy samples into `workspace/invoice-clerk/inbox/`, send "Process the inbox", confirm `ledger.csv` rows and the duplicate flagged in `anomalies.md`; hop-2 `usage` shows cache reads.
 4. Kill uvicorn mid-conversation, restart, same `session_id` continues; `sqlite3 data/runnrr.sqlite3 'select kind,count(*) from audit group by 1'` shows rows.

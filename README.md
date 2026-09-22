@@ -165,7 +165,3 @@ template. Run the tests with `.venv/bin/python -m pytest -q`. Never commit `.env
 ## License
 
 [MIT](./LICENSE).
-
-## History
-
-Previously published as EasyAgent.

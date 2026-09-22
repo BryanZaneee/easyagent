@@ -4,15 +4,25 @@ A running log of decisions that future agents (or future-me) can't recover from 
 the source code alone. New decisions go at the top, dated. Each entry should answer
 **why** the choice was made and **what was rejected**.
 
-> **Naming note:** the product is **Runnrr** (formerly **EasyAgent**, formerly **Strauss**). Entries below the 2026-09-06 line use the older names and `backend/` paths — read them in that historical context; the code they describe is the same engine.
+> **Naming note:** the product is **Runnrr**. Entries below the 2026-09-06 line use the older names and `backend/` paths — read them in that historical context; the code they describe is the same engine.
 
 ---
 
-## 2026-09-06 — EasyAgent becomes Runnrr
+## 2026-09-22 — Repository relocation and branding
+
+**Choice:** Move the repository to `~/programming-projects/Runnrr`, preserving all Git objects, refs, private data, and configuration. Standardize maintained files on the Runnrr name; historical Git commits and tags remain unchanged.
+
+**Why:** One project home and one current identity prevent tools and documentation from pointing at stale paths. Recreate the virtual environment because editable installs embed absolute paths.
+
+**Rejected:** Rewriting Git history or altering the separate frozen deployment.
+
+---
+
+## 2026-09-06 — Runnrr product pivot
 
 ### Decision: Rename in place and pivot to a single-tenant business runtime
 
-**Choice:** Rename the repo, package (`backend/` → `runnrr/`), env prefix (`EASYAGENT_*` → `RUNNRR_*`), loggers, and service unit in one mechanical PR with zero behavior change, then cut the personal-site profiles, the public Agent Builder, and the Gemini provider in follow-up PRs. Runnrr is one runtime per business (customer's Mac or a per-customer container), Supabase Auth from the start, a sandbox workspace per agent, and one SQLite file for sessions/audit/approvals. The bryanzane.com deploy is frozen at tag `v0.1.0-easyagent-final`. The full sequence is `docs/plans/runnrr-analysis.md`.
+**Choice:** Rename the repo, package (`backend/` → `runnrr/`), env prefix (`RUNNRR_*`), loggers, and service unit in one mechanical PR with zero behavior change, then cut the personal-site profiles, the public Agent Builder, and the Gemini provider in follow-up PRs. Runnrr is one runtime per business (customer's Mac or a per-customer container), Supabase Auth from the start, a sandbox workspace per agent, and one SQLite file for sessions/audit/approvals. The bryanzane.com deploy is frozen at commit `ed536ff`. The full sequence is `docs/plans/runnrr-analysis.md`.
 
 **Why:** The engine already had the pieces a business agent needs (profiles, tool registry, prefix-cache discipline, honest token accounting). What it lacked — writable workspace, durable state, auth, a settings surface — is additive. Renaming first keeps every later PR's diff about behavior, not names.
 
@@ -22,22 +32,22 @@ the source code alone. New decisions go at the top, dated. Each entry should ans
 
 ## 2026-06-05 — BZS Software owns the public sales positioning
 
-### Decision: Keep EasyAgent internal while demos sell BZS workflow systems
+### Decision: Keep Runnrr internal while demos sell BZS workflow systems
 **Choice:** Reframed `docs/sales_pitch.md` around BZS Software's public offer:
 workflow mapping, AI opportunity discovery, AI-assisted workflow builds, and
 managed tuning. The Sales Concierge profile, catalog, smoke prompts, and profile
 copy now use BZS Software language so a customer demo does not expose
-"EasyAgent" as the product name. The BZS wording lives in profile
+"Runnrr" as the product name. The BZS wording lives in profile
 `tool_descriptions` overrides — engine tool wording in `backend/tools/sales.py`
 stays business-neutral and the checkout preview URL is a neutral placeholder,
-per the "engine stays business-agnostic" rule. EasyAgent remains the internal
+per the "engine stays business-agnostic" rule. Runnrr remains the internal
 framework and technical proof point for reusable profiles, safe tools, provider
 flexibility, guardrails, and evals.
 
 **Why:** Customers will contact BZS Software for expertise in identifying where
-AI can save time and money, not to buy a product called EasyAgent. The pitch
+AI can save time and money, not to buy a product called Runnrr. The pitch
 needs to start from business efficiency and workflow outcomes, then use the
-EasyAgent repo as delivery evidence only when technical buyers ask how the work
+Runnrr repo as delivery evidence only when technical buyers ask how the work
 is implemented.
 
 **Rejected:** Renaming the internal `sales-concierge` profile id or package ids
@@ -46,9 +56,9 @@ names and descriptions can change without destabilizing routing.
 
 ## 2026-06-05 — Business sales pitch and demo runbook added
 
-### Decision: Sell EasyAgent through concrete workflow demos, not generic AI claims
+### Decision: Sell Runnrr through concrete workflow demos, not generic AI claims
 **Choice:** Added `docs/sales_pitch.md` as a buyer-facing pitch and call
-runbook. The document frames EasyAgent around business pain points, a scoped
+runbook. The document frames Runnrr around business pain points, a scoped
 offer ladder, discovery questions, and two primary demos: Sales Concierge for
 catalog-backed lead qualification and preview-only revenue actions, and Customer
 Service for grounded support deflection and escalation. README now links to the
@@ -57,7 +67,7 @@ runbook from the "More detail" section.
 **Why:** The repo already contains business-oriented profiles, safe preview
 tools, profile-local prompts, RAG/eval datasets, and production guardrails. A
 sales conversation should show those working boundaries through visible
-workflow proof instead of over-positioning EasyAgent as a generic chatbot or
+workflow proof instead of over-positioning Runnrr as a generic chatbot or
 claiming live integrations that are still preview-only.
 
 **Rejected:** Creating a slide deck before the demo story is stable; adding new
@@ -85,12 +95,12 @@ framework.
 
 Unexpected tool exceptions are still logged with stack traces, but production
 tool results now return a non-leaky `"tool failed unexpectedly"` envelope. Set
-`EASYAGENT_TOOL_DEBUG_ERRORS=1` to re-raise those unexpected exceptions while
+`RUNNRR_TOOL_DEBUG_ERRORS=1` to re-raise those unexpected exceptions while
 developing a profile or native tool.
 
 **Why:** The post-dashboard review showed that the biggest remaining risk was
 not more RAG algorithm work; it was ambiguous API/error shape and soft
-configuration boundaries. Making these contracts explicit keeps EasyAgent
+configuration boundaries. Making these contracts explicit keeps Runnrr
 portable for business profiles while preserving the known-good `search_kb`
 baseline and additive `semantic_search_kb` rollout.
 
@@ -202,7 +212,7 @@ retrieval behavior.
 
 **Why:** `Strauss` was memorable but opaque to future agents and collaborators.
 `personal-agent` makes the profile's job obvious in config, CLI commands,
-RAG index paths, and test names while preserving EasyAgent's profile-driven
+RAG index paths, and test names while preserving Runnrr's profile-driven
 architecture. Renaming the profile package is cleaner than special-casing a
 display alias because the profile id is the stable operational handle for API
 requests, defaults, CLI indexing, and frontend selection.
@@ -229,7 +239,7 @@ empty KB so a successful build does not leave the index permanently stale. The
 retriever fuses BM25 and sqlite-vec results with plain Reciprocal Rank Fusion
 and returns typed result metadata.
 
-**Why:** This keeps EasyAgent's profile-driven architecture intact while making
+**Why:** This keeps Runnrr's profile-driven architecture intact while making
 RAG usable end to end. Each profile owns its KB, prompt, tool allowlist, and
 index, so semantic retrieval can be enabled for Personal Agent, Customer
 Service, and Frampton without changing Research Analyst or Sales Concierge
@@ -260,7 +270,7 @@ files from sparse and vector indexes symmetrically. `plan.md` and the RAG
 package docstring were also corrected to describe this as a validated
 foundation pass, with `semantic_search_kb` still future additive work.
 
-**Why:** EasyAgent's normal profile/runtime imports should not require an
+**Why:** Runnrr's normal profile/runtime imports should not require an
 unused native sqlite extension while RAG is still opt-in. Keeping `Chunk` as the
 one storage and retrieval type prevents heading path list/tuple drift before
 the retriever, eval harness, and future `semantic_search_kb` tool are added.
@@ -301,7 +311,7 @@ business-platform ideas like MCP runtime execution, durable handoff,
 multi-tenancy, channel adapters, observability dashboards, live Stripe/CRM
 writes, voice, and fine-tuning are listed separately as future ideas.
 
-**Why:** EasyAgent is already useful as a portable single-widget business-agent
+**Why:** Runnrr is already useful as a portable single-widget business-agent
 framework, but the next work should strengthen the foundation before promising a
 multi-tenant platform. Putting the immediate June work and the aspirational
 backlog in different README sections makes the project easier to understand for
@@ -322,7 +332,7 @@ profile-scoped, and testable, with `semantic_search_kb` added beside
 also call out thin wrappers and plain readable RRF code.
 
 **Why:** RAG projects can drift into generic retrieval platforms before the
-first useful evaluation exists. EasyAgent's value is portability through a clear
+first useful evaluation exists. Runnrr's value is portability through a clear
 profile + engine + tools shape, so the RAG layer should be understandable to a
 future agent reading the source without needing to reconstruct a large hidden
 framework.
@@ -357,7 +367,7 @@ the current keyword KB search path users already have.
 ### Decision: Track `kb/frampton/` in git instead of leaving it as a local-only scrape
 **Choice:** `.gitignore` now adds an exception (`!kb/frampton/`) so the categorized Fextralife scrape is committed alongside the profile. CLAUDE.md, AGENTS.md, README.md, and `kb/README.md` are updated to call out this single-profile exception to the broader "do not commit personal KB" rule.
 
-**Why:** Unlike resume files or codebase XML dumps under `kb/`, the Frampton corpus is third-party but public Dark Souls wiki content with no privacy concern. Committing it makes deploys self-contained — `bash /opt/deploy/deploy.sh easyagent` ships everything the profile needs in one shot, instead of requiring a separate `rsync` of `kb/frampton/` every time the scrape changes.
+**Why:** Unlike resume files or codebase XML dumps under `kb/`, the Frampton corpus is third-party but public Dark Souls wiki content with no privacy concern. Committing it makes deploys self-contained — `bash /opt/deploy/deploy.sh runnrr` ships everything the profile needs in one shot, instead of requiring a separate `rsync` of `kb/frampton/` every time the scrape changes.
 
 **Rejected:** Continuing the rsync-only workflow. It was working but is two-step (push code, then rsync KB) and a deploy without the KB sync silently produces a broken Frampton agent on the VPS. Also rejected: committing other local KB folders (resume, codebases, projects, meta) — those remain private and gitignored.
 
@@ -375,7 +385,7 @@ the current keyword KB search path users already have.
 ### Decision: Add a DS1 profile without committing the scraped corpus
 **Choice:** `profiles/frampton/` defines the Frampton Dark Souls 1 guide persona, points `kb_root` at `kb/frampton`, and enables only the generic read-only KB tools. The scraped Fextralife corpus remains ignored runtime data and can be mounted locally from the Desktop category scrape.
 
-**Why:** The categorized scrape is large enough to be useful for an agent, but it is generated third-party content and does not belong in the public framework history. Keeping the data under the ignored `kb/` boundary preserves the EasyAgent profile/engine split: source code carries reusable agent behavior, while local KB content stays deployment-specific.
+**Why:** The categorized scrape is large enough to be useful for an agent, but it is generated third-party content and does not belong in the public framework history. Keeping the data under the ignored `kb/` boundary preserves the Runnrr profile/engine split: source code carries reusable agent behavior, while local KB content stays deployment-specific.
 
 **Rejected:** Committing the 3,500 scraped Markdown files, hardcoding an absolute Desktop path in `profile.json`, or adding Dark-Souls-specific backend tools before the generic KB search/read path has been proven with real player questions.
 
@@ -384,18 +394,18 @@ the current keyword KB search path users already have.
 ### Decision: Sales Concierge brand metadata owns the public accent
 **Choice:** `profiles/sales-concierge/profile.json` now declares Sales Concierge as purple (`#7C3AED`) with a dark purple control color, soft purple grid wash, and gold secondary mark. Agent guidance also calls out that profile `brand` metadata is the production UI contract consumed by `/api/profile` and `/api/profiles`.
 
-**Why:** The deployed bryanzane.com EasyAgent page reads backend profile metadata once the API advertises the Sales profile. Leaving Sales green in the EasyAgent repo would override the site-copy fallback and make production drift from the requested purple/gold identity as soon as the VPS backend is current.
+**Why:** The deployed bryanzane.com Runnrr page reads backend profile metadata once the API advertises the Sales profile. Leaving Sales green in the Runnrr repo would override the site-copy fallback and make production drift from the requested purple/gold identity as soon as the VPS backend is current.
 
-**Rejected:** Keeping the frontend as the only Sales color override. That would make the page look correct in one host, but the portable EasyAgent profile contract would still tell future clients to render Sales as emerald.
+**Rejected:** Keeping the frontend as the only Sales color override. That would make the page look correct in one host, but the portable Runnrr profile contract would still tell future clients to render Sales as emerald.
 
 ## 2026-05-05 — Web banner sweep matches production
 
-### Decision: Agent switches reuse the production EasyAgent color wipe
-**Choice:** The standalone `web/` frontend now includes the same large `EASY AGENT` ASCII hero used on bryanzane.com, with the production-style `--accent-banner-prev` gradient wipe and delayed mascot swap when the active profile changes. Initial profile load applies the brand directly; only successful agent switches animate.
+### Decision: Agent switches reuse the production Runnrr color wipe
+**Choice:** The standalone `web/` frontend now includes the same large `RUNNRR` ASCII hero used on bryanzane.com, with the production-style `--accent-banner-prev` gradient wipe and delayed mascot swap when the active profile changes. Initial profile load applies the brand directly; only successful agent switches animate.
 
 **Why:** The production page already established the intended interaction: switching agents should feel like the banner is being recolored left-to-right, while the profile mascot changes as the sweep reaches it. The dev/source frontend needs to preserve that behavior so new Research and Sales profiles can be reviewed before deploy without drifting from prod.
 
-**Rejected:** Designing a new transition or letting profile-brand updates snap instantly in the dev UI. The animation is already part of the EasyAgent visual language, so the source frontend should match it rather than become a separate reference.
+**Rejected:** Designing a new transition or letting profile-brand updates snap instantly in the dev UI. The animation is already part of the Runnrr visual language, so the source frontend should match it rather than become a separate reference.
 
 ## 2026-05-05 — Research and sales profiles use native preview tools
 
@@ -409,7 +419,7 @@ the current keyword KB search path users already have.
 ### Decision: New non-KB capabilities start as native safe tools
 **Choice:** Research Analyst uses the existing server-side Tavily `web_search` plus native `fetch_url_text` and `calculator` tools. Sales Concierge uses native catalog lookup, lead qualification, lead-capture preview, checkout-link preview, and calculator tools backed by `profiles/sales-concierge/data/catalog.json`.
 
-**Why:** These profiles need to prove EasyAgent can do more than read KB markdown, but the first implementation still needs to be deterministic, testable, and safe in a public demo. Native tools fit that slice because they use the existing schema translation, profile allowlists, source metadata, and provider loop.
+**Why:** These profiles need to prove Runnrr can do more than read KB markdown, but the first implementation still needs to be deterministic, testable, and safe in a public demo. Native tools fit that slice because they use the existing schema translation, profile allowlists, source metadata, and provider loop.
 
 **Rejected:** Wiring live Stripe, CRM, calendar, or MCP integrations in the first pass. Sales preview tools intentionally do not persist leads, send email, import Stripe, or create Checkout Sessions. MCP remains the right future shape for larger external tool surfaces, but the runtime does not connect MCP clients yet.
 
@@ -434,7 +444,7 @@ the current keyword KB search path users already have.
 ## 2026-05-05 — Chat chrome keeps usage and controls persistent
 
 ### Decision: Session usage lives in the header chrome
-**Choice:** The web UI now mirrors the session token summary into the sticky EasyAgent header beside the banner while retaining the detailed values in the expandable agent panel.
+**Choice:** The web UI now mirrors the session token summary into the sticky Runnrr header beside the banner while retaining the detailed values in the expandable agent panel.
 
 **Why:** Token usage is operational status, not profile metadata. Keeping the compact counter in the page chrome makes it visible throughout long answers and while the bottom composer is focused, without requiring visitors to open the agent details panel.
 
