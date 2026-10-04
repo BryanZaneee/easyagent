@@ -31,9 +31,6 @@ MAX_PARALLEL_TOOLS: int = int(os.environ.get("MAX_PARALLEL_TOOLS", "4"))
 # stream that goes silent for this long raises instead of hanging the request.
 # Long-but-active thinking streams are unaffected.
 PROVIDER_TIMEOUT_SECONDS: float = float(os.environ.get("PROVIDER_TIMEOUT_SECONDS", "120"))
-# Passed to each SDK client. The SDKs retry 408/409/429/5xx with backoff and
-# honour Retry-After; hand-rolling a retry loop on top would double-count.
-PROVIDER_MAX_RETRIES: int = int(os.environ.get("PROVIDER_MAX_RETRIES", "2"))
 
 SESSION_TTL: int = int(os.environ.get("SESSION_TTL_SECONDS", "1800"))
 MAX_TURNS_PER_SESSION: int = int(os.environ.get("MAX_TURNS_PER_SESSION", "40"))
