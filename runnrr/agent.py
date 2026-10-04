@@ -7,9 +7,12 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import json
 import time
 from typing import AsyncIterator
 
+from runnrr.budget import TOKEN_BUDGET, BudgetExhausted
+from runnrr.usage import billable_total, tally, zero_tokens
 from runnrr.config import MAX_PARALLEL_TOOLS, MAX_TOKENS, MAX_TOOL_HOPS
 from runnrr.profiles import AgentProfile, load_profile
 from runnrr.providers.base import LLMProvider
@@ -59,6 +62,11 @@ async def run_conversation_stream(
         had_thinking = False
 
         try:
+            # UTF-8 JSON bytes plus framing conservatively bound text/tool inputs.
+            # Anthropic may raise its output cap for extended thinking.
+            output_cap = max(max_tokens or MAX_TOKENS, (getattr(provider, "thinking_budget", 0) or 0) + 1024)
+            reservation = len(json.dumps([session["messages"], system_block, tool_schemas], ensure_ascii=False, default=lambda value: value.model_dump(mode="json")).encode()) + 8192 + output_cap
+            day = TOKEN_BUDGET.reserve(reservation)
             async for ev in provider.stream(
                 model=model,
                 messages=session["messages"],
@@ -85,6 +93,14 @@ async def run_conversation_stream(
                 elif t == "error":
                     yield {"event": "error", "message": ev.get("text", "provider error")}
                     return
+            if pending_usage is not None:
+                tokens = zero_tokens()
+                tally(tokens, pending_usage)
+                if not pending_usage.get("estimated"):
+                    TOKEN_BUDGET.settle(day, reservation, billable_total(tokens))
+        except BudgetExhausted as exc:
+            yield {"event": "error", "message": str(exc)}
+            return
         except Exception as exc:
             # SDK/network failures (auth, timeout, disconnect) become one sanitized
             # error event instead of an exception escaping the SSE stream. Accepted

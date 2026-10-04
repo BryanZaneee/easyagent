@@ -420,7 +420,6 @@ async def _instrument(
         raise
     finally:
         total = billable_total(tokens)
-        TOKEN_BUDGET.record(total)
         log.info(
             "chat_complete",
             extra={

@@ -25,13 +25,11 @@ def use_mini_kb(monkeypatch):
 
 
 @pytest.fixture(autouse=True)
-def reset_budget():
+def reset_budget(monkeypatch, tmp_path):
     """Reset the daily token budget between tests so they don't leak state."""
     from runnrr.budget import TOKEN_BUDGET
 
-    TOKEN_BUDGET.reset()
-    yield
-    TOKEN_BUDGET.reset()
+    monkeypatch.setattr(TOKEN_BUDGET, "path", tmp_path / "budget.sqlite")
 
 
 @pytest.fixture(autouse=True)
