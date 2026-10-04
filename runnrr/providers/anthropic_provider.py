@@ -7,7 +7,8 @@ from typing import Any, AsyncIterator
 
 from anthropic import AsyncAnthropic
 
-from runnrr.config import PROVIDER_MAX_RETRIES, PROVIDER_TIMEOUT_SECONDS
+from runnrr.budget import reserve_paid_call
+from runnrr.config import PROVIDER_TIMEOUT_SECONDS
 from runnrr.profiles import AgentProfile
 from runnrr.providers.base import Event
 from runnrr.tools import ToolResult, schemas_for_tools
@@ -34,7 +35,7 @@ class AnthropicProvider:
             # The SDK honours Retry-After on 429/5xx. There was no retry at any
             # level before, so a single rate-limit blip surfaced to the user as a
             # generic "model provider error".
-            max_retries=PROVIDER_MAX_RETRIES,
+            max_retries=0,
         )
         # When set, enable extended thinking with this budget. The API requires
         # max_tokens > thinking.budget_tokens, so the stream call also bumps
@@ -121,6 +122,7 @@ class AnthropicProvider:
             kwargs["max_tokens"] = max(max_tokens, self.thinking_budget + 1024)
             kwargs["thinking"] = {"type": "enabled", "budget_tokens": self.thinking_budget}
 
+        reserve_paid_call(f"llm:{model}")
         async with self.client.messages.stream(**kwargs) as stream:
             async for chunk in stream:
                 if chunk.type == "text":

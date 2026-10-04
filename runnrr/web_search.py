@@ -14,6 +14,8 @@ from typing import Any
 
 import httpx
 
+from runnrr.budget import reserve_paid_call
+
 TAVILY_ENDPOINT = "https://api.tavily.com/search"
 DEFAULT_TIMEOUT = 10.0
 
@@ -54,6 +56,7 @@ def web_search(
         "include_images": False,
     }
 
+    reserve_paid_call(f"tavily:{search_depth}")
     try:
         resp = httpx.post(TAVILY_ENDPOINT, json=payload, timeout=DEFAULT_TIMEOUT)
     except httpx.HTTPError as e:

@@ -128,3 +128,15 @@ def reset_provider_cache():
     clear_provider_cache()
     yield
     clear_provider_cache()
+
+
+@pytest.fixture(autouse=True)
+def paid_test_bounds(monkeypatch):
+    # Only synthetic amounts for mocked SDK calls. Never use this configuration
+    # for real providers; each test already injects fake clients/transports.
+    import json
+    from runnrr.config import MODEL_REGISTRY
+    names = {cfg["model"] for cfg in MODEL_REGISTRY.values()} | {"test", "gpt-test", "m"}
+    bounds = {f"llm:{name}": 1000 for name in names}
+    bounds.update({"tavily:basic": 1000, "tavily:advanced": 1000})
+    monkeypatch.setenv("DEMO_REQUEST_COST_BOUNDS", json.dumps(bounds))

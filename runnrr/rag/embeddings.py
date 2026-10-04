@@ -5,6 +5,8 @@ constructed, so core Runnrr imports stay lightweight.
 """
 from __future__ import annotations
 
+from runnrr.budget import reserve_paid_call
+
 import hashlib
 import math
 import re
@@ -98,7 +100,7 @@ class VoyageEmbeddingProvider:
                 "Voyage embeddings require the optional voyageai package. "
                 'Install it with `pip install "runnrr[rag]"`.'
             ) from exc
-        self._client = voyageai.Client(api_key=self._api_key)
+        self._client = voyageai.Client(api_key=self._api_key, max_retries=0)
 
     def embed_documents(self, texts: list[str]) -> list[list[float]]:
         return self._embed(texts, input_type="document")
@@ -115,6 +117,7 @@ class VoyageEmbeddingProvider:
         delay = 20.0
         for attempt in range(6):
             try:
+                reserve_paid_call(f"embed:{self.model}")
                 response = self._client.embed(
                     texts, model=self.model, input_type=input_type
                 )

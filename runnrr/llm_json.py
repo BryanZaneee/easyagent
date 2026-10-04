@@ -7,6 +7,7 @@ from typing import Any
 
 from anthropic import Anthropic
 
+from runnrr.budget import reserve_paid_call
 from runnrr import config
 from runnrr.config import MODEL_REGISTRY
 
@@ -29,7 +30,7 @@ def complete_json(
             "ANTHROPIC_API_KEY required for LLM JSON grading/reranking"
         )
     try:
-        client = Anthropic()
+        client = Anthropic(max_retries=0)
         messages = [
             {"role": "user", "content": prompt},
             {"role": "assistant", "content": "```json\n"},
@@ -42,6 +43,7 @@ def complete_json(
         }
         if system is not None:
             kwargs["system"] = [{"type": "text", "text": system}]
+        reserve_paid_call(f"llm:{model}")
         resp = client.messages.create(**kwargs)
         text = "".join(
             b.text for b in resp.content if getattr(b, "type", None) == "text"

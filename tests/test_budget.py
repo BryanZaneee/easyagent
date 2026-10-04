@@ -95,3 +95,33 @@ async def test_gemini_typed_messages_can_be_reserved(monkeypatch):
     )]
     assert called
     assert not any(event["event"] == "error" for event in events)
+
+
+def test_paid_budget_is_atomic_and_shared_by_operations(monkeypatch):
+    from runnrr.budget import reserve_paid_call
+    monkeypatch.setenv("DEMO_REQUEST_COST_BOUNDS", '{"a":100000,"b":100000}')
+
+    def attempt(index):
+        try:
+            reserve_paid_call("a" if index % 2 else "b")
+            return 1
+        except BudgetExhausted:
+            return 0
+
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        assert sum(pool.map(attempt, range(20))) == 5
+    with pytest.raises(BudgetExhausted):
+        reserve_paid_call("a")
+
+
+def test_unconfigured_price_stops_search_before_network(monkeypatch):
+    from runnrr.web_search import web_search
+    monkeypatch.setenv("TAVILY_API_KEY", "test")
+    monkeypatch.delenv("DEMO_REQUEST_COST_BOUNDS", raising=False)
+
+    def unexpected(*args, **kwargs):
+        raise AssertionError("unbudgeted provider call")
+
+    monkeypatch.setattr("httpx.post", unexpected)
+    with pytest.raises(BudgetExhausted, match="spending bound"):
+        web_search("test")

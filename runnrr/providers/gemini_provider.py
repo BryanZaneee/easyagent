@@ -7,6 +7,7 @@ from typing import Any, AsyncIterator
 from google import genai
 from google.genai import types
 
+from runnrr.budget import reserve_paid_call
 from runnrr.config import PROVIDER_TIMEOUT_SECONDS
 from runnrr.profiles import AgentProfile
 from runnrr.providers.base import Event
@@ -22,7 +23,7 @@ class GeminiProvider:
         self.client = client or genai.Client(
             api_key=os.environ[api_key_env],
             # google-genai takes the timeout in milliseconds.
-            http_options=types.HttpOptions(timeout=int(PROVIDER_TIMEOUT_SECONDS * 1000)),
+            http_options=types.HttpOptions(timeout=int(PROVIDER_TIMEOUT_SECONDS * 1000), retry_options=types.HttpRetryOptions(attempts=1)),
         )
 
     def format_user(self, text: str) -> ProviderMessage:
@@ -77,6 +78,7 @@ class GeminiProvider:
             automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True),
         )
 
+        reserve_paid_call(f"llm:{model}")
         response_stream = await self.client.aio.models.generate_content_stream(
             model=model,
             contents=messages,

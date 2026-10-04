@@ -12,7 +12,8 @@ from typing import Any, AsyncIterator
 
 from openai import AsyncOpenAI
 
-from runnrr.config import PROVIDER_MAX_RETRIES, PROVIDER_TIMEOUT_SECONDS
+from runnrr.budget import reserve_paid_call
+from runnrr.config import PROVIDER_TIMEOUT_SECONDS
 from runnrr.profiles import AgentProfile
 from runnrr.providers.base import Event
 from runnrr.tools import ToolResult, schemas_for_tools
@@ -45,7 +46,7 @@ class OpenAICompatProvider:
             api_key=os.environ[api_key_env],
             base_url=base_url,
             timeout=PROVIDER_TIMEOUT_SECONDS,
-            max_retries=PROVIDER_MAX_RETRIES,
+            max_retries=0,
         )
 
     def format_user(self, text: str) -> ProviderMessage:
@@ -106,6 +107,7 @@ class OpenAICompatProvider:
         if self.extra_body:
             request["extra_body"] = self.extra_body
 
+        reserve_paid_call(f"llm:{model}")
         stream = await self.client.chat.completions.create(**request)
 
         content_parts: list[str] = []

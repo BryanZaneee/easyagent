@@ -1,6 +1,7 @@
 """Durable UTC-day token reservations, shared by all workers."""
 from __future__ import annotations
 
+import json
 import os
 import sqlite3
 from contextlib import contextmanager
@@ -83,3 +84,23 @@ class TokenBudget:
 
 
 TOKEN_BUDGET = TokenBudget(daily_limit=DAILY_TOKEN_BUDGET)
+
+
+def reserve_paid_call(operation: str) -> None:
+    """Reserve a reviewed per-call upper bound; five apps receive $0.50 each."""
+    try:
+        bounds = json.loads(os.environ.get("DEMO_REQUEST_COST_BOUNDS", "{}"))
+        cost = bounds.get(operation)
+        if type(cost) is not int or not 0 < cost <= 500000:
+            raise ValueError("missing cost bound")
+    except (ValueError, TypeError, AttributeError) as exc:
+        raise BudgetExhausted("paid work paused: spending bound is not configured") from exc
+    with TOKEN_BUDGET._connection() as conn:
+        conn.execute("CREATE TABLE IF NOT EXISTS spending (day TEXT PRIMARY KEY, used INTEGER NOT NULL CHECK(used BETWEEN 0 AND 500000))")
+        day = TOKEN_BUDGET._today()
+        conn.execute("INSERT INTO spending VALUES (?, 0) ON CONFLICT DO NOTHING", (day,))
+        if not conn.execute(
+            "UPDATE spending SET used = used + ? WHERE day = ? AND used + ? <= 500000",
+            (cost, day, cost),
+        ).rowcount:
+            raise BudgetExhausted("daily demo spending budget exhausted")
